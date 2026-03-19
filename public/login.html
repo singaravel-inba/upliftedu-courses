@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--p500:#ef5179;--p600:#db3760;--p50:#fdf2f5;--p100:#fce7ec;--p200:#fad0db;--g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--g900:#111827;--w:#fff;--danger:#ef4444;--success:#10b981}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -62,7 +63,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);min-height:1
 .form-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
 .remember{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--g600);cursor:pointer}
 .remember input[type="checkbox"]{width:16px;height:16px;accent-color:var(--p500);cursor:pointer}
-.forgot{font-size:13px;color:var(--p500);text-decoration:none;font-weight:600;transition:color 0.2s}
+.forgot{font-size:13px;color:var(--p500);text-decoration:none;font-weight:600;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:inherit}
 .forgot:hover{color:var(--p600)}
 
 /* SUBMIT */
@@ -84,7 +85,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);min-height:1
 
 /* SIGNUP LINK */
 .signup-link{text-align:center;margin-top:24px;font-size:13px;color:var(--g500)}
-.signup-link a{color:var(--p500);text-decoration:none;font-weight:600}
+.signup-link a{color:var(--p500);text-decoration:none;font-weight:600;cursor:pointer}
 .signup-link a:hover{color:var(--p600)}
 
 /* BACK LINK */
@@ -96,6 +97,10 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);min-height:1
 .pw-wrap input{padding-right:44px}
 .pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--g400);font-size:16px;padding:4px;transition:color 0.2s}
 .pw-toggle:hover{color:var(--g600)}
+
+/* FORM PANELS — show/hide */
+.form-panel{display:none}
+.form-panel.active{display:block}
 
 /* ANIMATIONS */
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -144,157 +149,289 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);min-height:1
 <img src="logo.png" alt="UpliftEdu">
 <span>Uplift<em>Edu</em></span>
 </div>
-<h2>Sign in to your account</h2>
-<p>Welcome back! Enter your credentials to continue.</p>
+<h2 id="formTitle">Sign in to your account</h2>
+<p id="formSubtitle">Welcome back! Enter your credentials to continue.</p>
 </div>
 
 <!-- GOOGLE -->
-<button class="google-btn" onclick="googleLogin()">
+<button class="google-btn" id="googleBtn" onclick="googleLogin()">
 <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
 Continue with Google
 </button>
 
-<div class="divider"><span>or sign in with email</span></div>
+<div class="divider"><span id="dividerText">or sign in with email</span></div>
 
 <!-- ERROR/SUCCESS -->
 <div class="form-error" id="formError"><span>⚠</span> <span id="errorText"></span></div>
 <div class="form-success" id="formSuccess"><span>✓</span> <span id="successText"></span></div>
 
-<!-- EMAIL FORM -->
-<form id="loginForm" onsubmit="handleLogin(event)">
+<!-- ========== LOGIN FORM ========== -->
+<div class="form-panel active" id="panelLogin">
+<form onsubmit="handleLogin(event)">
 <div class="form-group">
-<label for="email">Email address</label>
-<input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<label for="loginEmail">Email address</label>
+<input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="email">
 </div>
 <div class="form-group">
-<label for="password">Password</label>
+<label for="loginPassword">Password</label>
 <div class="pw-wrap">
-<input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password" minlength="6">
-<button type="button" class="pw-toggle" onclick="togglePw()" aria-label="Toggle password">👁</button>
+<input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password" minlength="6">
+<button type="button" class="pw-toggle" onclick="togglePw('loginPassword')" aria-label="Toggle password">👁</button>
 </div>
 </div>
 <div class="form-row">
 <label class="remember"><input type="checkbox" checked> Remember me</label>
-<a href="#" class="forgot">Forgot password?</a>
+<button type="button" class="forgot" onclick="showPanel('forgot')">Forgot password?</button>
 </div>
-<button type="submit" class="submit-btn" id="submitBtn">
+<button type="submit" class="submit-btn" id="loginBtn">
 <span class="btn-text">Sign In</span>
 <span class="spinner"></span>
 </button>
 </form>
+<p class="signup-link">Don't have an account? <a onclick="showPanel('signup')">Create one</a></p>
+</div>
 
-<p class="signup-link">Don't have an account? <a href="tel:+919380058580">Contact us to enroll</a></p>
+<!-- ========== SIGNUP FORM ========== -->
+<div class="form-panel" id="panelSignup">
+<form onsubmit="handleSignup(event)">
+<div class="form-group">
+<label for="signupName">Full Name</label>
+<input type="text" id="signupName" placeholder="Your full name" required autocomplete="name">
+</div>
+<div class="form-group">
+<label for="signupEmail">Email address</label>
+<input type="email" id="signupEmail" placeholder="you@example.com" required autocomplete="email">
+</div>
+<div class="form-group">
+<label for="signupPassword">Password</label>
+<div class="pw-wrap">
+<input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)" required autocomplete="new-password" minlength="6">
+<button type="button" class="pw-toggle" onclick="togglePw('signupPassword')" aria-label="Toggle password">👁</button>
+</div>
+</div>
+<div class="form-group">
+<label for="signupConfirm">Confirm Password</label>
+<div class="pw-wrap">
+<input type="password" id="signupConfirm" placeholder="Confirm your password" required autocomplete="new-password" minlength="6">
+<button type="button" class="pw-toggle" onclick="togglePw('signupConfirm')" aria-label="Toggle password">👁</button>
+</div>
+</div>
+<button type="submit" class="submit-btn" id="signupBtn" style="margin-top:8px">
+<span class="btn-text">Create Account</span>
+<span class="spinner"></span>
+</button>
+</form>
+<p class="signup-link">Already have an account? <a onclick="showPanel('login')">Sign in</a></p>
+</div>
+
+<!-- ========== FORGOT PASSWORD FORM ========== -->
+<div class="form-panel" id="panelForgot">
+<form onsubmit="handleForgot(event)">
+<div class="form-group">
+<label for="forgotEmail">Email address</label>
+<input type="email" id="forgotEmail" placeholder="you@example.com" required autocomplete="email">
+</div>
+<button type="submit" class="submit-btn" id="forgotBtn" style="margin-top:8px">
+<span class="btn-text">Send Reset Link</span>
+<span class="spinner"></span>
+</button>
+</form>
+<p class="signup-link">Remember your password? <a onclick="showPanel('login')">Sign in</a></p>
+</div>
+
 <a href="index.html" class="back-link">← Back to courses</a>
 </div>
 </div>
 </div>
 
 <script>
-// DEMO USERS
-const demoUsers=[
-{id:1,email:'student@upliftedu.in',password:'student123',name:'Arun Kumar',avatar:'AK',course:'Full Stack Development',mentor:'Akhil Unnikrishnan'},
-{id:2,email:'demo@upliftedu.in',password:'demo123',name:'Priya Sharma',avatar:'PS',course:'Data Science',mentor:'Dinesh Karthik R'},
-];
+// ——— Supabase Init ———
+const SUPABASE_URL='https://rxqzmevcmsdfadqqrter.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4cXptZXZjbXNkZmFkcXFydGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjAxNjksImV4cCI6MjA4OTUzNjE2OX0.ReMqgMVCRhFCinIaW2N8-YxwhlPDzXQAKBFfs67K0lM';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
-function togglePw(){
-const p=document.getElementById('password');
-p.type=p.type==='password'?'text':'password';
+// ——— Panel Switching ———
+function showPanel(panel){
+  // Hide all panels
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  // Clear messages
+  document.getElementById('formError').classList.remove('show');
+  document.getElementById('formSuccess').classList.remove('show');
+
+  const title=document.getElementById('formTitle');
+  const subtitle=document.getElementById('formSubtitle');
+  const divider=document.getElementById('dividerText');
+  const googleBtn=document.getElementById('googleBtn');
+
+  if(panel==='login'){
+    document.getElementById('panelLogin').classList.add('active');
+    title.textContent='Sign in to your account';
+    subtitle.textContent='Welcome back! Enter your credentials to continue.';
+    divider.textContent='or sign in with email';
+    googleBtn.style.display='';
+    document.querySelector('.divider').style.display='';
+  } else if(panel==='signup'){
+    document.getElementById('panelSignup').classList.add('active');
+    title.textContent='Create your account';
+    subtitle.textContent='Join UpliftEdu and start your learning journey.';
+    divider.textContent='or sign up with email';
+    googleBtn.style.display='';
+    document.querySelector('.divider').style.display='';
+  } else if(panel==='forgot'){
+    document.getElementById('panelForgot').classList.add('active');
+    title.textContent='Reset your password';
+    subtitle.textContent='Enter your email and we\'ll send you a reset link.';
+    googleBtn.style.display='none';
+    document.querySelector('.divider').style.display='none';
+  }
 }
 
+// ——— Toggle Password Visibility ———
+function togglePw(id){
+  const p=document.getElementById(id);
+  p.type=p.type==='password'?'text':'password';
+}
+
+// ——— Messages ———
 function showError(msg){
-const el=document.getElementById('formError');
-document.getElementById('errorText').textContent=msg;
-el.classList.add('show');
-document.getElementById('formSuccess').classList.remove('show');
-document.getElementById('loginForm').classList.add('shake');
-setTimeout(()=>document.getElementById('loginForm').classList.remove('shake'),400);
+  const el=document.getElementById('formError');
+  document.getElementById('errorText').textContent=msg;
+  el.classList.add('show');
+  document.getElementById('formSuccess').classList.remove('show');
+  // Shake the active form
+  const activePanel=document.querySelector('.form-panel.active');
+  if(activePanel){
+    activePanel.classList.add('shake');
+    setTimeout(()=>activePanel.classList.remove('shake'),400);
+  }
 }
 
 function showSuccess(msg){
-const el=document.getElementById('formSuccess');
-document.getElementById('successText').textContent=msg;
-el.classList.add('show');
-document.getElementById('formError').classList.remove('show');
+  const el=document.getElementById('formSuccess');
+  document.getElementById('successText').textContent=msg;
+  el.classList.add('show');
+  document.getElementById('formError').classList.remove('show');
 }
 
-function handleLogin(e){
-e.preventDefault();
-const email=document.getElementById('email').value.trim();
-const pw=document.getElementById('password').value;
-const btn=document.getElementById('submitBtn');
-
-// Hide previous messages
-document.getElementById('formError').classList.remove('show');
-document.getElementById('formSuccess').classList.remove('show');
-
-// Validate
-if(!email||!pw){showError('Please fill in all fields.');return;}
-
-// Loading state
-btn.classList.add('loading');
-btn.disabled=true;
-
-// Simulate API call
-setTimeout(()=>{
-const user=demoUsers.find(u=>u.email===email&&u.password===pw);
-if(user){
-// Store session
-const session={
-id:user.id,
-name:user.name,
-email:user.email,
-avatar:user.avatar,
-course:user.course,
-mentor:user.mentor,
-token:'jwt_'+btoa(user.email+'_'+Date.now()),
-loginAt:Date.now()
-};
-localStorage.setItem('ue_session',JSON.stringify(session));
-showSuccess('Login successful! Redirecting...');
-setTimeout(()=>window.location.href='dashboard.html',800);
-} else {
-btn.classList.remove('loading');
-btn.disabled=false;
-showError('Invalid email or password. Try student@upliftedu.in / student123');
-}
-},1200);
+function clearMessages(){
+  document.getElementById('formError').classList.remove('show');
+  document.getElementById('formSuccess').classList.remove('show');
 }
 
-function googleLogin(){
-// Simulate Google OAuth
-const btn=document.querySelector('.google-btn');
-btn.style.opacity='0.6';
-btn.style.pointerEvents='none';
-btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Connecting to Google...';
-
-setTimeout(()=>{
-const session={
-id:1,
-name:'Arun Kumar',
-email:'arun.k@gmail.com',
-avatar:'AK',
-course:'Full Stack Development',
-mentor:'Akhil Unnikrishnan',
-token:'jwt_google_'+Date.now(),
-loginAt:Date.now()
-};
-localStorage.setItem('ue_session',JSON.stringify(session));
-showSuccess('Google login successful! Redirecting...');
-setTimeout(()=>window.location.href='dashboard.html',800);
-},1500);
+function setLoading(btn, loading){
+  if(loading){
+    btn.classList.add('loading');
+    btn.disabled=true;
+  } else {
+    btn.classList.remove('loading');
+    btn.disabled=false;
+  }
 }
 
-// Check if already logged in
-(function(){
-const s=localStorage.getItem('ue_session');
-if(s){
-try{
-const session=JSON.parse(s);
-if(session.token&&Date.now()-session.loginAt<86400000){
-window.location.href='dashboard.html';
+// ——— Login ———
+async function handleLogin(e){
+  e.preventDefault();
+  const email=document.getElementById('loginEmail').value.trim();
+  const password=document.getElementById('loginPassword').value;
+  const btn=document.getElementById('loginBtn');
+
+  clearMessages();
+  if(!email||!password){showError('Please fill in all fields.');return;}
+
+  setLoading(btn,true);
+
+  const{data,error}=await sb.auth.signInWithPassword({email,password});
+
+  if(error){
+    setLoading(btn,false);
+    showError(error.message);
+    return;
+  }
+
+  showSuccess('Login successful! Redirecting...');
+  setTimeout(()=>window.location.href='dashboard.html',800);
 }
-}catch(e){}
+
+// ——— Sign Up ———
+async function handleSignup(e){
+  e.preventDefault();
+  const name=document.getElementById('signupName').value.trim();
+  const email=document.getElementById('signupEmail').value.trim();
+  const password=document.getElementById('signupPassword').value;
+  const confirm=document.getElementById('signupConfirm').value;
+  const btn=document.getElementById('signupBtn');
+
+  clearMessages();
+  if(!name||!email||!password||!confirm){showError('Please fill in all fields.');return;}
+  if(password!==confirm){showError('Passwords do not match.');return;}
+  if(password.length<6){showError('Password must be at least 6 characters.');return;}
+
+  setLoading(btn,true);
+
+  const{data,error}=await sb.auth.signUp({
+    email,
+    password,
+    options:{data:{full_name:name}}
+  });
+
+  setLoading(btn,false);
+
+  if(error){
+    showError(error.message);
+    return;
+  }
+
+  // Supabase may auto-confirm or require email verification
+  if(data.user&&data.user.identities&&data.user.identities.length===0){
+    showError('An account with this email already exists.');
+    return;
+  }
+
+  showSuccess('Account created! Check your email for a verification link.');
 }
+
+// ——— Forgot Password ———
+async function handleForgot(e){
+  e.preventDefault();
+  const email=document.getElementById('forgotEmail').value.trim();
+  const btn=document.getElementById('forgotBtn');
+
+  clearMessages();
+  if(!email){showError('Please enter your email address.');return;}
+
+  setLoading(btn,true);
+
+  const{error}=await sb.auth.resetPasswordForEmail(email,{
+    redirectTo:window.location.origin+'/login.html'
+  });
+
+  setLoading(btn,false);
+
+  if(error){
+    showError(error.message);
+    return;
+  }
+
+  showSuccess('Password reset link sent to your email.');
+}
+
+// ——— Google OAuth ———
+async function googleLogin(){
+  const{error}=await sb.auth.signInWithOAuth({
+    provider:'google',
+    options:{redirectTo:window.location.origin+'/dashboard.html'}
+  });
+  if(error){
+    showError(error.message);
+  }
+}
+
+// ——— Auto-redirect if already logged in ———
+(async function(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(session){
+    window.location.href='dashboard.html';
+  }
 })();
 </script>
 </body>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | UpliftEdu</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--p50:#fdf2f5;--p100:#fce7ec;--p200:#fad0db;--p300:#f7aabf;--p400:#f27a9d;--p500:#ef5179;--p600:#db3760;--p700:#b82548;--w:#fff;--g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--g900:#111827;--green:#059669;--green-bg:#ecfdf5;--red:#dc2626;--red-bg:#fef2f2;--amber:#d97706;--amber-bg:#fffbeb;--blue:#2563eb;--blue-bg:#eff6ff;--purple:#7c3aed;--purple-bg:#f5f3ff;--sidebar:260px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--g700);-webkit-font-smoothing:antialiased;display:flex;min-height:100vh}
+
+/* ===== LOGIN ===== */
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;width:100%;background:linear-gradient(135deg,var(--g900) 0%,#1e293b 100%);position:relative;overflow:hidden}
+.login-screen::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(239,81,121,0.12),transparent);border-radius:50%}
+.login-box{background:var(--w);border-radius:20px;padding:40px;width:100%;max-width:400px;position:relative;z-index:1;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.login-box .logo-area{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:28px}
+.login-box .logo-area img{height:36px}
+.login-box .logo-area span{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:var(--g900)}
+.login-box .logo-area span em{font-style:normal;color:var(--p500)}
+.login-box h2{font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:var(--g900);text-align:center;margin-bottom:6px}
+.login-box .login-sub{font-size:13px;color:var(--g500);text-align:center;margin-bottom:28px}
+.login-box .form-group{margin-bottom:16px}
+.login-box label{display:block;font-size:13px;font-weight:600;color:var(--g700);margin-bottom:6px}
+.login-box input{width:100%;padding:12px 14px;border:1.5px solid var(--g200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--g800);outline:none;transition:all 0.2s}
+.login-box input:focus{border-color:var(--p500);box-shadow:0 0 0 3px rgba(239,81,121,0.1)}
+.login-box .login-btn{width:100%;padding:13px;border:none;border-radius:12px;background:var(--p500);color:var(--w);font-size:15px;font-weight:700;cursor:pointer;transition:all 0.3s;font-family:inherit;margin-top:8px}
+.login-box .login-btn:hover{background:var(--p600);transform:translateY(-1px)}
+.login-box .login-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.login-error{display:none;background:var(--red-bg);border:1px solid #fecaca;color:var(--red);font-size:13px;padding:10px 14px;border-radius:10px;margin-bottom:16px;text-align:center}
+.login-error.show{display:block}
+
+/* ===== SIDEBAR ===== */
+.sidebar{width:var(--sidebar);background:var(--g900);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:transform 0.3s}
+.sb-logo{padding:20px 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sb-logo img{height:32px}
+.sb-logo span{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:var(--w)}
+.sb-logo span em{font-style:normal;color:var(--p400)}
+.sb-nav{flex:1;padding:16px 12px;overflow-y:auto}
+.sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--g500);padding:16px 12px 8px;margin-top:8px}
+.sb-section:first-child{margin-top:0}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:var(--g400);font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s;cursor:pointer;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.sb-link:hover{background:rgba(255,255,255,0.06);color:var(--g200)}
+.sb-link.active{background:rgba(239,81,121,0.12);color:var(--p400);font-weight:600}
+.sb-link svg{width:18px;height:18px;flex-shrink:0;opacity:0.7}
+.sb-link.active svg{opacity:1}
+.sb-badge{margin-left:auto;background:var(--p500);color:var(--w);font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;min-width:20px;text-align:center}
+.sb-bottom{padding:16px;border-top:1px solid rgba(255,255,255,0.08)}
+.sb-user{display:flex;align-items:center;gap:10px;color:var(--g400);font-size:13px}
+.sb-user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--p500),var(--p400));display:flex;align-items:center;justify-content:center;color:var(--w);font-size:13px;font-weight:800}
+.sb-logout-btn{margin-top:12px;width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:none;color:var(--g500);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.sb-logout-btn:hover{border-color:var(--red);color:var(--red);background:rgba(220,38,38,0.08)}
+
+/* ===== MAIN ===== */
+.app-wrap{display:none;width:100%}
+.main{margin-left:var(--sidebar);flex:1;min-height:100vh}
+.topbar{background:var(--w);border-bottom:1px solid var(--g200);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar h1{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:var(--g900)}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-date{font-size:13px;color:var(--g500);font-weight:500}
+.topbar-btn{padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;border:1.5px solid var(--g200);background:var(--w);color:var(--g700);cursor:pointer;transition:all 0.2s;font-family:inherit}
+.topbar-btn:hover{border-color:var(--p400);color:var(--p600)}
+.hamburger-btn{display:none;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger-btn svg{width:24px;height:24px;color:var(--g700)}
+.content{padding:28px 32px}
+
+/* ===== PAGES ===== */
+.page{display:none}
+.page.active{display:block}
+
+/* ===== KPI GRID ===== */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px}
+.kpi-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:20px;transition:all 0.3s;position:relative;overflow:hidden}
+.kpi-card:hover{border-color:var(--p200);box-shadow:0 4px 20px rgba(0,0,0,0.06);transform:translateY(-2px)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.kpi-card.pink::before{background:linear-gradient(90deg,var(--p500),var(--p400))}
+.kpi-card.green::before{background:linear-gradient(90deg,#059669,#10b981)}
+.kpi-card.blue::before{background:linear-gradient(90deg,#2563eb,#3b82f6)}
+.kpi-card.purple::before{background:linear-gradient(90deg,#7c3aed,#8b5cf6)}
+.kpi-card.amber::before{background:linear-gradient(90deg,#d97706,#f59e0b)}
+.kpi-label{font-size:12px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.kpi-value{font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;color:var(--g900);line-height:1;margin-bottom:6px}
+.kpi-sub{font-size:11px;color:var(--g400);margin-top:4px}
+
+/* ===== SECTION TITLES ===== */
+.sec-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.sec-title-row h2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:var(--g900)}
+
+/* ===== FILTER / ACTION BUTTONS ===== */
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--g200);background:var(--w);color:var(--g600);cursor:pointer;transition:all 0.2s;font-family:inherit}
+.filter-btn:hover,.filter-btn.active{border-color:var(--p400);color:var(--p500);background:var(--p50)}
+.filter-btn .count{background:var(--g100);color:var(--g500);font-size:10px;padding:1px 6px;border-radius:6px;margin-left:4px}
+.filter-btn.active .count{background:rgba(239,81,121,0.15);color:var(--p500)}
+.action-btn{padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all 0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:6px}
+.action-btn.primary{background:var(--p500);color:var(--w)}
+.action-btn.primary:hover{background:var(--p600);transform:translateY(-1px)}
+.action-btn.outline{background:var(--w);color:var(--g700);border:1.5px solid var(--g200)}
+.action-btn.outline:hover{border-color:var(--p400);color:var(--p500)}
+
+/* ===== SEARCH BAR ===== */
+.search-bar{position:relative;flex:1;max-width:360px}
+.search-bar input{width:100%;padding:9px 14px 9px 36px;border:1.5px solid var(--g200);border-radius:10px;font-size:13px;font-family:inherit;color:var(--g800);outline:none;transition:all 0.2s}
+.search-bar input:focus{border-color:var(--p500);box-shadow:0 0 0 3px rgba(239,81,121,0.08)}
+.search-bar svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--g400)}
+
+/* ===== TABLE ===== */
+.data-table-wrap{background:var(--w);border:1px solid var(--g200);border-radius:14px;overflow:hidden;margin-bottom:28px}
+.data-table-header{padding:20px 24px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.data-table-header h3{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--g900)}
+.table-scroll{overflow-x:auto}
+table.data-table{width:100%;border-collapse:collapse}
+.data-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--g500);padding:10px 16px;text-align:left;background:var(--g50);border-bottom:1px solid var(--g200);white-space:nowrap}
+.data-table td{font-size:13px;padding:12px 16px;border-bottom:1px solid var(--g100);color:var(--g700);white-space:nowrap}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--g50)}
+.data-table tr.clickable{cursor:pointer}
+.data-table tr.clickable:hover td{background:var(--p50)}
+
+/* ===== BADGES ===== */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap}
+.badge.new{background:var(--blue-bg);color:var(--blue)}
+.badge.contacted{background:var(--amber-bg);color:var(--amber)}
+.badge.counselled{background:var(--purple-bg);color:var(--purple)}
+.badge.converted{background:var(--green-bg);color:var(--green)}
+.badge.lost{background:var(--red-bg);color:var(--red)}
+.badge.active{background:var(--green-bg);color:var(--green)}
+.badge.inactive{background:var(--g100);color:var(--g500)}
+.badge.paid{background:var(--green-bg);color:var(--green)}
+.badge.partial{background:var(--amber-bg);color:var(--amber)}
+.badge.pending{background:var(--red-bg);color:var(--red)}
+.badge.upcoming{background:var(--blue-bg);color:var(--blue)}
+.badge.ongoing{background:var(--green-bg);color:var(--green)}
+.badge.completed{background:var(--g100);color:var(--g600)}
+.badge.enrolled{background:var(--green-bg);color:var(--green)}
+.badge.dropped{background:var(--red-bg);color:var(--red)}
+.badge.graduated{background:var(--purple-bg);color:var(--purple)}
+.badge.cat{background:var(--p50);color:var(--p600);font-weight:600}
+
+/* ===== MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--w);border-radius:16px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:var(--g900)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--g400);padding:4px;transition:color 0.2s}
+.modal-close:hover{color:var(--g800)}
+.modal-body{padding:24px}
+.modal-body .form-group{margin-bottom:16px}
+.modal-body label{display:block;font-size:13px;font-weight:600;color:var(--g700);margin-bottom:6px}
+.modal-body input,.modal-body select,.modal-body textarea{width:100%;padding:10px 14px;border:1.5px solid var(--g200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--g800);outline:none;transition:all 0.2s;background:var(--w)}
+.modal-body input:focus,.modal-body select:focus,.modal-body textarea:focus{border-color:var(--p500);box-shadow:0 0 0 3px rgba(239,81,121,0.08)}
+.modal-body textarea{resize:vertical;min-height:80px}
+.modal-body .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--g200);display:flex;justify-content:flex-end;gap:10px}
+
+/* ===== SLIDE-OUT PANEL ===== */
+.slide-panel{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:100%;background:var(--w);z-index:200;transform:translateX(100%);transition:transform 0.3s;box-shadow:-8px 0 30px rgba(0,0,0,0.15);display:flex;flex-direction:column}
+.slide-panel.open{transform:translateX(0)}
+.slide-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:199}
+.slide-backdrop.open{display:block}
+.slide-header{padding:20px 24px;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.slide-header h3{font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:var(--g900)}
+.slide-body{flex:1;overflow-y:auto;padding:24px}
+.slide-body .detail-row{margin-bottom:16px}
+.slide-body .detail-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--g500);margin-bottom:4px}
+.slide-body .detail-value{font-size:14px;color:var(--g800);font-weight:500}
+.slide-body .form-group{margin-bottom:16px}
+.slide-body label{display:block;font-size:13px;font-weight:600;color:var(--g700);margin-bottom:6px}
+.slide-body select,.slide-body textarea{width:100%;padding:10px 14px;border:1.5px solid var(--g200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--g800);outline:none;transition:all 0.2s;background:var(--w)}
+.slide-body select:focus,.slide-body textarea:focus{border-color:var(--p500);box-shadow:0 0 0 3px rgba(239,81,121,0.08)}
+.slide-body textarea{resize:vertical;min-height:80px}
+.slide-footer{padding:16px 24px;border-top:1px solid var(--g200);display:flex;gap:10px;flex-shrink:0}
+
+/* ===== LOADING / SKELETON ===== */
+.skeleton{background:linear-gradient(90deg,var(--g100) 25%,var(--g200) 50%,var(--g100) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.loading-msg{text-align:center;padding:40px;color:var(--g400);font-size:14px}
+.spinner-inline{display:inline-block;width:16px;height:16px;border:2px solid var(--g200);border-top-color:var(--p500);border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== TOAST ===== */
+.toast-container{position:fixed;top:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;color:var(--w);animation:toastIn 0.3s ease;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+.toast.info{background:var(--blue)}
+.toast.fade-out{animation:toastOut 0.3s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px)}}
+
+/* ===== TOGGLE SWITCH ===== */
+.toggle{position:relative;width:42px;height:24px;cursor:pointer}
+.toggle input{display:none}
+.toggle .slider{position:absolute;inset:0;background:var(--g300);border-radius:24px;transition:0.3s}
+.toggle .slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:var(--w);border-radius:50%;transition:0.3s}
+.toggle input:checked+.slider{background:var(--green)}
+.toggle input:checked+.slider::before{transform:translateX(18px)}
+
+/* ===== EMPTY STATE ===== */
+.empty-state{text-align:center;padding:60px 20px;color:var(--g400)}
+.empty-state .icon{font-size:48px;margin-bottom:12px;opacity:0.5}
+.empty-state p{font-size:14px}
+
+/* ===== LIVE DOT ===== */
+.live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s infinite;margin-right:6px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1280px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.main{margin-left:0}
+.hamburger-btn{display:block}
+.kpi-grid{grid-template-columns:repeat(2,1fr)}
+.content{padding:20px 16px}
+.topbar{padding:12px 16px}
+.slide-panel{width:100%}
+}
+@media(max-width:640px){
+.kpi-grid{grid-template-columns:1fr}
+.modal-body .form-row{grid-template-columns:1fr}
+.filter-group{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div class="login-screen" id="loginScreen">
+<div class="login-box">
+<div class="logo-area"><img src="logo.png" alt="UpliftEdu"><span>Uplift<em>Edu</em></span></div>
+<h2>Admin Panel</h2>
+<p class="login-sub">Sign in to manage leads, students, and courses</p>
+<div class="login-error" id="loginError"></div>
+<div class="form-group">
+<label>Email Address</label>
+<input type="email" id="loginEmail" placeholder="admin@upliftedu.in" autocomplete="email">
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+</div>
+<button class="login-btn" id="loginBtn" onclick="handleLogin()">Sign In</button>
+</div>
+</div>
+
+<!-- ===== APP ===== -->
+<div class="app-wrap" id="appWrap">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+<div class="sb-logo"><img src="logo.png" alt="UpliftEdu"><span>Uplift<em>Edu</em></span></div>
+<nav class="sb-nav">
+<div class="sb-section">Main</div>
+<button class="sb-link active" onclick="showPage('dashboard',this)" data-page="dashboard">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+Dashboard
+</button>
+<button class="sb-link" onclick="showPage('leads',this)" data-page="leads">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+Leads <span class="sb-badge" id="newLeadsBadge">0</span>
+</button>
+<button class="sb-link" onclick="showPage('students',this)" data-page="students">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1 4 3 6 3s6-2 6-3v-5"/></svg>
+Students
+</button>
+
+<div class="sb-section">Manage</div>
+<button class="sb-link" onclick="showPage('courses',this)" data-page="courses">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+Courses
+</button>
+<button class="sb-link" onclick="showPage('batches',this)" data-page="batches">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+Batches
+</button>
+
+<div class="sb-section">Links</div>
+<a class="sb-link" href="index.html">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+Main Website
+</a>
+<a class="sb-link" href="analytics.html">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+Analytics
+</a>
+</nav>
+<div class="sb-bottom">
+<div class="sb-user">
+<div class="sb-user-avatar" id="userAvatar">A</div>
+<div>
+<div style="color:var(--g200);font-weight:600;font-size:13px" id="userName">Admin</div>
+<div style="color:var(--g500);font-size:11px" id="userEmail">admin@upliftedu.in</div>
+</div>
+</div>
+<button class="sb-logout-btn" onclick="handleLogout()">Sign Out</button>
+</div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+<div class="topbar">
+<button class="hamburger-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<h1 id="pageTitle">Dashboard</h1>
+<div class="topbar-right">
+<span class="topbar-date" id="todayDate"></span>
+<span style="font-size:12px;color:var(--g400)"><span class="live-dot"></span>Live</span>
+</div>
+</div>
+<div class="content">
+
+<!-- ========== DASHBOARD ========== -->
+<div class="page active" id="page-dashboard">
+<div class="sec-title-row"><h2>Overview</h2></div>
+<div class="kpi-grid" id="kpiGrid">
+<div class="kpi-card pink"><div class="kpi-label">Total Leads</div><div class="kpi-value" id="kpiTotalLeads">--</div><div class="kpi-sub" id="kpiLeadsSub">Loading...</div></div>
+<div class="kpi-card blue"><div class="kpi-label">New Leads Today</div><div class="kpi-value" id="kpiNewToday">--</div><div class="kpi-sub" id="kpiTodaySub"></div></div>
+<div class="kpi-card green"><div class="kpi-label">Total Students</div><div class="kpi-value" id="kpiStudents">--</div><div class="kpi-sub" id="kpiStudentsSub"></div></div>
+<div class="kpi-card purple"><div class="kpi-label">Active Batches</div><div class="kpi-value" id="kpiBatches">--</div><div class="kpi-sub" id="kpiBatchesSub"></div></div>
+<div class="kpi-card amber"><div class="kpi-label">Revenue This Month</div><div class="kpi-value" id="kpiRevenue">--</div><div class="kpi-sub" id="kpiRevenueSub"></div></div>
+</div>
+
+<div class="sec-title-row"><h2>Leads by Status</h2></div>
+<div class="kpi-grid" id="statusGrid" style="grid-template-columns:repeat(5,1fr)">
+<!-- filled by JS -->
+</div>
+
+<div class="sec-title-row"><h2>Recent Leads</h2></div>
+<div class="data-table-wrap">
+<div class="table-scroll">
+<table class="data-table" id="recentLeadsTable">
+<thead><tr><th>Name</th><th>Phone</th><th>Course Interest</th><th>Source</th><th>Status</th><th>Created</th></tr></thead>
+<tbody id="recentLeadsBody"><tr><td colspan="6" class="loading-msg"><span class="spinner-inline"></span>Loading...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== LEADS ========== -->
+<div class="page" id="page-leads">
+<div class="sec-title-row">
+<h2>Leads Management</h2>
+<div style="display:flex;gap:12px;align-items:center">
+<div class="search-bar">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input type="text" id="leadSearch" placeholder="Search by name or phone..." oninput="filterLeads()">
+</div>
+</div>
+</div>
+<div class="filter-group" id="leadFilters" style="margin-bottom:20px">
+<!-- filled by JS -->
+</div>
+<div class="data-table-wrap">
+<div class="data-table-header">
+<h3>All Leads <span style="font-weight:400;color:var(--g400)" id="leadsCountLabel"></span></h3>
+</div>
+<div class="table-scroll">
+<table class="data-table">
+<thead><tr><th>Name</th><th>Phone</th><th>Course Interest</th><th>Source</th><th>Status</th><th>Counselor</th><th>Created</th></tr></thead>
+<tbody id="leadsBody"><tr><td colspan="7" class="loading-msg"><span class="spinner-inline"></span>Loading leads...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== STUDENTS ========== -->
+<div class="page" id="page-students">
+<div class="sec-title-row">
+<h2>Students Management</h2>
+<div style="display:flex;gap:12px;align-items:center">
+<div class="search-bar">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input type="text" id="studentSearch" placeholder="Search students..." oninput="filterStudents()">
+</div>
+<button class="action-btn primary" onclick="openAddStudentModal()">+ Add Student</button>
+</div>
+</div>
+<div class="filter-group" id="studentFilters" style="margin-bottom:20px"></div>
+<div class="data-table-wrap">
+<div class="data-table-header">
+<h3>All Students <span style="font-weight:400;color:var(--g400)" id="studentsCountLabel"></span></h3>
+</div>
+<div class="table-scroll">
+<table class="data-table">
+<thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Course</th><th>Batch</th><th>Payment</th><th>Status</th><th>Enrolled</th></tr></thead>
+<tbody id="studentsBody"><tr><td colspan="8" class="loading-msg"><span class="spinner-inline"></span>Loading students...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== COURSES ========== -->
+<div class="page" id="page-courses">
+<div class="sec-title-row"><h2>Courses</h2></div>
+<div class="data-table-wrap">
+<div class="data-table-header">
+<h3>All Courses <span style="font-weight:400;color:var(--g400)" id="coursesCountLabel"></span></h3>
+</div>
+<div class="table-scroll">
+<table class="data-table">
+<thead><tr><th>Name</th><th>Category</th><th>Duration</th><th>Price</th><th>Active</th></tr></thead>
+<tbody id="coursesBody"><tr><td colspan="5" class="loading-msg"><span class="spinner-inline"></span>Loading courses...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ========== BATCHES ========== -->
+<div class="page" id="page-batches">
+<div class="sec-title-row">
+<h2>Batches</h2>
+<button class="action-btn primary" onclick="openAddBatchModal()">+ Create Batch</button>
+</div>
+<div class="data-table-wrap">
+<div class="data-table-header">
+<h3>All Batches <span style="font-weight:400;color:var(--g400)" id="batchesCountLabel"></span></h3>
+</div>
+<div class="table-scroll">
+<table class="data-table">
+<thead><tr><th>Batch Code</th><th>Course</th><th>Start Date</th><th>Mentor</th><th>Capacity</th><th>Enrolled</th><th>Status</th></tr></thead>
+<tbody id="batchesBody"><tr><td colspan="7" class="loading-msg"><span class="spinner-inline"></span>Loading batches...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+
+</div><!-- content -->
+</div><!-- main -->
+</div><!-- app-wrap -->
+
+<!-- ===== LEAD DETAIL SLIDE PANEL ===== -->
+<div class="slide-backdrop" id="leadBackdrop" onclick="closeLeadPanel()"></div>
+<div class="slide-panel" id="leadPanel">
+<div class="slide-header">
+<h3>Lead Details</h3>
+<button class="modal-close" onclick="closeLeadPanel()">&times;</button>
+</div>
+<div class="slide-body" id="leadPanelBody">
+<!-- filled by JS -->
+</div>
+<div class="slide-footer">
+<button class="action-btn primary" style="flex:1" onclick="saveLeadChanges()">Save Changes</button>
+<button class="action-btn outline" onclick="closeLeadPanel()">Cancel</button>
+</div>
+</div>
+
+<!-- ===== ADD STUDENT MODAL ===== -->
+<div class="modal-overlay" id="addStudentModal">
+<div class="modal">
+<div class="modal-header"><h3>Add New Student</h3><button class="modal-close" onclick="closeModal('addStudentModal')">&times;</button></div>
+<div class="modal-body">
+<div class="form-row">
+<div class="form-group"><label>Full Name</label><input type="text" id="stuName" placeholder="Student name"></div>
+<div class="form-group"><label>Email</label><input type="email" id="stuEmail" placeholder="email@example.com"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>Phone</label><input type="tel" id="stuPhone" placeholder="+91XXXXXXXXXX"></div>
+<div class="form-group"><label>Course</label><select id="stuCourse" onchange="loadBatchesForCourse()"><option value="">Select course...</option></select></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>Batch</label><select id="stuBatch"><option value="">Select batch...</option></select></div>
+<div class="form-group"><label>Payment Status</label><select id="stuPayment"><option value="pending">Pending</option><option value="partial">Partial</option><option value="paid">Paid</option></select></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>Total Amount (INR)</label><input type="number" id="stuAmount" placeholder="25000"></div>
+<div class="form-group"><label>Payment Plan</label><select id="stuPlan"><option value="full">Full Payment</option><option value="emi">EMI</option><option value="scholarship">Scholarship</option></select></div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="action-btn outline" onclick="closeModal('addStudentModal')">Cancel</button>
+<button class="action-btn primary" id="saveStudentBtn" onclick="saveStudent()">Save Student</button>
+</div>
+</div>
+</div>
+
+<!-- ===== ADD BATCH MODAL ===== -->
+<div class="modal-overlay" id="addBatchModal">
+<div class="modal">
+<div class="modal-header"><h3>Create New Batch</h3><button class="modal-close" onclick="closeModal('addBatchModal')">&times;</button></div>
+<div class="modal-body">
+<div class="form-row">
+<div class="form-group"><label>Course</label><select id="batchCourse"><option value="">Select course...</option></select></div>
+<div class="form-group"><label>Batch Code</label><input type="text" id="batchCode" placeholder="e.g. FSD-15"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>Start Date</label><input type="date" id="batchStart"></div>
+<div class="form-group"><label>End Date</label><input type="date" id="batchEnd"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>Mentor Name</label><input type="text" id="batchMentor" placeholder="Mentor name"></div>
+<div class="form-group"><label>Mentor Email</label><input type="email" id="batchMentorEmail" placeholder="mentor@email.com"></div>
+</div>
+<div class="form-group"><label>Capacity</label><input type="number" id="batchCapacity" placeholder="30"></div>
+</div>
+<div class="modal-footer">
+<button class="action-btn outline" onclick="closeModal('addBatchModal')">Cancel</button>
+<button class="action-btn primary" id="saveBatchBtn" onclick="saveBatch()">Create Batch</button>
+</div>
+</div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ===== SUPABASE CLIENTS =====
+const SUPABASE_URL = 'https://rxqzmevcmsdfadqqrter.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4cXptZXZjbXNkZmFkcXFydGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjAxNjksImV4cCI6MjA4OTUzNjE2OX0.ReMqgMVCRhFCinIaW2N8-YxwhlPDzXQAKBFfs67K0lM';
+const SUPABASE_SERVICE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4cXptZXZjbXNkZmFkcXFydGVyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzk2MDE2OSwiZXhwIjoyMDg5NTM2MTY5fQ.vW4oVcasIYpP9YEDdrtqwERqOKN9IGyVG-yt6pOpHFA';
+
+const supabasePublic = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const supabaseAdmin = window.supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE);
+
+const ADMIN_EMAILS = ['support@upliftedu.in'];
+
+// ===== STATE =====
+let allLeads = [];
+let allCourses = [];
+let allStudents = [];
+let allBatches = [];
+let allCounselors = [];
+let currentLeadFilter = 'all';
+let currentLeadSearch = '';
+let currentStudentSearch = '';
+let currentStudentFilter = 'all';
+let selectedLead = null;
+let dashboardInterval = null;
+
+// ===== HELPERS =====
+function formatDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function formatCurrency(n) {
+  if (n == null) return '—';
+  return '₹' + Number(n).toLocaleString('en-IN');
+}
+function capitalize(s) {
+  if (!s) return '—';
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function statusBadge(status) {
+  const s = (status || 'new').toLowerCase();
+  return `<span class="badge ${s}">${capitalize(s)}</span>`;
+}
+function paymentBadge(status) {
+  const s = (status || 'pending').toLowerCase();
+  return `<span class="badge ${s}">${capitalize(s)}</span>`;
+}
+function batchStatusBadge(status) {
+  const s = (status || 'upcoming').toLowerCase();
+  return `<span class="badge ${s}">${capitalize(s)}</span>`;
+}
+function toast(msg, type = 'success') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => { t.classList.add('fade-out'); setTimeout(() => t.remove(), 300); }, 3000);
+}
+function getCourseName(id) {
+  if (!id) return '—';
+  const c = allCourses.find(x => x.id === id);
+  return c ? c.name : '—';
+}
+function getCounselorName(id) {
+  if (!id) return '—';
+  const c = allCounselors.find(x => x.id === id);
+  return c ? c.name : '—';
+}
+
+// ===== AUTH =====
+async function checkAuth() {
+  const { data: { session } } = await supabasePublic.auth.getSession();
+  if (session && ADMIN_EMAILS.includes(session.user.email)) {
+    showApp(session.user);
+  } else if (session) {
+    await supabasePublic.auth.signOut();
+    showLogin('Access denied. Only admin accounts allowed.');
+  } else {
+    showLogin();
+  }
+}
+
+function showLogin(error) {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('appWrap').style.display = 'none';
+  if (error) {
+    const el = document.getElementById('loginError');
+    el.textContent = error;
+    el.classList.add('show');
+  }
+}
+
+function showApp(user) {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'flex';
+  const email = user.email || '';
+  document.getElementById('userName').textContent = email.split('@')[0];
+  document.getElementById('userEmail').textContent = email;
+  document.getElementById('userAvatar').textContent = email.charAt(0).toUpperCase();
+  initApp();
+}
+
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+  errEl.classList.remove('show');
+
+  if (!email || !password) {
+    errEl.textContent = 'Please enter email and password.';
+    errEl.classList.add('show');
+    return;
+  }
+  if (!ADMIN_EMAILS.includes(email)) {
+    errEl.textContent = 'This email is not authorized as admin.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+
+  const { data, error } = await supabasePublic.auth.signInWithPassword({ email, password });
+  btn.disabled = false;
+  btn.textContent = 'Sign In';
+
+  if (error) {
+    errEl.textContent = error.message;
+    errEl.classList.add('show');
+    return;
+  }
+  showApp(data.user);
+}
+
+async function handleLogout() {
+  await supabasePublic.auth.signOut();
+  if (dashboardInterval) clearInterval(dashboardInterval);
+  showLogin();
+}
+
+// Allow Enter key on login
+document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+document.getElementById('loginEmail').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPassword').focus(); });
+
+// ===== PAGE NAVIGATION =====
+function showPage(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const titles = { dashboard: 'Dashboard', leads: 'Leads Management', students: 'Students', courses: 'Courses', batches: 'Batches' };
+  document.getElementById('pageTitle').textContent = titles[page] || 'Admin';
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+// ===== DATE =====
+function setDate() {
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// ===== INIT APP =====
+async function initApp() {
+  setDate();
+  await loadCourses();
+  await Promise.all([loadLeads(), loadStudents(), loadBatches(), loadCounselors()]);
+  loadDashboard();
+  setupRealtime();
+  // auto-refresh dashboard stats
+  dashboardInterval = setInterval(loadDashboard, 30000);
+}
+
+// ===== LOAD COURSES =====
+async function loadCourses() {
+  try {
+    const { data, error } = await supabaseAdmin.from('courses').select('*').order('name');
+    if (error) throw error;
+    allCourses = data || [];
+    renderCourses();
+    populateCourseDropdowns();
+  } catch (e) {
+    console.error('Load courses:', e);
+    allCourses = [];
+    document.getElementById('coursesBody').innerHTML = '<tr><td colspan="5" class="loading-msg">Failed to load courses.</td></tr>';
+  }
+}
+
+function renderCourses() {
+  const tbody = document.getElementById('coursesBody');
+  document.getElementById('coursesCountLabel').textContent = '(' + allCourses.length + ')';
+  if (!allCourses.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="icon">📚</div><p>No courses found</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = allCourses.map(c => `
+    <tr>
+      <td><strong>${c.name || '—'}</strong></td>
+      <td><span class="badge cat">${c.category || '—'}</span></td>
+      <td>${c.duration || '—'}</td>
+      <td style="font-weight:700;color:var(--g900)">${formatCurrency(c.price)}</td>
+      <td>
+        <label class="toggle">
+          <input type="checkbox" ${c.active !== false ? 'checked' : ''} onchange="toggleCourseActive('${c.id}', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function toggleCourseActive(id, active) {
+  try {
+    const { error } = await supabaseAdmin.from('courses').update({ active }).eq('id', id);
+    if (error) throw error;
+    const c = allCourses.find(x => x.id === id);
+    if (c) c.active = active;
+    toast(active ? 'Course activated' : 'Course deactivated');
+  } catch (e) {
+    toast('Failed to update course: ' + e.message, 'error');
+  }
+}
+
+function populateCourseDropdowns() {
+  const selectors = ['stuCourse', 'batchCourse'];
+  selectors.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const current = el.value;
+    el.innerHTML = '<option value="">Select course...</option>' + allCourses.map(c =>
+      `<option value="${c.id}">${c.name}</option>`
+    ).join('');
+    if (current) el.value = current;
+  });
+}
+
+// ===== LOAD COUNSELORS =====
+async function loadCounselors() {
+  try {
+    const { data, error } = await supabaseAdmin.from('counselors').select('*').order('name');
+    if (!error && data) allCounselors = data;
+  } catch (e) {
+    console.warn('Counselors table may not exist:', e);
+    allCounselors = [];
+  }
+}
+
+// ===== LOAD LEADS =====
+async function loadLeads() {
+  try {
+    const { data, error } = await supabaseAdmin.from('leads').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    allLeads = data || [];
+    renderLeads();
+    updateLeadBadge();
+  } catch (e) {
+    console.error('Load leads:', e);
+    allLeads = [];
+    document.getElementById('leadsBody').innerHTML = '<tr><td colspan="7" class="loading-msg">Failed to load leads.</td></tr>';
+  }
+}
+
+function updateLeadBadge() {
+  const newCount = allLeads.filter(l => (l.status || 'new') === 'new').length;
+  document.getElementById('newLeadsBadge').textContent = newCount;
+}
+
+function renderLeads() {
+  const filtered = getFilteredLeads();
+  const tbody = document.getElementById('leadsBody');
+  document.getElementById('leadsCountLabel').textContent = '(' + filtered.length + ' of ' + allLeads.length + ')';
+
+  // render status filter buttons
+  const statuses = ['all', 'new', 'contacted', 'counselled', 'converted', 'lost'];
+  const counts = {};
+  statuses.forEach(s => { counts[s] = s === 'all' ? allLeads.length : allLeads.filter(l => (l.status || 'new') === s).length; });
+  document.getElementById('leadFilters').innerHTML = statuses.map(s =>
+    `<button class="filter-btn ${currentLeadFilter === s ? 'active' : ''}" onclick="setLeadFilter('${s}')">${capitalize(s)}<span class="count">${counts[s]}</span></button>`
+  ).join('');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="icon">📋</div><p>No leads found</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(l => `
+    <tr class="clickable" onclick="openLeadPanel('${l.id}')">
+      <td><strong>${l.name || '—'}</strong></td>
+      <td>${l.phone || '—'}</td>
+      <td>${getCourseName(l.course_interest)}</td>
+      <td>${l.source || '—'}</td>
+      <td>${statusBadge(l.status)}</td>
+      <td>${getCounselorName(l.assigned_counselor)}</td>
+      <td>${formatDate(l.created_at)}</td>
+    </tr>
+  `).join('');
+}
+
+function getFilteredLeads() {
+  let filtered = allLeads;
+  if (currentLeadFilter !== 'all') {
+    filtered = filtered.filter(l => (l.status || 'new') === currentLeadFilter);
+  }
+  if (currentLeadSearch) {
+    const q = currentLeadSearch.toLowerCase();
+    filtered = filtered.filter(l =>
+      (l.name || '').toLowerCase().includes(q) || (l.phone || '').includes(q)
+    );
+  }
+  return filtered;
+}
+
+function setLeadFilter(f) {
+  currentLeadFilter = f;
+  renderLeads();
+}
+
+function filterLeads() {
+  currentLeadSearch = document.getElementById('leadSearch').value.trim();
+  renderLeads();
+}
+
+// ===== LEAD DETAIL PANEL =====
+function openLeadPanel(id) {
+  selectedLead = allLeads.find(l => l.id === id);
+  if (!selectedLead) return;
+  const body = document.getElementById('leadPanelBody');
+  body.innerHTML = `
+    <div class="detail-row"><div class="detail-label">Name</div><div class="detail-value">${selectedLead.name || '—'}</div></div>
+    <div class="detail-row"><div class="detail-label">Phone</div><div class="detail-value">${selectedLead.phone || '—'}</div></div>
+    <div class="detail-row"><div class="detail-label">Course Interest</div><div class="detail-value">${getCourseName(selectedLead.course_interest)}</div></div>
+    <div class="detail-row"><div class="detail-label">Source</div><div class="detail-value">${selectedLead.source || '—'}${selectedLead.campaign ? ' / ' + selectedLead.campaign : ''}</div></div>
+    <div class="detail-row"><div class="detail-label">Created</div><div class="detail-value">${formatDate(selectedLead.created_at)}</div></div>
+    <hr style="border:none;border-top:1px solid var(--g200);margin:20px 0">
+    <div class="form-group">
+      <label>Status</label>
+      <select id="panelStatus">
+        ${['new','contacted','counselled','converted','lost'].map(s => `<option value="${s}" ${(selectedLead.status || 'new') === s ? 'selected' : ''}>${capitalize(s)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Assign Counselor</label>
+      <select id="panelCounselor">
+        <option value="">Unassigned</option>
+        ${allCounselors.map(c => `<option value="${c.id}" ${selectedLead.assigned_counselor === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea id="panelNotes" placeholder="Add notes about this lead...">${selectedLead.notes || ''}</textarea>
+    </div>
+  `;
+  document.getElementById('leadPanel').classList.add('open');
+  document.getElementById('leadBackdrop').classList.add('open');
+}
+
+function closeLeadPanel() {
+  document.getElementById('leadPanel').classList.remove('open');
+  document.getElementById('leadBackdrop').classList.remove('open');
+  selectedLead = null;
+}
+
+async function saveLeadChanges() {
+  if (!selectedLead) return;
+  const status = document.getElementById('panelStatus').value;
+  const counselor = document.getElementById('panelCounselor').value || null;
+  const notes = document.getElementById('panelNotes').value;
+
+  try {
+    const updates = { status, notes };
+    if (counselor) updates.assigned_counselor = counselor;
+    else updates.assigned_counselor = null;
+
+    const { error } = await supabaseAdmin.from('leads').update(updates).eq('id', selectedLead.id);
+    if (error) throw error;
+
+    // Update local state
+    const idx = allLeads.findIndex(l => l.id === selectedLead.id);
+    if (idx >= 0) Object.assign(allLeads[idx], updates);
+
+    renderLeads();
+    updateLeadBadge();
+    closeLeadPanel();
+    toast('Lead updated successfully');
+  } catch (e) {
+    toast('Failed to save: ' + e.message, 'error');
+  }
+}
+
+// ===== LOAD STUDENTS =====
+async function loadStudents() {
+  try {
+    const { data, error } = await supabaseAdmin.from('students').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    allStudents = data || [];
+    renderStudents();
+  } catch (e) {
+    console.error('Load students:', e);
+    allStudents = [];
+    document.getElementById('studentsBody').innerHTML = '<tr><td colspan="8" class="loading-msg">Failed to load students.</td></tr>';
+  }
+}
+
+function renderStudents() {
+  const filtered = getFilteredStudents();
+  const tbody = document.getElementById('studentsBody');
+  document.getElementById('studentsCountLabel').textContent = '(' + filtered.length + ')';
+
+  // course filter buttons
+  const courseIds = [...new Set(allStudents.map(s => s.course_id).filter(Boolean))];
+  let filterHtml = `<button class="filter-btn ${currentStudentFilter === 'all' ? 'active' : ''}" onclick="setStudentFilter('all')">All<span class="count">${allStudents.length}</span></button>`;
+  courseIds.forEach(cid => {
+    const cname = getCourseName(cid);
+    const cnt = allStudents.filter(s => s.course_id === cid).length;
+    filterHtml += `<button class="filter-btn ${currentStudentFilter === cid ? 'active' : ''}" onclick="setStudentFilter('${cid}')">${cname}<span class="count">${cnt}</span></button>`;
+  });
+  document.getElementById('studentFilters').innerHTML = filterHtml;
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="icon">🎓</div><p>No students found</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(s => {
+    const batchObj = allBatches.find(b => b.id === s.batch_id);
+    return `
+    <tr>
+      <td><strong>${s.name || '—'}</strong></td>
+      <td>${s.email || '—'}</td>
+      <td>${s.phone || '—'}</td>
+      <td>${getCourseName(s.course_id)}</td>
+      <td>${batchObj ? batchObj.batch_code : '—'}</td>
+      <td>${paymentBadge(s.payment_status)}</td>
+      <td>${statusBadge(s.student_status || s.status || 'enrolled')}</td>
+      <td>${formatDate(s.enrollment_date || s.created_at)}</td>
+    </tr>
+    `;
+  }).join('');
+}
+
+function getFilteredStudents() {
+  let filtered = allStudents;
+  if (currentStudentFilter !== 'all') {
+    filtered = filtered.filter(s => s.course_id === currentStudentFilter);
+  }
+  if (currentStudentSearch) {
+    const q = currentStudentSearch.toLowerCase();
+    filtered = filtered.filter(s =>
+      (s.name || '').toLowerCase().includes(q) || (s.email || '').toLowerCase().includes(q) || (s.phone || '').includes(q)
+    );
+  }
+  return filtered;
+}
+
+function setStudentFilter(f) {
+  currentStudentFilter = f;
+  renderStudents();
+}
+
+function filterStudents() {
+  currentStudentSearch = document.getElementById('studentSearch').value.trim();
+  renderStudents();
+}
+
+// ===== ADD STUDENT =====
+function openAddStudentModal() {
+  document.getElementById('addStudentModal').classList.add('open');
+  populateCourseDropdowns();
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+async function loadBatchesForCourse() {
+  const courseId = document.getElementById('stuCourse').value;
+  const sel = document.getElementById('stuBatch');
+  sel.innerHTML = '<option value="">Select batch...</option>';
+  if (!courseId) return;
+  const courseBatches = allBatches.filter(b => b.course_id === courseId);
+  sel.innerHTML += courseBatches.map(b => `<option value="${b.id}">${b.batch_code} (${formatDate(b.start_date)})</option>`).join('');
+}
+
+async function saveStudent() {
+  const name = document.getElementById('stuName').value.trim();
+  const email = document.getElementById('stuEmail').value.trim();
+  const phone = document.getElementById('stuPhone').value.trim();
+  const course_id = document.getElementById('stuCourse').value;
+  const batch_id = document.getElementById('stuBatch').value || null;
+  const payment_status = document.getElementById('stuPayment').value;
+  const total_amount = document.getElementById('stuAmount').value || null;
+  const payment_plan = document.getElementById('stuPlan').value;
+
+  if (!name || !phone || !course_id) {
+    toast('Name, phone, and course are required', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('saveStudentBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  try {
+    const record = {
+      name, email: email || null, phone, course_id,
+      batch_id, payment_status,
+      total_amount: total_amount ? Number(total_amount) : null,
+      payment_plan, student_status: 'enrolled',
+      enrollment_date: new Date().toISOString()
+    };
+    const { error } = await supabaseAdmin.from('students').insert([record]);
+    if (error) throw error;
+
+    toast('Student added successfully');
+    closeModal('addStudentModal');
+    // reset form
+    ['stuName','stuEmail','stuPhone','stuAmount'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('stuCourse').value = '';
+    document.getElementById('stuBatch').innerHTML = '<option value="">Select batch...</option>';
+    await loadStudents();
+    loadDashboard();
+  } catch (e) {
+    toast('Failed: ' + e.message, 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Save Student';
+}
+
+// ===== LOAD BATCHES =====
+async function loadBatches() {
+  try {
+    const { data, error } = await supabaseAdmin.from('batches').select('*').order('start_date', { ascending: false });
+    if (error) throw error;
+    allBatches = data || [];
+    renderBatches();
+  } catch (e) {
+    console.error('Load batches:', e);
+    allBatches = [];
+    document.getElementById('batchesBody').innerHTML = '<tr><td colspan="7" class="loading-msg">Failed to load batches.</td></tr>';
+  }
+}
+
+function renderBatches() {
+  const tbody = document.getElementById('batchesBody');
+  document.getElementById('batchesCountLabel').textContent = '(' + allBatches.length + ')';
+  if (!allBatches.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="icon">📅</div><p>No batches found</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = allBatches.map(b => {
+    const enrolled = allStudents.filter(s => s.batch_id === b.id).length;
+    return `
+    <tr>
+      <td><strong>${b.batch_code || '—'}</strong></td>
+      <td>${getCourseName(b.course_id)}</td>
+      <td>${formatDate(b.start_date)}</td>
+      <td>${b.mentor_name || b.mentor || '—'}</td>
+      <td style="font-weight:700">${b.capacity || '—'}</td>
+      <td style="font-weight:700;color:${enrolled >= (b.capacity || 999) ? 'var(--red)' : 'var(--green)'}">${enrolled}</td>
+      <td>${batchStatusBadge(b.status)}</td>
+    </tr>
+    `;
+  }).join('');
+}
+
+// ===== ADD BATCH =====
+function openAddBatchModal() {
+  document.getElementById('addBatchModal').classList.add('open');
+  populateCourseDropdowns();
+}
+
+async function saveBatch() {
+  const course_id = document.getElementById('batchCourse').value;
+  const batch_code = document.getElementById('batchCode').value.trim();
+  const start_date = document.getElementById('batchStart').value;
+  const end_date = document.getElementById('batchEnd').value || null;
+  const mentor_name = document.getElementById('batchMentor').value.trim();
+  const mentor_email = document.getElementById('batchMentorEmail').value.trim();
+  const capacity = document.getElementById('batchCapacity').value;
+
+  if (!course_id || !batch_code || !start_date) {
+    toast('Course, batch code, and start date are required', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('saveBatchBtn');
+  btn.disabled = true;
+  btn.textContent = 'Creating...';
+
+  try {
+    const record = {
+      course_id, batch_code, start_date, end_date,
+      mentor_name: mentor_name || null,
+      mentor_email: mentor_email || null,
+      capacity: capacity ? Number(capacity) : null,
+      status: 'upcoming'
+    };
+    const { error } = await supabaseAdmin.from('batches').insert([record]);
+    if (error) throw error;
+
+    toast('Batch created successfully');
+    closeModal('addBatchModal');
+    ['batchCode','batchStart','batchEnd','batchMentor','batchMentorEmail','batchCapacity'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('batchCourse').value = '';
+    await loadBatches();
+    loadDashboard();
+  } catch (e) {
+    toast('Failed: ' + e.message, 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Create Batch';
+}
+
+// ===== DASHBOARD =====
+async function loadDashboard() {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+  const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay()).toISOString();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+
+  // Total leads
+  document.getElementById('kpiTotalLeads').textContent = allLeads.length;
+  const todayLeads = allLeads.filter(l => l.created_at && l.created_at >= todayStart).length;
+  const weekLeads = allLeads.filter(l => l.created_at && l.created_at >= weekStart).length;
+  const monthLeads = allLeads.filter(l => l.created_at && l.created_at >= monthStart).length;
+  document.getElementById('kpiLeadsSub').textContent = `This week: ${weekLeads} | This month: ${monthLeads}`;
+
+  // New leads today
+  document.getElementById('kpiNewToday').textContent = todayLeads;
+  document.getElementById('kpiTodaySub').textContent = `Week: ${weekLeads}`;
+
+  // Total students
+  document.getElementById('kpiStudents').textContent = allStudents.length;
+  const enrolledThisMonth = allStudents.filter(s => (s.enrollment_date || s.created_at || '') >= monthStart).length;
+  document.getElementById('kpiStudentsSub').textContent = `New this month: ${enrolledThisMonth}`;
+
+  // Active batches
+  const activeBatches = allBatches.filter(b => (b.status || '').toLowerCase() === 'ongoing' || (b.status || '').toLowerCase() === 'active');
+  document.getElementById('kpiBatches').textContent = activeBatches.length || allBatches.length;
+  document.getElementById('kpiBatchesSub').textContent = `Total: ${allBatches.length}`;
+
+  // Revenue this month (sum of student total_amount where payment_status = paid and enrolled this month)
+  const paidThisMonth = allStudents.filter(s =>
+    (s.payment_status || '').toLowerCase() === 'paid' &&
+    (s.enrollment_date || s.created_at || '') >= monthStart
+  );
+  const revenue = paidThisMonth.reduce((sum, s) => sum + (s.total_amount || 0), 0);
+  document.getElementById('kpiRevenue').textContent = formatCurrency(revenue);
+  document.getElementById('kpiRevenueSub').textContent = `From ${paidThisMonth.length} students`;
+
+  // Status grid
+  const statusColors = { new: 'blue', contacted: 'amber', counselled: 'purple', converted: 'green', lost: 'pink' };
+  const statusGrid = document.getElementById('statusGrid');
+  statusGrid.innerHTML = ['new', 'contacted', 'counselled', 'converted', 'lost'].map(s => {
+    const count = allLeads.filter(l => (l.status || 'new') === s).length;
+    return `<div class="kpi-card ${statusColors[s]}"><div class="kpi-label">${capitalize(s)}</div><div class="kpi-value">${count}</div></div>`;
+  }).join('');
+
+  // Recent leads (top 10)
+  const recent = allLeads.slice(0, 10);
+  const recentBody = document.getElementById('recentLeadsBody');
+  if (!recent.length) {
+    recentBody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p>No leads yet</p></div></td></tr>';
+  } else {
+    recentBody.innerHTML = recent.map(l => `
+      <tr>
+        <td><strong>${l.name || '—'}</strong></td>
+        <td>${l.phone || '—'}</td>
+        <td>${getCourseName(l.course_interest)}</td>
+        <td>${l.source || '—'}</td>
+        <td>${statusBadge(l.status)}</td>
+        <td>${formatDate(l.created_at)}</td>
+      </tr>
+    `).join('');
+  }
+}
+
+// ===== REALTIME =====
+function setupRealtime() {
+  supabaseAdmin
+    .channel('leads-realtime')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, payload => {
+      allLeads.unshift(payload.new);
+      renderLeads();
+      updateLeadBadge();
+      loadDashboard();
+      toast('New lead: ' + (payload.new.name || 'Unknown'), 'info');
+    })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'leads' }, payload => {
+      const idx = allLeads.findIndex(l => l.id === payload.new.id);
+      if (idx >= 0) allLeads[idx] = payload.new;
+      renderLeads();
+      updateLeadBadge();
+    })
+    .subscribe();
+}
+
+// ===== INIT =====
+checkAuth();
+</script>
+</body>
+</html>

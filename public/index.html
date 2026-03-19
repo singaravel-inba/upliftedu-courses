@@ -518,6 +518,12 @@ section{padding:56px 16px}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://rxqzmevcmsdfadqqrter.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4cXptZXZjbXNkZmFkcXFydGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjAxNjksImV4cCI6MjA4OTUzNjE2OX0.ReMqgMVCRhFCinIaW2N8-YxwhlPDzXQAKBFfs67K0lM';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+</script>
 </head>
 <body>
 
@@ -1705,7 +1711,7 @@ function closePopup(){
 document.getElementById('leadPopup').classList.remove('open');
 document.body.style.overflow='';
 }
-function submitLead(){
+async function submitLead(){
 const name=document.getElementById('leadName').value.trim();
 const code=document.getElementById('leadCode').value;
 const phone=document.getElementById('leadPhone').value.trim();
@@ -1716,52 +1722,38 @@ const btn=document.getElementById('leadSubmit');
 btn.disabled=true;btn.textContent='Submitting...';
 const fullPhone=code+phone;
 const timestamp=new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
-const source=document.referrer||'Direct';
-const page=window.location.href;
 const utmSource=new URLSearchParams(window.location.search).get('utm_source')||'organic';
 const utmMedium=new URLSearchParams(window.location.search).get('utm_medium')||'';
 const utmCampaign=new URLSearchParams(window.location.search).get('utm_campaign')||'';
 
-// 1) Email notification via Formsubmit.co → support@upliftedu.in
+// 1) PRIMARY: Save to Supabase database
+try{
+const leadData={name,phone:fullPhone,source:utmSource,medium:utmMedium||null,campaign:utmCampaign||null,status:'new'};
+// Try to match course name to course ID
+if(course){
+const{data:courseMatch}=await sb.from('courses').select('id').ilike('name','%'+course+'%').limit(1);
+if(courseMatch&&courseMatch.length>0)leadData.course_interest=courseMatch[0].id;
+}
+const{data,error}=await sb.from('leads').insert([leadData]);
+if(error)console.warn('Supabase insert error:',error.message);
+else console.log('✅ Lead saved to database');
+}catch(e){console.warn('DB save fallback:',e);}
+
+// 2) Email notification → support@upliftedu.in
 const emailData=new FormData();
-emailData.append('name',name);
-emailData.append('phone',fullPhone);
-emailData.append('course',course||'Not selected');
-emailData.append('source',utmSource);
-emailData.append('utm_medium',utmMedium);
-emailData.append('utm_campaign',utmCampaign);
+emailData.append('name',name);emailData.append('phone',fullPhone);
+emailData.append('course',course||'Not selected');emailData.append('source',utmSource);
 emailData.append('timestamp',timestamp);
 emailData.append('_subject','🔔 New Lead: '+name+' — '+(course||'General Enquiry'));
-emailData.append('_template','table');
-emailData.append('_captcha','false');
-fetch('https://formsubmit.co/ajax/support@upliftedu.in',{method:'POST',body:emailData})
-.then(r=>r.json()).then(d=>console.log('Email sent:',d)).catch(e=>console.warn('Email fallback:',e));
+emailData.append('_template','table');emailData.append('_captcha','false');
+fetch('https://formsubmit.co/ajax/support@upliftedu.in',{method:'POST',body:emailData}).catch(()=>{});
 
-// 2) Google Sheet logging (Apps Script endpoint — replace URL after setup)
-const sheetEndpoint=localStorage.getItem('uplift_sheet_endpoint')||'';
-if(sheetEndpoint){
-fetch(sheetEndpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({name,phone:fullPhone,course:course||'Not selected',source:utmSource,medium:utmMedium,campaign:utmCampaign,timestamp,page})
-}).catch(e=>console.warn('Sheet log:',e));
-}
+// 3) WhatsApp alert to 9363807080
+const waMsg=encodeURIComponent('🔔 *New Lead*\n👤 '+name+'\n📞 '+fullPhone+'\n📚 '+(course||'General')+'\n🕐 '+timestamp+'\n📍 '+utmSource);
+navigator.sendBeacon&&navigator.sendBeacon('https://api.whatsapp.com/send?phone=919363807080&text='+waMsg);
 
-// 3) WhatsApp alert to business number
-const waMsg=encodeURIComponent('🔔 *New Lead Alert*\n\n👤 Name: '+name+'\n📞 Phone: '+fullPhone+'\n📚 Course: '+(course||'Not selected')+'\n🕐 Time: '+timestamp+'\n📍 Source: '+utmSource+(utmCampaign?' / '+utmCampaign:'')+'\n\n_Reply to this lead within 15 mins!_');
-// Send WhatsApp alert (opens in background via hidden iframe for business number)
-const waAlertUrl='https://api.whatsapp.com/send?phone=919363807080&text='+waMsg;
-// We'll use a beacon-style approach — notify without interrupting user
-try{
-const waFrame=document.createElement('iframe');
-waFrame.style.display='none';
-waFrame.src=waAlertUrl;
-document.body.appendChild(waFrame);
-setTimeout(()=>waFrame.remove(),3000);
-}catch(e){console.log('WA alert queued');}
-
-// 4) GA4 event tracking
-if(typeof gtag==='function'){
-gtag('event','lead_submitted',{event_category:'Lead Gen',event_label:course||'General',lead_name:name,lead_source:utmSource});
-}
+// 4) GA4
+if(typeof gtag==='function')gtag('event','lead_submitted',{event_category:'Lead Gen',event_label:course||'General',lead_source:utmSource});
 
 // Show success
 document.getElementById('popupForm').style.display='none';

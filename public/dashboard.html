@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard | UpliftEdu Student Portal</title>
-<meta name="description" content="Your UpliftEdu student dashboard. Track progress, join live classes, view billing, connect with mentors.">
+<meta name="description" content="Your UpliftEdu student dashboard. Track progress, attendance, assignments, payments, and support.">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--p500:#ef5179;--p600:#db3760;--p50:#fdf2f5;--p100:#fce7ec;--p200:#fad0db;--p300:#f7aabf;--g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--g900:#111827;--w:#fff;--blue:#3b82f6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--sidebar:260px}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -32,7 +33,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 .sb-logo img{height:32px}
 .sb-logo span{font-size:18px;font-weight:800;color:var(--w)}
 .sb-logo span em{font-style:normal;color:var(--p500)}
-.sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:2px}
+.sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
 .sb-link{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;color:var(--g400);text-decoration:none;font-size:13px;font-weight:500;transition:all 0.2s;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit}
 .sb-link:hover{background:rgba(255,255,255,0.06);color:var(--g200)}
 .sb-link.active{background:rgba(239,81,121,0.12);color:var(--p500);font-weight:600}
@@ -63,18 +64,16 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 /* CONTENT */
 .content{padding:28px 32px;max-width:1200px}
 
+/* PAGE VIEWS */
+.page-view{display:none}
+.page-view.active{display:block}
+
 /* WELCOME BANNER */
 .welcome{background:linear-gradient(135deg,var(--g900) 0%,#1e293b 100%);border-radius:20px;padding:32px;color:var(--w);position:relative;overflow:hidden;margin-bottom:28px}
 .welcome::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(239,81,121,0.2),transparent);border-radius:50%}
 .welcome h2{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px;position:relative}
-.welcome p{font-size:14px;color:var(--g400);position:relative;margin-bottom:20px}
-.welcome .live-banner{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;color:var(--green);cursor:pointer;text-decoration:none;transition:all 0.2s;position:relative}
-.welcome .live-banner:hover{background:rgba(16,185,129,0.25);transform:translateY(-1px)}
-.welcome .live-banner .pulse{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
-.welcome .live-banner.inactive{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:var(--g400);cursor:default}
-.welcome .live-banner.inactive:hover{transform:none}
-.welcome .live-banner.upcoming{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--amber)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.welcome p{font-size:14px;color:var(--g400);position:relative;margin-bottom:6px}
+.welcome .welcome-sub{font-size:13px;color:var(--g500);position:relative}
 
 /* STAT CARDS */
 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
@@ -86,8 +85,10 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 .sc-icon.blue{background:#eff6ff}
 .sc-icon.green{background:#ecfdf5}
 .sc-icon.purple{background:#f5f3ff}
+.sc-icon.amber{background:#fffbeb}
 .sc-change{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
 .sc-change.up{background:#ecfdf5;color:var(--green)}
+.sc-change.down{background:#fef2f2;color:var(--red)}
 .sc-change.neutral{background:var(--g100);color:var(--g500)}
 .sc-val{font-size:24px;font-weight:800;color:var(--g900);margin-bottom:2px}
 .sc-label{font-size:12px;color:var(--g500);font-weight:500}
@@ -95,17 +96,23 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 /* GRID LAYOUT */
 .dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:28px}
 
-/* COURSE CARD */
+/* CARDS */
+.card{background:var(--w);border:1px solid var(--g200);border-radius:16px;overflow:hidden;margin-bottom:20px}
+.card-header{padding:20px 24px;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+.card-header h3{font-size:16px;font-weight:700;color:var(--g900);display:flex;align-items:center;gap:8px}
+.card-body{padding:20px 24px}
+
+/* ENROLLED COURSE CARD */
 .enrolled-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;overflow:hidden}
 .ec-header{padding:20px 24px;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
 .ec-header h3{font-size:16px;font-weight:700;color:var(--g900)}
 .ec-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;background:#ecfdf5;color:var(--green)}
+.ec-badge.completed{background:#eff6ff;color:var(--blue)}
+.ec-badge.dropped{background:#fef2f2;color:var(--red)}
+.ec-badge.on_hold{background:#fffbeb;color:var(--amber)}
 .ec-body{padding:20px 24px}
 .ec-course{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
-.ec-thumb{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
-.ec-thumb.coding{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
-.ec-thumb.marketing{background:linear-gradient(135deg,var(--p500),#f472b6)}
-.ec-thumb.commerce{background:linear-gradient(135deg,#f59e0b,#f97316)}
+.ec-thumb{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;background:linear-gradient(135deg,#6366f1,#8b5cf6)}
 .ec-info h4{font-size:15px;font-weight:700;color:var(--g900);margin-bottom:2px}
 .ec-info p{font-size:12px;color:var(--g500)}
 .ec-mentor-small{font-size:12px;color:var(--g400);margin-top:4px}
@@ -130,24 +137,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 .mod-item.locked{color:var(--g400)}
 .mod-check{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:var(--g200);color:var(--g400);font-weight:700}
 
-/* RIGHT COL */
-/* MENTOR CARD */
-.mentor-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:24px;margin-bottom:20px}
-.mentor-card h3{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:16px;display:flex;align-items:center;gap:6px}
-.mentor-profile{display:flex;flex-direction:column;align-items:center;text-align:center}
-.mentor-avatar{width:72px;height:72px;background:linear-gradient(135deg,var(--p500),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--w);font-size:24px;font-weight:700;margin-bottom:12px}
-.mentor-name{font-size:16px;font-weight:700;color:var(--g900);margin-bottom:2px}
-.mentor-title{font-size:12px;color:var(--g500);margin-bottom:4px}
-.mentor-company{font-size:11px;color:var(--p500);font-weight:600;margin-bottom:14px}
-.mentor-bio{font-size:12px;color:var(--g500);line-height:1.6;margin-bottom:16px}
-.mentor-actions{display:flex;gap:8px;width:100%}
-.mentor-actions a,.mentor-actions button{flex:1;padding:9px 14px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;text-align:center;transition:all 0.2s;cursor:pointer;font-family:inherit;border:none}
-.mentor-msg{background:var(--p500);color:var(--w)}
-.mentor-msg:hover{background:var(--p600)}
-.mentor-email{background:var(--g100);color:var(--g700)}
-.mentor-email:hover{background:var(--g200)}
-
-/* BILLING */
+/* BILLING CARD (small) */
 .billing-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:24px;margin-bottom:20px}
 .billing-card h3{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:16px;display:flex;align-items:center;gap:6px}
 .bill-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--g100)}
@@ -157,23 +147,80 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 .bill-val.paid{color:var(--green)}
 .bill-val.pending{color:var(--amber)}
 .bill-val.total{color:var(--g900);font-size:15px}
-.invoice-btn{width:100%;margin-top:12px;padding:10px;border:1.5px solid var(--g200);border-radius:10px;background:var(--w);font-size:13px;font-weight:600;color:var(--g700);cursor:pointer;transition:all 0.2s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
-.invoice-btn:hover{border-color:var(--p300);color:var(--p600);background:var(--p50)}
 
-/* ANNOUNCEMENTS */
-.announce-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:24px}
-.announce-card h3{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:16px;display:flex;align-items:center;gap:6px}
-.announce-list{list-style:none;display:flex;flex-direction:column;gap:12px}
-.announce-item{display:flex;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--g100)}
-.announce-item:last-child{border:none;padding-bottom:0}
-.ann-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.ann-icon.info{background:#eff6ff}
-.ann-icon.warn{background:#fffbeb}
-.ann-icon.success{background:#ecfdf5}
-.ann-icon.live{background:#fef2f2}
-.ann-text{font-size:13px;color:var(--g700);line-height:1.5}
-.ann-text strong{font-weight:600}
-.ann-time{font-size:11px;color:var(--g400);margin-top:2px}
+/* STATUS BADGES */
+.badge-status{font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;display:inline-block}
+.badge-status.active,.badge-status.present,.badge-status.completed,.badge-status.graded,.badge-status.resolved{background:#ecfdf5;color:var(--green)}
+.badge-status.pending,.badge-status.late,.badge-status.on_hold,.badge-status.in_progress{background:#fffbeb;color:var(--amber)}
+.badge-status.absent,.badge-status.failed,.badge-status.dropped,.badge-status.open{background:#fef2f2;color:var(--red)}
+.badge-status.submitted{background:#eff6ff;color:var(--blue)}
+.badge-status.closed{background:var(--g100);color:var(--g500)}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{text-align:left;padding:10px 14px;font-size:11px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--g100);background:var(--g50)}
+.data-table td{padding:12px 14px;font-size:13px;color:var(--g700);border-bottom:1px solid var(--g100)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--g50)}
+
+/* ASSIGNMENTS LIST */
+.assign-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--g100)}
+.assign-item:last-child{border:none}
+.assign-info h4{font-size:14px;font-weight:600;color:var(--g800);margin-bottom:2px}
+.assign-info p{font-size:12px;color:var(--g500)}
+.assign-right{text-align:right}
+.assign-right .grade{font-size:16px;font-weight:700;color:var(--green)}
+
+/* ATTENDANCE */
+.att-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;margin-top:16px}
+.att-dot{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:default;transition:transform 0.15s}
+.att-dot:hover{transform:scale(1.15)}
+.att-dot.present{background:#ecfdf5;color:var(--green)}
+.att-dot.absent{background:#fef2f2;color:var(--red)}
+.att-dot.late{background:#fffbeb;color:var(--amber)}
+.att-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.att-summary-item{background:var(--g50);border:1px solid var(--g100);border-radius:10px;padding:14px;text-align:center}
+.att-summary-item .num{font-size:22px;font-weight:800;color:var(--g900)}
+.att-summary-item .lbl{font-size:11px;color:var(--g500);font-weight:500;margin-top:2px}
+
+/* FILTER TABS */
+.filter-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.filter-tab{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--g200);background:var(--w);color:var(--g500);cursor:pointer;transition:all 0.2s;font-family:inherit}
+.filter-tab:hover{border-color:var(--p200);color:var(--p500)}
+.filter-tab.active{background:var(--p500);color:var(--w);border-color:var(--p500)}
+
+/* SUPPORT */
+.ticket-form{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.ticket-form label{font-size:13px;font-weight:600;color:var(--g700)}
+.ticket-form input,.ticket-form textarea,.ticket-form select{padding:10px 14px;border:1.5px solid var(--g200);border-radius:10px;font-size:13px;font-family:inherit;transition:border-color 0.2s;background:var(--w);color:var(--g800)}
+.ticket-form input:focus,.ticket-form textarea:focus,.ticket-form select:focus{outline:none;border-color:var(--p500)}
+.ticket-form textarea{resize:vertical;min-height:80px}
+.btn-primary{padding:10px 20px;background:var(--p500);color:var(--w);border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.btn-primary:hover{background:var(--p600)}
+.btn-primary:disabled{opacity:0.6;cursor:not-allowed}
+
+/* CURRICULUM */
+.curriculum-module{margin-bottom:16px;border:1px solid var(--g200);border-radius:12px;overflow:hidden}
+.curriculum-module-header{padding:14px 18px;background:var(--g50);font-size:14px;font-weight:700;color:var(--g800);display:flex;align-items:center;gap:8px;cursor:pointer;border:none;width:100%;text-align:left;font-family:inherit;transition:background 0.2s}
+.curriculum-module-header:hover{background:var(--g100)}
+.curriculum-module-body{padding:14px 18px;display:none}
+.curriculum-module.open .curriculum-module-body{display:block}
+.curriculum-topic{padding:6px 0;font-size:13px;color:var(--g600);display:flex;align-items:center;gap:8px}
+.curriculum-topic::before{content:'';width:6px;height:6px;background:var(--p300);border-radius:50%;flex-shrink:0}
+
+/* COURSE DETAIL */
+.course-detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.course-detail-item{background:var(--g50);border:1px solid var(--g100);border-radius:10px;padding:16px}
+.course-detail-item .lbl{font-size:11px;color:var(--g500);font-weight:500;margin-bottom:4px}
+.course-detail-item .val{font-size:14px;font-weight:700;color:var(--g800)}
+.tools-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tool-tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;background:var(--p50);color:var(--p600);border:1px solid var(--p100)}
+
+/* NO DATA / SETUP */
+.no-data{text-align:center;padding:48px 24px}
+.no-data .icon{font-size:48px;margin-bottom:16px}
+.no-data h3{font-size:18px;font-weight:700;color:var(--g800);margin-bottom:8px}
+.no-data p{font-size:14px;color:var(--g500);max-width:400px;margin:0 auto}
 
 /* MOBILE OVERLAY */
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:90}
@@ -198,11 +245,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 .stat-card{padding:16px}
 .sc-val{font-size:20px}
 .dash-grid{gap:16px}
-.ec-header,.ec-body{padding:16px}
-.mentor-card,.billing-card,.announce-card{padding:18px}
+.ec-header,.ec-body,.card-header,.card-body{padding:16px}
+.billing-card{padding:18px}
+.data-table{font-size:12px}
+.data-table th,.data-table td{padding:8px 10px}
 }
 @media(max-width:480px){
 .stat-row{grid-template-columns:1fr}
+.course-detail-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -221,7 +271,18 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 <div class="skel-card skeleton" style="height:300px"></div>
 </div>
 
-<!-- DASHBOARD (hidden until loaded) -->
+<!-- ACCOUNT SETUP STATE -->
+<div id="setupState" style="display:none;min-height:100vh;display:none;align-items:center;justify-content:center;padding:24px">
+<div class="no-data">
+<div class="icon">🎓</div>
+<h3>Your Account is Being Set Up</h3>
+<p>Welcome to UpliftEdu! Our team is currently setting up your student profile. This usually takes a few hours after enrollment. Please check back soon!</p>
+<br>
+<button class="btn-primary" onclick="logout()" style="margin-top:12px">Sign Out</button>
+</div>
+</div>
+
+<!-- DASHBOARD -->
 <div class="dash-layout" id="dashLayout" style="display:none">
 
 <!-- SIDEBAR -->
@@ -231,20 +292,18 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 <span>Uplift<em>Edu</em></span>
 </div>
 <div class="sb-nav">
-<a class="sb-link active" href="#"><span class="icon">📊</span> Dashboard</a>
-<a class="sb-link" href="#"><span class="icon">📚</span> My Courses</a>
-<a class="sb-link" href="#"><span class="icon">🎥</span> Live Classes <span class="badge">1</span></a>
-<a class="sb-link" href="#"><span class="icon">📝</span> Assignments</a>
-<a class="sb-link" href="#"><span class="icon">📜</span> Certificates</a>
+<button class="sb-link active" data-page="overview"><span class="icon">📊</span> Dashboard</button>
+<button class="sb-link" data-page="course"><span class="icon">📚</span> My Course</button>
+<button class="sb-link" data-page="attendance"><span class="icon">📅</span> Attendance</button>
+<button class="sb-link" data-page="assignments"><span class="icon">📝</span> Assignments</button>
 <div class="sb-divider"></div>
-<a class="sb-link" href="#"><span class="icon">💳</span> Billing</a>
-<a class="sb-link" href="#"><span class="icon">👤</span> Profile</a>
-<a class="sb-link" href="#"><span class="icon">⚙️</span> Settings</a>
+<button class="sb-link" data-page="payments"><span class="icon">💳</span> Payments</button>
+<button class="sb-link" data-page="support"><span class="icon">🎧</span> Support</button>
 <div class="sb-divider"></div>
 <a class="sb-link" href="index.html"><span class="icon">🌐</span> Browse Courses</a>
 </div>
 <div class="sb-user">
-<div class="sb-avatar" id="sbAvatar">AK</div>
+<div class="sb-avatar" id="sbAvatar">U</div>
 <div class="sb-user-info">
 <div class="sb-user-name" id="sbName">Student</div>
 <div class="sb-user-email" id="sbEmail">student@upliftedu.in</div>
@@ -261,53 +320,54 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 <div class="topbar">
 <div class="topbar-left">
 <button class="menu-toggle" onclick="openSidebar()">☰</button>
-<h1 id="greeting">Dashboard</h1>
+<h1 id="pageTitle">Dashboard</h1>
 </div>
 <div class="topbar-right">
-<button class="notif-btn">🔔<span class="notif-dot"></span></button>
+<button class="notif-btn" onclick="navigateTo('support')">🔔<span class="notif-dot" id="notifDot" style="display:none"></span></button>
 </div>
 </div>
 
 <div class="content">
 
+<!-- ==================== PAGE: OVERVIEW ==================== -->
+<div class="page-view active" id="page-overview">
+
 <!-- WELCOME -->
 <div class="welcome">
-<h2 id="welcomeText">Good morning, Student!</h2>
-<p>You have a live class scheduled today. Keep up the great work!</p>
-<a href="#" class="live-banner" id="liveBtn" target="_blank" rel="noopener">
-<span class="pulse"></span>
-<span id="liveBtnText">Join Live Class — React.js Session</span>
-</a>
+<h2 id="welcomeText">Welcome!</h2>
+<p id="welcomeSub"></p>
+<div class="welcome-sub" id="welcomeBatch"></div>
 </div>
 
 <!-- STAT CARDS -->
 <div class="stat-row">
 <div class="stat-card">
-<div class="sc-top"><div class="sc-icon pink">📊</div><span class="sc-change up">On Track</span></div>
-<div class="sc-val" id="statProgress">45%</div>
-<div class="sc-label">Course Progress</div>
+<div class="sc-top"><div class="sc-icon pink">📊</div><span class="sc-change neutral" id="statAttLabel">--</span></div>
+<div class="sc-val" id="statAttendance">--</div>
+<div class="sc-label">Attendance Rate</div>
 </div>
 <div class="stat-card">
-<div class="sc-top"><div class="sc-icon blue">📚</div><span class="sc-change neutral">Current</span></div>
-<div class="sc-val" id="statModules">4/10</div>
-<div class="sc-label">Modules Completed</div>
+<div class="sc-top"><div class="sc-icon blue">📝</div><span class="sc-change neutral">Assignments</span></div>
+<div class="sc-val" id="statAssignments">--</div>
+<div class="sc-label">Completed / Total</div>
 </div>
 <div class="stat-card">
-<div class="sc-top"><div class="sc-icon green">⏱️</div><span class="sc-change up">+3h this week</span></div>
-<div class="sc-val" id="statHours">48h</div>
-<div class="sc-label">Learning Hours</div>
+<div class="sc-top"><div class="sc-icon green">💳</div><span class="sc-change neutral" id="statFeeLabel">--</span></div>
+<div class="sc-val" id="statFee">--</div>
+<div class="sc-label">Fee Paid / Total</div>
 </div>
 <div class="stat-card">
-<div class="sc-top"><div class="sc-icon purple">🏅</div><span class="sc-change neutral">Next: Module 5</span></div>
-<div class="sc-val" id="statAssign">12/15</div>
-<div class="sc-label">Assignments Done</div>
+<div class="sc-top"><div class="sc-icon purple">⏱️</div><span class="sc-change neutral" id="statDaysLabel">--</span></div>
+<div class="sc-val" id="statDays">--</div>
+<div class="sc-label">Days Remaining</div>
 </div>
 </div>
 
 <!-- MAIN GRID -->
 <div class="dash-grid">
-<!-- LEFT: COURSE + PROGRESS -->
+<!-- LEFT -->
 <div>
+<!-- ENROLLED COURSE -->
 <div class="enrolled-card">
 <div class="ec-header">
 <h3>Active Enrollment</h3>
@@ -315,105 +375,191 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 </div>
 <div class="ec-body">
 <div class="ec-course">
-<div class="ec-thumb coding" id="courseThumb">💻</div>
+<div class="ec-thumb" id="courseThumb">📚</div>
 <div class="ec-info">
-<h4 id="courseName">Full Stack Development</h4>
-<p id="courseMeta">7 Months · 80+ Sessions · Batch March 2026</p>
-<div class="ec-mentor-small">Mentor: <strong id="courseMentor">Akhil Unnikrishnan</strong></div>
+<h4 id="courseName">--</h4>
+<p id="courseMeta">--</p>
+<div class="ec-mentor-small">Mentor: <strong id="courseMentor">--</strong></div>
 </div>
 </div>
-
-<!-- PROGRESS -->
 <div class="progress-section">
 <div class="prog-header">
-<span>Overall Progress</span>
-<em id="progPercent">45%</em>
+<span>Course Progress</span>
+<em id="progPercent">0%</em>
 </div>
 <div class="prog-bar">
 <div class="prog-fill" id="progFill" style="width:0%"></div>
 </div>
 </div>
-
-<!-- MODULES -->
-<ul class="mod-list" id="modList">
-<li class="mod-item done"><span class="mod-check">✓</span>Module 1: Fundamentals & Git</li>
-<li class="mod-item done"><span class="mod-check">✓</span>Module 2: HTML5, CSS3 & Bootstrap</li>
-<li class="mod-item done"><span class="mod-check">✓</span>Module 3: Responsive Web Design</li>
-<li class="mod-item done"><span class="mod-check">✓</span>Module 4: JavaScript Fundamentals</li>
-<li class="mod-item current"><span class="mod-check">▶</span>Module 5: ES6+ & Advanced JS</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 6: React.js</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 7: React Hooks</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 8: Databases</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 9: Node.js & Express</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 10: Capstone Projects</li>
-</ul>
+<ul class="mod-list" id="modList"></ul>
 </div>
 </div>
 
-<!-- ANNOUNCEMENTS -->
-<div class="announce-card" style="margin-top:24px">
-<h3>📢 What's Happening</h3>
-<ul class="announce-list">
-<li class="announce-item">
-<div class="ann-icon live">🔴</div>
-<div><div class="ann-text"><strong>Live Class Today at 7:00 PM</strong> — ES6 Destructuring & Spread Syntax with Akhil</div><div class="ann-time">Today</div></div>
-</li>
-<li class="announce-item">
-<div class="ann-icon warn">⚠️</div>
-<div><div class="ann-text"><strong>Assignment Due:</strong> JavaScript Array Methods — submit by March 21</div><div class="ann-time">2 days left</div></div>
-</li>
-<li class="announce-item">
-<div class="ann-icon success">✅</div>
-<div><div class="ann-text">You scored <strong>92%</strong> on the Module 4 assessment. Great job!</div><div class="ann-time">Yesterday</div></div>
-</li>
-<li class="announce-item">
-<div class="ann-icon info">💡</div>
-<div><div class="ann-text"><strong>New Resource:</strong> ES6 Cheat Sheet uploaded to the learning portal</div><div class="ann-time">2 days ago</div></div>
-</li>
-<li class="announce-item">
-<div class="ann-icon info">📅</div>
-<div><div class="ann-text"><strong>Schedule Update:</strong> Saturday session moved to 10 AM instead of 9 AM</div><div class="ann-time">3 days ago</div></div>
-</li>
-</ul>
+<!-- UPCOMING ASSIGNMENTS -->
+<div class="card" style="margin-top:24px">
+<div class="card-header"><h3>📝 Upcoming Assignments</h3></div>
+<div class="card-body" id="upcomingAssignments">
+<div class="no-data" style="padding:24px"><p>No upcoming assignments</p></div>
+</div>
 </div>
 </div>
 
-<!-- RIGHT COLUMN -->
+<!-- RIGHT -->
 <div>
-<!-- MENTOR -->
-<div class="mentor-card">
-<h3>👨‍🏫 Your Mentor</h3>
-<div class="mentor-profile">
-<div class="mentor-avatar" id="mentorAvatar">AU</div>
-<div class="mentor-name" id="mentorName">Akhil Unnikrishnan</div>
-<div class="mentor-title">Senior Software Engineer</div>
-<div class="mentor-company">Ex-Samsung STAR Labs</div>
-<p class="mentor-bio">10+ years in full stack development. Founding member at Samsung STAR Labs. Expert in React, Node.js, and cloud architecture. Passionate about mentoring the next generation of developers.</p>
-<div class="mentor-actions">
-<button class="mentor-msg" onclick="alert('Messaging feature coming soon!')">Message</button>
-<a class="mentor-email" href="mailto:mentor@upliftedu.in">Email</a>
-</div>
-</div>
-</div>
-
-<!-- BILLING -->
+<!-- BILLING SUMMARY -->
 <div class="billing-card">
 <h3>💳 Billing Summary</h3>
-<div class="bill-row"><span class="bill-label">Course Fee</span><span class="bill-val total">₹49,999</span></div>
-<div class="bill-row"><span class="bill-label">Amount Paid</span><span class="bill-val paid">₹35,000</span></div>
-<div class="bill-row"><span class="bill-label">Pending Balance</span><span class="bill-val pending">₹14,999</span></div>
-<div class="bill-row"><span class="bill-label">Next EMI Due</span><span class="bill-val">April 5, 2026</span></div>
-<div class="bill-row"><span class="bill-label">Payment Plan</span><span class="bill-val">3-Month EMI</span></div>
-<button class="invoice-btn" onclick="downloadInvoice()">📄 Download Invoice (PDF)</button>
+<div id="billingSummary">
+<div class="bill-row"><span class="bill-label">Loading...</span><span class="bill-val">--</span></div>
+</div>
 </div>
 
-<!-- UPCOMING -->
+<!-- RECENT PAYMENTS -->
 <div class="billing-card">
-<h3>📅 Upcoming Schedule</h3>
-<div class="bill-row"><span class="bill-label">Today, 7 PM</span><span class="bill-val" style="color:var(--green)">ES6 Advanced JS</span></div>
-<div class="bill-row"><span class="bill-label">Thu, 7 PM</span><span class="bill-val">Async/Await</span></div>
-<div class="bill-row"><span class="bill-label">Sat, 10 AM</span><span class="bill-val">JS Project Review</span></div>
-<div class="bill-row"><span class="bill-label">Mon, 7 PM</span><span class="bill-val">Intro to React</span></div>
+<h3>📄 Recent Payments</h3>
+<div id="recentPayments">
+<div class="bill-row"><span class="bill-label">Loading...</span><span class="bill-val">--</span></div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- /page-overview -->
+
+<!-- ==================== PAGE: MY COURSE ==================== -->
+<div class="page-view" id="page-course">
+<div class="welcome" style="margin-bottom:24px">
+<h2 id="coursePageTitle">My Course</h2>
+<p id="coursePageSub">--</p>
+</div>
+
+<!-- COURSE DETAILS -->
+<div class="course-detail-grid" id="courseDetails"></div>
+
+<!-- TOOLS -->
+<div class="card" id="courseToolsCard" style="display:none">
+<div class="card-header"><h3>🛠 Tools & Technologies</h3></div>
+<div class="card-body">
+<div class="tools-list" id="courseTools"></div>
+</div>
+</div>
+
+<!-- BATCH INFO -->
+<div class="card">
+<div class="card-header"><h3>📅 Batch Information</h3></div>
+<div class="card-body" id="batchInfo">Loading...</div>
+</div>
+
+<!-- CURRICULUM -->
+<div class="card" style="margin-top:20px">
+<div class="card-header"><h3>📖 Curriculum</h3></div>
+<div class="card-body" id="curriculumList">Loading...</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: ATTENDANCE ==================== -->
+<div class="page-view" id="page-attendance">
+<div class="welcome" style="margin-bottom:24px">
+<h2>Attendance</h2>
+<p>Track your class attendance record</p>
+</div>
+<div class="att-summary" id="attSummary"></div>
+<div class="card">
+<div class="card-header"><h3>📅 Attendance Record</h3></div>
+<div class="card-body">
+<div style="display:flex;gap:12px;margin-bottom:12px;font-size:12px;color:var(--g500)">
+<span><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:#ecfdf5;margin-right:4px;vertical-align:middle"></span> Present</span>
+<span><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:#fef2f2;margin-right:4px;vertical-align:middle"></span> Absent</span>
+<span><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:#fffbeb;margin-right:4px;vertical-align:middle"></span> Late</span>
+</div>
+<div class="att-grid" id="attGrid"></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: ASSIGNMENTS ==================== -->
+<div class="page-view" id="page-assignments">
+<div class="welcome" style="margin-bottom:24px">
+<h2>Assignments</h2>
+<p>View all your assignments, grades, and feedback</p>
+</div>
+<div class="filter-tabs" id="assignFilterTabs">
+<button class="filter-tab active" data-filter="all">All</button>
+<button class="filter-tab" data-filter="pending">Pending</button>
+<button class="filter-tab" data-filter="submitted">Submitted</button>
+<button class="filter-tab" data-filter="graded">Graded</button>
+<button class="filter-tab" data-filter="late">Late</button>
+</div>
+<div class="card">
+<div class="card-body" id="assignmentsList">Loading...</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: PAYMENTS ==================== -->
+<div class="page-view" id="page-payments">
+<div class="welcome" style="margin-bottom:24px">
+<h2>Payments</h2>
+<p>Track your fee payments and balance</p>
+</div>
+<!-- FEE SUMMARY -->
+<div class="stat-row" style="margin-bottom:24px" id="feeSummaryCards"></div>
+<!-- PAYMENT HISTORY -->
+<div class="card">
+<div class="card-header"><h3>📄 Payment History</h3></div>
+<div class="card-body" style="overflow-x:auto">
+<table class="data-table" id="paymentTable">
+<thead>
+<tr><th>Date</th><th>Amount</th><th>Method</th><th>Transaction ID</th><th>Status</th><th>Notes</th></tr>
+</thead>
+<tbody id="paymentTableBody">
+<tr><td colspan="6" style="text-align:center;color:var(--g400)">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: SUPPORT ==================== -->
+<div class="page-view" id="page-support">
+<div class="welcome" style="margin-bottom:24px">
+<h2>Support</h2>
+<p>Get help from the UpliftEdu team</p>
+</div>
+
+<div class="dash-grid">
+<div>
+<!-- TICKETS LIST -->
+<div class="card">
+<div class="card-header"><h3>🎧 Your Tickets</h3></div>
+<div class="card-body" id="ticketsList">Loading...</div>
+</div>
+</div>
+<div>
+<!-- NEW TICKET FORM -->
+<div class="card">
+<div class="card-header"><h3>➕ Create New Ticket</h3></div>
+<div class="card-body">
+<form class="ticket-form" id="ticketForm" onsubmit="submitTicket(event)">
+<div>
+<label>Subject</label>
+<input type="text" id="ticketSubject" placeholder="Brief description of your issue" required>
+</div>
+<div>
+<label>Priority</label>
+<select id="ticketPriority">
+<option value="low">Low</option>
+<option value="medium" selected>Medium</option>
+<option value="high">High</option>
+</select>
+</div>
+<div>
+<label>Description</label>
+<textarea id="ticketDescription" placeholder="Describe your issue in detail..." required></textarea>
+</div>
+<button type="submit" class="btn-primary" id="ticketSubmitBtn">Submit Ticket</button>
+</form>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -423,164 +569,574 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 </div><!-- /dash-layout -->
 
 <script>
-// AUTH CHECK
-function checkAuth(){
-const s=localStorage.getItem('ue_session');
-if(!s){window.location.href='login.html';return null;}
-try{
-const session=JSON.parse(s);
-if(!session.token||Date.now()-session.loginAt>86400000){
-localStorage.removeItem('ue_session');
-window.location.href='login.html';
-return null;
-}
-return session;
-}catch(e){
-localStorage.removeItem('ue_session');
-window.location.href='login.html';
-return null;
-}
-}
+// ============================================================
+// SUPABASE INIT
+// ============================================================
+const SUPABASE_URL='https://rxqzmevcmsdfadqqrter.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4cXptZXZjbXNkZmFkcXFydGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjAxNjksImV4cCI6MjA4OTUzNjE2OX0.ReMqgMVCRhFCinIaW2N8-YxwhlPDzXQAKBFfs67K0lM';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
-// INIT
-function initDashboard(){
-const session=checkAuth();
-if(!session)return;
+// ============================================================
+// GLOBAL STATE
+// ============================================================
+let currentUser=null;
+let studentData=null;
+let courseData=null;
+let batchData=null;
+let attendanceData=[];
+let assignmentsData=[];
+let paymentsData=[];
+let ticketsData=[];
+let currentPage='overview';
+let assignFilter='all';
 
-// Simulate loading
-setTimeout(()=>{
-document.getElementById('loadingState').style.display='none';
-document.getElementById('dashLayout').style.display='flex';
-
-// Populate user data
-document.getElementById('sbAvatar').textContent=session.avatar||'U';
-document.getElementById('sbName').textContent=session.name;
-document.getElementById('sbEmail').textContent=session.email;
-
-// Greeting
-const hour=new Date().getHours();
-const greet=hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
-document.getElementById('welcomeText').textContent=`${greet}, ${session.name.split(' ')[0]}!`;
-document.getElementById('greeting').textContent='Dashboard';
-
-// Course-specific data
-if(session.course==='Data Science'){
-document.getElementById('courseName').textContent='Data Science';
-document.getElementById('courseMeta').textContent='6 Months · 80+ Sessions · Batch March 2026';
-document.getElementById('courseThumb').textContent='🧬';
-document.getElementById('courseThumb').className='ec-thumb coding';
-document.getElementById('statProgress').textContent='38%';
-document.getElementById('progPercent').textContent='38%';
-document.getElementById('statModules').textContent='3/9';
-document.getElementById('statHours').textContent='36h';
-document.getElementById('statAssign').textContent='9/12';
-document.getElementById('mentorName').textContent='Dinesh Karthik R';
-document.getElementById('mentorAvatar').textContent='DK';
-document.getElementById('courseMentor').textContent='Dinesh Karthik R';
-document.querySelector('.mentor-title').textContent='Senior Data Engineer';
-document.querySelector('.mentor-company').textContent='Tesla';
-document.querySelector('.mentor-bio').textContent='8+ years in data engineering and machine learning. Currently at Tesla. Expert in Python, SQL, and large-scale data pipelines.';
-document.getElementById('liveBtnText').textContent='Join Live Class — Python Data Structures';
-
-// Update modules
-document.getElementById('modList').innerHTML=`
-<li class="mod-item done"><span class="mod-check">✓</span>Module 1: Preparatory Session</li>
-<li class="mod-item done"><span class="mod-check">✓</span>Module 2: Python Programming</li>
-<li class="mod-item done"><span class="mod-check">✓</span>Module 3: Advanced Python</li>
-<li class="mod-item current"><span class="mod-check">▶</span>Module 4: Data Analysis Libraries</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 5: Data Visualization</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 6: MySQL Database</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 7: Power BI</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 8: Machine Learning</li>
-<li class="mod-item locked"><span class="mod-check">🔒</span>Module 9: Capstone Projects</li>`;
-
-setTimeout(()=>{document.getElementById('progFill').style.width='38%'},100);
-} else {
-document.getElementById('courseMentor').textContent=session.mentor||'Akhil Unnikrishnan';
-setTimeout(()=>{document.getElementById('progFill').style.width='45%'},100);
+// ============================================================
+// AUTH GUARD
+// ============================================================
+async function checkAuth(){
+  const{data:{session},error}=await sb.auth.getSession();
+  if(!session){
+    window.location.href='login.html';
+    return null;
+  }
+  return session;
 }
 
-// Live class state management
-updateLiveButton();
-setInterval(updateLiveButton,60000);
-
-},800);
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+function formatCurrency(n){
+  if(n==null)return '--';
+  return '₹'+Number(n).toLocaleString('en-IN');
+}
+function formatDate(d){
+  if(!d)return '--';
+  return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+}
+function formatDateShort(d){
+  if(!d)return '--';
+  return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+function getInitials(name){
+  if(!name)return 'U';
+  return name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+}
+function getGreeting(){
+  const h=new Date().getHours();
+  return h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+}
+function daysBetween(a,b){
+  return Math.ceil((new Date(b)-new Date(a))/(1000*60*60*24));
+}
+function getCourseEmoji(category){
+  const map={'coding':'💻','programming':'💻','development':'💻','data':'🧬','data science':'🧬','marketing':'📈','digital marketing':'📈','design':'🎨','commerce':'📊','business':'📊'};
+  if(!category)return '📚';
+  const c=category.toLowerCase();
+  for(const[k,v]of Object.entries(map)){if(c.includes(k))return v;}
+  return '📚';
 }
 
-function updateLiveButton(){
-const now=new Date();
-const hour=now.getHours();
-const min=now.getMinutes();
-const btn=document.getElementById('liveBtn');
-const text=document.getElementById('liveBtnText');
-
-// Class at 19:00 (7 PM) — active from 18:45 to 20:30
-if(hour===19||(hour===18&&min>=45)||(hour===20&&min<=30)){
-btn.className='live-banner';
-btn.href='https://meet.google.com/upliftedu-live';
-text.innerHTML='<strong>LIVE NOW</strong> — Join Class';
-} else if(hour>=17&&hour<19){
-btn.className='live-banner upcoming';
-const minsUntil=(19-hour)*60-min;
-text.textContent=`Class starts in ${minsUntil} min — ES6 Advanced JS`;
-if(minsUntil<=15){
-btn.className='live-banner';
-btn.href='https://meet.google.com/upliftedu-live';
-}
-} else {
-btn.className='live-banner inactive';
-btn.removeAttribute('href');
-text.textContent='Next class: Today at 7:00 PM';
-}
+// ============================================================
+// NAVIGATION
+// ============================================================
+function navigateTo(page){
+  currentPage=page;
+  document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.sb-link[data-page]').forEach(l=>{
+    l.classList.toggle('active',l.dataset.page===page);
+  });
+  const titles={overview:'Dashboard',course:'My Course',attendance:'Attendance',assignments:'Assignments',payments:'Payments',support:'Support'};
+  document.getElementById('pageTitle').textContent=titles[page]||'Dashboard';
+  closeSidebar();
 }
 
-function downloadInvoice(){
-// Generate a simple PDF-like invoice
-const invoiceHTML=`
-<html><head><title>Invoice - UpliftEdu</title>
-<style>body{font-family:Arial,sans-serif;padding:40px;color:#333}
-.header{display:flex;justify-content:space-between;border-bottom:2px solid #ef5179;padding-bottom:20px;margin-bottom:30px}
-.logo{font-size:24px;font-weight:bold}.logo span{color:#ef5179}
-table{width:100%;border-collapse:collapse;margin:20px 0}
-th,td{padding:12px;text-align:left;border-bottom:1px solid #eee}
-th{background:#f9fafb;font-weight:600}
-.total{font-size:18px;font-weight:bold;color:#ef5179}
-.footer{margin-top:40px;padding-top:20px;border-top:1px solid #eee;font-size:12px;color:#999}
-</style></head><body>
-<div class="header"><div class="logo">Uplift<span>Edu</span></div><div>INVOICE<br><small>Date: March 19, 2026</small><br><small>Invoice #: UE-2026-0342</small></div></div>
-<p><strong>Bill To:</strong> ${JSON.parse(localStorage.getItem('ue_session')).name}</p>
-<p>${JSON.parse(localStorage.getItem('ue_session')).email}</p>
-<table><tr><th>Description</th><th>Amount</th></tr>
-<tr><td>Full Stack Development Course (7 Months)<br><small>Batch: March 2026 · Illinois Tech + NSDC Certified</small></td><td>₹49,999</td></tr>
-<tr><td>Amount Paid (2 EMIs)</td><td style="color:#10b981">- ₹35,000</td></tr>
-<tr><td><strong>Balance Due</strong></td><td class="total">₹14,999</td></tr></table>
-<p><strong>Next EMI:</strong> ₹14,999 due by April 5, 2026</p>
-<p><strong>Payment Methods:</strong> UPI / Bank Transfer / Credit Card</p>
-<div class="footer">UpliftEdu · Chennai, Tamil Nadu, India · +91 93800 58580 · info@upliftedu.in</div>
-</body></html>`;
-const w=window.open('','_blank');
-w.document.write(invoiceHTML);
-w.document.close();
-setTimeout(()=>w.print(),500);
+// Setup nav click handlers
+document.querySelectorAll('.sb-link[data-page]').forEach(link=>{
+  link.addEventListener('click',()=>navigateTo(link.dataset.page));
+});
+
+// ============================================================
+// INIT DASHBOARD
+// ============================================================
+async function initDashboard(){
+  const session=await checkAuth();
+  if(!session)return;
+  currentUser=session.user;
+
+  // Fetch student record
+  const{data:student,error:studentErr}=await sb
+    .from('students')
+    .select('*')
+    .eq('user_id',currentUser.id)
+    .maybeSingle();
+
+  if(!student){
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('setupState').style.display='flex';
+    return;
+  }
+  studentData=student;
+
+  // Fetch all related data in parallel
+  const[courseRes,batchRes,attRes,assignRes,payRes,ticketRes]=await Promise.all([
+    student.course_id?sb.from('courses').select('*').eq('id',student.course_id).maybeSingle():Promise.resolve({data:null}),
+    student.batch_id?sb.from('batches').select('*').eq('id',student.batch_id).maybeSingle():Promise.resolve({data:null}),
+    sb.from('attendance').select('*').eq('student_id',student.id).order('date',{ascending:false}),
+    sb.from('assignments').select('*').eq('student_id',student.id).order('due_date',{ascending:true}),
+    sb.from('payments').select('*').eq('student_id',student.id).order('payment_date',{ascending:false}),
+    sb.from('support_tickets').select('*').eq('student_id',student.id).order('created_at',{ascending:false}),
+  ]);
+
+  courseData=courseRes.data;
+  batchData=batchRes.data;
+  attendanceData=attRes.data||[];
+  assignmentsData=assignRes.data||[];
+  paymentsData=payRes.data||[];
+  ticketsData=ticketRes.data||[];
+
+  // Show dashboard
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('dashLayout').style.display='flex';
+
+  renderSidebar();
+  renderOverview();
+  renderCoursePage();
+  renderAttendancePage();
+  renderAssignmentsPage();
+  renderPaymentsPage();
+  renderSupportPage();
 }
 
+// ============================================================
+// RENDER: SIDEBAR USER
+// ============================================================
+function renderSidebar(){
+  document.getElementById('sbAvatar').textContent=getInitials(studentData.name);
+  document.getElementById('sbName').textContent=studentData.name||'Student';
+  document.getElementById('sbEmail').textContent=studentData.email||currentUser.email||'';
+
+  // Show notification dot if open tickets
+  const openTickets=ticketsData.filter(t=>t.status==='open'||t.status==='in_progress');
+  if(openTickets.length>0){
+    document.getElementById('notifDot').style.display='block';
+  }
+}
+
+// ============================================================
+// RENDER: OVERVIEW PAGE
+// ============================================================
+function renderOverview(){
+  const name=(studentData.name||'Student').split(' ')[0];
+  document.getElementById('welcomeText').textContent=`${getGreeting()}, ${name}!`;
+
+  const courseName=courseData?courseData.name:'Your Course';
+  const batchTiming=batchData?batchData.timing:'';
+  document.getElementById('welcomeSub').textContent=`Enrolled in ${courseName}`;
+  if(batchTiming){
+    document.getElementById('welcomeBatch').textContent=`Batch timing: ${batchTiming}`;
+  }
+
+  // STAT: Attendance
+  const totalAtt=attendanceData.length;
+  const presentAtt=attendanceData.filter(a=>a.status==='present'||a.status==='late').length;
+  const attPct=totalAtt>0?Math.round((presentAtt/totalAtt)*100):0;
+  document.getElementById('statAttendance').textContent=attPct+'%';
+  const attLabel=document.getElementById('statAttLabel');
+  if(attPct>=80){attLabel.textContent='Good';attLabel.className='sc-change up';}
+  else if(attPct>=60){attLabel.textContent='Average';attLabel.className='sc-change neutral';}
+  else{attLabel.textContent='Low';attLabel.className='sc-change down';}
+
+  // STAT: Assignments
+  const completedAssign=assignmentsData.filter(a=>a.status==='graded'||a.status==='submitted').length;
+  document.getElementById('statAssignments').textContent=`${completedAssign}/${assignmentsData.length}`;
+
+  // STAT: Fee
+  const totalFee=studentData.total_fee||0;
+  const feePaid=studentData.fee_paid||0;
+  document.getElementById('statFee').textContent=`${formatCurrency(feePaid)}`;
+  const feeLabel=document.getElementById('statFeeLabel');
+  const feePct=totalFee>0?Math.round((feePaid/totalFee)*100):0;
+  feeLabel.textContent=`${feePct}% paid`;
+  feeLabel.className=feePct>=100?'sc-change up':feePct>=50?'sc-change neutral':'sc-change down';
+
+  // STAT: Days remaining
+  if(batchData&&batchData.end_date){
+    const today=new Date();
+    const end=new Date(batchData.end_date);
+    const remaining=Math.max(0,daysBetween(today,end));
+    document.getElementById('statDays').textContent=remaining;
+    const daysLabel=document.getElementById('statDaysLabel');
+    if(remaining>30){daysLabel.textContent='In Progress';daysLabel.className='sc-change up';}
+    else if(remaining>0){daysLabel.textContent='Almost Done';daysLabel.className='sc-change neutral';}
+    else{daysLabel.textContent='Completed';daysLabel.className='sc-change up';}
+  }else{
+    document.getElementById('statDays').textContent='--';
+  }
+
+  // ENROLLED COURSE CARD
+  const statusMap={active:'Active',completed:'Completed',dropped:'Dropped',on_hold:'On Hold'};
+  const enrollBadge=document.getElementById('enrollStatus');
+  enrollBadge.textContent=statusMap[studentData.status]||studentData.status||'Active';
+  enrollBadge.className='ec-badge '+(studentData.status||'active');
+
+  if(courseData){
+    document.getElementById('courseThumb').textContent=getCourseEmoji(courseData.category);
+    document.getElementById('courseName').textContent=courseData.name;
+    const dur=courseData.duration_weeks?Math.round(courseData.duration_weeks/4)+' Months':'';
+    const batchName=batchData?batchData.name:'';
+    document.getElementById('courseMeta').textContent=[dur,batchName].filter(Boolean).join(' · ');
+  }
+  document.getElementById('courseMentor').textContent=studentData.mentor_name||'--';
+
+  // PROGRESS (based on weeks elapsed / total weeks)
+  let progPct=0;
+  if(courseData&&courseData.duration_weeks&&batchData&&batchData.start_date){
+    const start=new Date(batchData.start_date);
+    const now=new Date();
+    const weeksElapsed=Math.max(0,(now-start)/(1000*60*60*24*7));
+    progPct=Math.min(100,Math.round((weeksElapsed/courseData.duration_weeks)*100));
+  }
+  document.getElementById('progPercent').textContent=progPct+'%';
+  setTimeout(()=>{document.getElementById('progFill').style.width=progPct+'%';},100);
+
+  // CURRICULUM MODULES in overview
+  const modList=document.getElementById('modList');
+  modList.innerHTML='';
+  if(courseData&&courseData.curriculum&&Array.isArray(courseData.curriculum)){
+    const totalMods=courseData.curriculum.length;
+    const currentModIdx=Math.floor((progPct/100)*totalMods);
+    courseData.curriculum.forEach((mod,i)=>{
+      const li=document.createElement('li');
+      const modName=typeof mod==='string'?mod:(mod.name||mod.title||`Module ${i+1}`);
+      if(i<currentModIdx){
+        li.className='mod-item done';
+        li.innerHTML=`<span class="mod-check">✓</span>${modName}`;
+      }else if(i===currentModIdx){
+        li.className='mod-item current';
+        li.innerHTML=`<span class="mod-check">▶</span>${modName}`;
+      }else{
+        li.className='mod-item locked';
+        li.innerHTML=`<span class="mod-check">🔒</span>${modName}`;
+      }
+      modList.appendChild(li);
+    });
+  }
+
+  // UPCOMING ASSIGNMENTS
+  const upcomingEl=document.getElementById('upcomingAssignments');
+  const pending=assignmentsData.filter(a=>a.status==='pending').sort((a,b)=>new Date(a.due_date)-new Date(b.due_date));
+  if(pending.length===0){
+    upcomingEl.innerHTML='<div style="text-align:center;padding:20px;color:var(--g400)">No pending assignments</div>';
+  }else{
+    upcomingEl.innerHTML=pending.slice(0,5).map(a=>{
+      const dueDate=a.due_date?new Date(a.due_date):null;
+      const isOverdue=dueDate&&dueDate<new Date();
+      return `<div class="assign-item">
+        <div class="assign-info">
+          <h4>${a.title||'Untitled'}</h4>
+          <p>Due: ${formatDate(a.due_date)}${isOverdue?' <span style="color:var(--red);font-weight:600">(Overdue)</span>':''}</p>
+        </div>
+        <span class="badge-status pending">Pending</span>
+      </div>`;
+    }).join('');
+  }
+
+  // BILLING SUMMARY
+  const balance=totalFee-feePaid;
+  document.getElementById('billingSummary').innerHTML=`
+    <div class="bill-row"><span class="bill-label">Course Fee</span><span class="bill-val total">${formatCurrency(totalFee)}</span></div>
+    <div class="bill-row"><span class="bill-label">Amount Paid</span><span class="bill-val paid">${formatCurrency(feePaid)}</span></div>
+    <div class="bill-row"><span class="bill-label">Pending Balance</span><span class="bill-val ${balance>0?'pending':'paid'}">${formatCurrency(balance)}</span></div>
+  `;
+
+  // RECENT PAYMENTS
+  const recentEl=document.getElementById('recentPayments');
+  if(paymentsData.length===0){
+    recentEl.innerHTML='<div style="text-align:center;padding:16px;color:var(--g400)">No payment records</div>';
+  }else{
+    recentEl.innerHTML=paymentsData.slice(0,5).map(p=>`
+      <div class="bill-row">
+        <span class="bill-label">${formatDate(p.payment_date)}</span>
+        <span class="bill-val" style="display:flex;align-items:center;gap:8px">
+          ${formatCurrency(p.amount)}
+          <span class="badge-status ${p.status||'completed'}">${p.status||'completed'}</span>
+        </span>
+      </div>
+    `).join('');
+  }
+}
+
+// ============================================================
+// RENDER: MY COURSE PAGE
+// ============================================================
+function renderCoursePage(){
+  if(!courseData){
+    document.getElementById('page-course').innerHTML='<div class="no-data"><div class="icon">📚</div><h3>No Course Found</h3><p>No course data is available for your enrollment.</p></div>';
+    return;
+  }
+
+  document.getElementById('coursePageTitle').textContent=courseData.name;
+  document.getElementById('coursePageSub').textContent=courseData.description||courseData.category||'';
+
+  // DETAILS GRID
+  const details=document.getElementById('courseDetails');
+  const items=[
+    {lbl:'Category',val:courseData.category||'--'},
+    {lbl:'Duration',val:courseData.duration_weeks?courseData.duration_weeks+' weeks':'--'},
+    {lbl:'Price',val:formatCurrency(courseData.price)},
+    {lbl:'Mentor',val:studentData.mentor_name||'--'},
+  ];
+  details.innerHTML=items.map(i=>`<div class="course-detail-item"><div class="lbl">${i.lbl}</div><div class="val">${i.val}</div></div>`).join('');
+
+  // TOOLS
+  if(courseData.tools&&courseData.tools.length>0){
+    document.getElementById('courseToolsCard').style.display='block';
+    document.getElementById('courseTools').innerHTML=courseData.tools.map(t=>`<span class="tool-tag">${t}</span>`).join('');
+  }
+
+  // BATCH INFO
+  const batchEl=document.getElementById('batchInfo');
+  if(batchData){
+    batchEl.innerHTML=`
+      <div class="course-detail-grid">
+        <div class="course-detail-item"><div class="lbl">Batch Name</div><div class="val">${batchData.name||'--'}</div></div>
+        <div class="course-detail-item"><div class="lbl">Start Date</div><div class="val">${formatDate(batchData.start_date)}</div></div>
+        <div class="course-detail-item"><div class="lbl">End Date</div><div class="val">${formatDate(batchData.end_date)}</div></div>
+        <div class="course-detail-item"><div class="lbl">Timing</div><div class="val">${batchData.timing||'--'}</div></div>
+        <div class="course-detail-item"><div class="lbl">Mentor</div><div class="val">${batchData.mentor_name||studentData.mentor_name||'--'}</div></div>
+        <div class="course-detail-item"><div class="lbl">Status</div><div class="val"><span class="badge-status ${batchData.status||'active'}">${batchData.status||'active'}</span></div></div>
+      </div>
+    `;
+  }else{
+    batchEl.innerHTML='<p style="color:var(--g400)">No batch information available.</p>';
+  }
+
+  // CURRICULUM
+  const currEl=document.getElementById('curriculumList');
+  if(courseData.curriculum&&Array.isArray(courseData.curriculum)&&courseData.curriculum.length>0){
+    currEl.innerHTML=courseData.curriculum.map((mod,i)=>{
+      const modName=typeof mod==='string'?mod:(mod.name||mod.title||`Module ${i+1}`);
+      const topics=(typeof mod==='object'&&mod!==null)?(mod.topics||mod.lessons||mod.items||[]):[];
+      const topicsArr=Array.isArray(topics)?topics:[];
+      return `<div class="curriculum-module">
+        <button class="curriculum-module-header" onclick="this.parentElement.classList.toggle('open')">
+          <span style="color:var(--p500);font-weight:800;min-width:28px">M${i+1}</span>
+          ${modName}
+          ${topicsArr.length>0?`<span style="margin-left:auto;font-size:11px;color:var(--g400);font-weight:400">${topicsArr.length} topics</span>`:''}
+        </button>
+        ${topicsArr.length>0?`<div class="curriculum-module-body">${topicsArr.map(t=>`<div class="curriculum-topic">${typeof t==='string'?t:(t.name||t.title||t)}</div>`).join('')}</div>`:''}
+      </div>`;
+    }).join('');
+  }else{
+    currEl.innerHTML='<p style="color:var(--g400)">Curriculum details not yet available.</p>';
+  }
+}
+
+// ============================================================
+// RENDER: ATTENDANCE PAGE
+// ============================================================
+function renderAttendancePage(){
+  const total=attendanceData.length;
+  const present=attendanceData.filter(a=>a.status==='present').length;
+  const absent=attendanceData.filter(a=>a.status==='absent').length;
+  const late=attendanceData.filter(a=>a.status==='late').length;
+  const pct=total>0?Math.round(((present+late)/total)*100):0;
+
+  const summaryEl=document.getElementById('attSummary');
+  summaryEl.innerHTML=[
+    {num:total,lbl:'Total Classes',color:'var(--g900)'},
+    {num:present,lbl:'Present',color:'var(--green)'},
+    {num:absent,lbl:'Absent',color:'var(--red)'},
+    {num:late,lbl:'Late',color:'var(--amber)'},
+    {num:pct+'%',lbl:'Attendance Rate',color:'var(--p500)'},
+  ].map(s=>`<div class="att-summary-item"><div class="num" style="color:${s.color}">${s.num}</div><div class="lbl">${s.lbl}</div></div>`).join('');
+
+  const gridEl=document.getElementById('attGrid');
+  if(attendanceData.length===0){
+    gridEl.innerHTML='<p style="color:var(--g400);grid-column:1/-1;text-align:center;padding:20px">No attendance records yet.</p>';
+    return;
+  }
+
+  // Sort by date ascending for display
+  const sorted=[...attendanceData].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  gridEl.innerHTML=sorted.map(a=>{
+    const d=new Date(a.date);
+    const day=d.getDate();
+    const month=d.toLocaleDateString('en-IN',{month:'short'});
+    return `<div class="att-dot ${a.status}" title="${formatDate(a.date)} - ${a.status}">${day}<br><span style="font-size:8px">${month}</span></div>`;
+  }).join('');
+}
+
+// ============================================================
+// RENDER: ASSIGNMENTS PAGE
+// ============================================================
+function renderAssignmentsPage(){
+  // Filter tabs
+  document.querySelectorAll('#assignFilterTabs .filter-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('#assignFilterTabs .filter-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      assignFilter=tab.dataset.filter;
+      renderAssignmentsList();
+    });
+  });
+  renderAssignmentsList();
+}
+
+function renderAssignmentsList(){
+  const el=document.getElementById('assignmentsList');
+  let list=assignmentsData;
+  if(assignFilter!=='all'){
+    list=list.filter(a=>a.status===assignFilter);
+  }
+
+  if(list.length===0){
+    el.innerHTML='<div style="text-align:center;padding:24px;color:var(--g400)">No assignments found.</div>';
+    return;
+  }
+
+  el.innerHTML=list.map(a=>{
+    const dueDate=a.due_date?new Date(a.due_date):null;
+    const isOverdue=dueDate&&dueDate<new Date()&&a.status==='pending';
+    return `<div class="assign-item">
+      <div class="assign-info">
+        <h4>${a.title||'Untitled Assignment'}</h4>
+        <p>${a.description?a.description.substring(0,100)+(a.description.length>100?'...':''):''}</p>
+        <p style="margin-top:4px">Due: ${formatDate(a.due_date)}${isOverdue?' <span style="color:var(--red);font-weight:600">(Overdue)</span>':''}${a.submitted_at?' · Submitted: '+formatDate(a.submitted_at):''}</p>
+        ${a.feedback?'<p style="margin-top:4px;color:var(--blue)">Feedback: '+a.feedback+'</p>':''}
+      </div>
+      <div class="assign-right">
+        ${a.grade!=null?'<div class="grade">'+a.grade+'</div>':''}
+        <span class="badge-status ${a.status}">${a.status}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// RENDER: PAYMENTS PAGE
+// ============================================================
+function renderPaymentsPage(){
+  const totalFee=studentData.total_fee||0;
+  const feePaid=studentData.fee_paid||0;
+  const balance=totalFee-feePaid;
+
+  document.getElementById('feeSummaryCards').innerHTML=`
+    <div class="stat-card">
+      <div class="sc-top"><div class="sc-icon green">💰</div></div>
+      <div class="sc-val">${formatCurrency(totalFee)}</div>
+      <div class="sc-label">Total Fee</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-top"><div class="sc-icon blue">✅</div></div>
+      <div class="sc-val" style="color:var(--green)">${formatCurrency(feePaid)}</div>
+      <div class="sc-label">Amount Paid</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-top"><div class="sc-icon amber">⏳</div></div>
+      <div class="sc-val" style="color:${balance>0?'var(--amber)':'var(--green)'}">${formatCurrency(balance)}</div>
+      <div class="sc-label">Balance Due</div>
+    </div>
+  `;
+
+  const tbody=document.getElementById('paymentTableBody');
+  if(paymentsData.length===0){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--g400);padding:24px">No payment records found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML=paymentsData.map(p=>`
+    <tr>
+      <td>${formatDate(p.payment_date)}</td>
+      <td style="font-weight:700">${formatCurrency(p.amount)}</td>
+      <td>${p.payment_method||'--'}</td>
+      <td style="font-size:11px;color:var(--g400)">${p.transaction_id||'--'}</td>
+      <td><span class="badge-status ${p.status||'completed'}">${p.status||'completed'}</span></td>
+      <td style="font-size:12px;color:var(--g500)">${p.notes||'--'}</td>
+    </tr>
+  `).join('');
+}
+
+// ============================================================
+// RENDER: SUPPORT PAGE
+// ============================================================
+function renderSupportPage(){
+  const el=document.getElementById('ticketsList');
+  if(ticketsData.length===0){
+    el.innerHTML='<div style="text-align:center;padding:24px;color:var(--g400)">No support tickets yet. Create one if you need help!</div>';
+    return;
+  }
+
+  el.innerHTML=ticketsData.map(t=>`
+    <div class="assign-item">
+      <div class="assign-info">
+        <h4>${t.subject||'No Subject'}</h4>
+        <p>${t.description?t.description.substring(0,120)+(t.description.length>120?'...':''):''}</p>
+        <p style="margin-top:4px;font-size:11px;color:var(--g400)">Created: ${formatDate(t.created_at)}${t.priority?' · Priority: <strong>'+t.priority+'</strong>':''}</p>
+      </div>
+      <span class="badge-status ${t.status||'open'}">${(t.status||'open').replace('_',' ')}</span>
+    </div>
+  `).join('');
+}
+
+// SUBMIT TICKET
+async function submitTicket(e){
+  e.preventDefault();
+  const btn=document.getElementById('ticketSubmitBtn');
+  btn.disabled=true;
+  btn.textContent='Submitting...';
+
+  const subject=document.getElementById('ticketSubject').value.trim();
+  const description=document.getElementById('ticketDescription').value.trim();
+  const priority=document.getElementById('ticketPriority').value;
+
+  const{data,error}=await sb.from('support_tickets').insert({
+    student_id:studentData.id,
+    subject,
+    description,
+    priority,
+    status:'open'
+  }).select().single();
+
+  if(error){
+    alert('Failed to submit ticket: '+(error.message||'Unknown error'));
+    btn.disabled=false;
+    btn.textContent='Submit Ticket';
+    return;
+  }
+
+  // Add to local state and re-render
+  ticketsData.unshift(data);
+  renderSupportPage();
+  document.getElementById('ticketForm').reset();
+  btn.disabled=false;
+  btn.textContent='Submit Ticket';
+}
+
+// ============================================================
 // SIDEBAR
+// ============================================================
 function openSidebar(){
-document.getElementById('sidebar').classList.add('open');
-document.getElementById('sbOverlay').classList.add('open');
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sbOverlay').classList.add('open');
 }
 function closeSidebar(){
-document.getElementById('sidebar').classList.remove('open');
-document.getElementById('sbOverlay').classList.remove('open');
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('open');
 }
 
+// ============================================================
 // LOGOUT
-function logout(){
-localStorage.removeItem('ue_session');
-window.location.href='login.html';
+// ============================================================
+async function logout(){
+  await sb.auth.signOut();
+  window.location.href='login.html';
 }
 
-// INIT
+// ============================================================
+// BOOT
+// ============================================================
 initDashboard();
 </script>
 </body>
