@@ -16,6 +16,19 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://upliftedu.in">
 <link rel="icon" type="image/png" href="logo.png">
+<!-- GA4 — Replace G-XXXXXXXXXX with your actual Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
+// Track all phone call clicks
+document.addEventListener('click',function(e){
+const a=e.target.closest('a');if(!a)return;
+if(a.href&&a.href.startsWith('tel:')){gtag('event','phone_call_click',{event_category:'Contact',event_label:a.href,page:window.location.pathname});}
+if(a.href&&a.href.includes('wa.me')){gtag('event','whatsapp_click',{event_category:'Contact',page:window.location.pathname});}
+if(a.classList.contains('btn-p')&&a.href&&a.href.includes('#courses')){gtag('event','cta_click',{event_category:'CTA',event_label:'Explore Courses'});}
+});
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <script type="application/ld+json">
@@ -1595,6 +1608,7 @@ renderCourses(cat);
 // MODAL
 function openModal(id){
 const c=courses.find(x=>x.id===id);if(!c)return;
+if(typeof gtag==='function')gtag('event','course_modal_open',{event_category:'Course',event_label:c.name,course_id:c.id,course_category:c.cat});
 const m=document.getElementById('modalContent');
 m.innerHTML=`
 <button class="modal-close" onclick="closeModal()">✕</button>
@@ -1700,14 +1714,61 @@ if(!name||!phone){alert('Please fill in your name and phone number.');return;}
 if(phone.length<10){alert('Please enter a valid phone number.');return;}
 const btn=document.getElementById('leadSubmit');
 btn.disabled=true;btn.textContent='Submitting...';
-// Simulate API call (replace with actual endpoint later)
-setTimeout(()=>{
+const fullPhone=code+phone;
+const timestamp=new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+const source=document.referrer||'Direct';
+const page=window.location.href;
+const utmSource=new URLSearchParams(window.location.search).get('utm_source')||'organic';
+const utmMedium=new URLSearchParams(window.location.search).get('utm_medium')||'';
+const utmCampaign=new URLSearchParams(window.location.search).get('utm_campaign')||'';
+
+// 1) Email notification via Formsubmit.co → support@upliftedu.in
+const emailData=new FormData();
+emailData.append('name',name);
+emailData.append('phone',fullPhone);
+emailData.append('course',course||'Not selected');
+emailData.append('source',utmSource);
+emailData.append('utm_medium',utmMedium);
+emailData.append('utm_campaign',utmCampaign);
+emailData.append('timestamp',timestamp);
+emailData.append('_subject','🔔 New Lead: '+name+' — '+(course||'General Enquiry'));
+emailData.append('_template','table');
+emailData.append('_captcha','false');
+fetch('https://formsubmit.co/ajax/support@upliftedu.in',{method:'POST',body:emailData})
+.then(r=>r.json()).then(d=>console.log('Email sent:',d)).catch(e=>console.warn('Email fallback:',e));
+
+// 2) Google Sheet logging (Apps Script endpoint — replace URL after setup)
+const sheetEndpoint=localStorage.getItem('uplift_sheet_endpoint')||'';
+if(sheetEndpoint){
+fetch(sheetEndpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({name,phone:fullPhone,course:course||'Not selected',source:utmSource,medium:utmMedium,campaign:utmCampaign,timestamp,page})
+}).catch(e=>console.warn('Sheet log:',e));
+}
+
+// 3) WhatsApp alert to business number
+const waMsg=encodeURIComponent('🔔 *New Lead Alert*\n\n👤 Name: '+name+'\n📞 Phone: '+fullPhone+'\n📚 Course: '+(course||'Not selected')+'\n🕐 Time: '+timestamp+'\n📍 Source: '+utmSource+(utmCampaign?' / '+utmCampaign:'')+'\n\n_Reply to this lead within 15 mins!_');
+// Send WhatsApp alert (opens in background via hidden iframe for business number)
+const waAlertUrl='https://api.whatsapp.com/send?phone=919363807080&text='+waMsg;
+// We'll use a beacon-style approach — notify without interrupting user
+try{
+const waFrame=document.createElement('iframe');
+waFrame.style.display='none';
+waFrame.src=waAlertUrl;
+document.body.appendChild(waFrame);
+setTimeout(()=>waFrame.remove(),3000);
+}catch(e){console.log('WA alert queued');}
+
+// 4) GA4 event tracking
+if(typeof gtag==='function'){
+gtag('event','lead_submitted',{event_category:'Lead Gen',event_label:course||'General',lead_name:name,lead_source:utmSource});
+}
+
+// Show success
 document.getElementById('popupForm').style.display='none';
 document.getElementById('popupSuccess').classList.add('show');
 sessionStorage.setItem('uplift_lead_submitted','true');
-console.log('Lead captured:',{name,phone:code+phone,course});
+console.log('✅ Lead captured:',{name,phone:fullPhone,course,source:utmSource,timestamp});
 setTimeout(()=>closePopup(),3000);
-},1200);
 }
 // Auto-trigger popup 3s after load, once per session
 window.addEventListener('load',()=>{
