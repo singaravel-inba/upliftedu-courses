@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | UpliftEdu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-50: #fdf2f5;
+            --primary-100: #fce7ec;
+            --primary-200: #fad0db;
+            --primary-300: #f7aabf;
+            --primary-400: #f27a9d;
+            --primary-500: #ef5179;
+            --primary-600: #db3760;
+            --primary-700: #b82548;
+            --primary-800: #99213e;
+            --primary-900: #821f38;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--gray-900);
+        }
+
+        .logo span {
+            color: var(--primary-500);
+        }
+
+        nav a {
+            color: var(--gray-500);
+            text-decoration: none;
+            margin-left: 32px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--gray-900);
+        }
+
+        nav a.active {
+            color: var(--primary-500);
+            font-weight: 600;
+        }
+
+        .cta-btn {
+            background: var(--primary-500);
+            color: var(--white);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 32px;
+            transition: background 0.2s, transform 0.2s;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background: var(--primary-600);
+            transform: translateY(-1px);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 40px 60px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+
+        .hero h1 span {
+            color: var(--primary-500);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--gray-500);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Courses Section */
+        .courses-section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+        }
+
+        .category {
+            margin-bottom: 64px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .category-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--gray-900);
+        }
+
+        .category-header .count {
+            font-size: 13px;
+            color: var(--gray-400);
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .course-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-500);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .course-card:hover {
+            border-color: var(--primary-200);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(239, 81, 121, 0.1);
+        }
+
+        .course-card:hover::before {
+            opacity: 1;
+        }
+
+        .course-card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            color: var(--gray-800);
+        }
+
+        .course-card p {
+            font-size: 13px;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        .course-card .arrow {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: var(--gray-300);
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .course-card:hover .arrow {
+            color: var(--primary-500);
+            transform: translateX(3px);
+        }
+
+        /* Category Colors */
+        .cat-teaching .category-icon { background: #ecfdf5; color: #059669; }
+        .cat-coding .category-icon { background: #eef2ff; color: #4f46e5; }
+        .cat-commerce .category-icon { background: #fffbeb; color: #d97706; }
+        .cat-technical .category-icon { background: #fef2f2; color: #dc2626; }
+        .cat-finacademy .category-icon { background: #f0fdfa; color: #0d9488; }
+        .cat-digital .category-icon { background: #faf5ff; color: #9333ea; }
+        .cat-language .category-icon { background: #eff6ff; color: #2563eb; }
+        .cat-health .category-icon { background: var(--primary-50); color: var(--primary-500); }
+        .cat-others .category-icon { background: #fff7ed; color: #ea580c; }
+
+        /* Footer */
+        footer {
+            background: var(--gray-900);
+            padding: 40px;
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 14px;
+        }
+
+        footer a {
+            color: var(--primary-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--primary-300);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-inner {
+                padding: 14px 20px;
+            }
+
+            nav a {
+                display: none;
+            }
+
+            .hero {
+                padding: 50px 20px 40px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .courses-section {
+                padding: 0 20px 60px;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-header h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo"><span>Uplift</span>Edu</div>
+            <div>
+                <nav style="display:inline;">
+                    <a href="#">Home</a>
+                    <a href="#" class="active">Courses</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </nav>
+                <a href="#" class="cta-btn">Enroll Now</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Explore Our <span>Courses</span></h1>
+        <p>Industry-relevant programs designed to uplift your career. Choose from 35+ courses across 9 disciplines.</p>
+    </section>
+
+    <section class="courses-section">
+
+        <!-- Teaching -->
+        <div class="category cat-teaching">
+            <div class="category-header">
+                <div class="category-icon">&#x1F3EB;</div>
+                <h2>Teaching</h2>
+                <span class="count">2 Courses</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Montessori Teacher Training</h3>
+                    <p>Master the Montessori methodology and create engaging learning environments for young learners.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Yoga Teacher Training</h3>
+                    <p>Become a certified yoga instructor with in-depth training in asanas, philosophy, and teaching techniques.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coding -->
+        <div class="category cat-coding">
+            <div class="category-header">
+                <div class="category-icon">&#x1F4BB;</div>
+                <h2>Coding</h2>
+                <span class="count">9 Courses</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Full Stack Development</h3>
+                    <p>Build complete web applications from front-end to back-end with modern frameworks and tools.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Data Science</h3>
+                    <p>Learn data analysis, machine learning, and statistical modeling to drive data-driven decisions.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>AI Tools Mastery</h3>
+                    <p>Master cutting-edge AI tools and learn to integrate them into your professional workflow.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Python Programming</h3>
+                    <p>From basics to advanced concepts — build real-world applications with Python.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Software Testing</h3>
+                    <p>Learn manual and automation testing methodologies to ensure software quality and reliability.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Architecting on AWS</h3>
+                    <p>Design scalable, resilient cloud architectures using Amazon Web Services best practices.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Data Analytics Course</h3>
+                    <p>Transform raw data into actionable insights using modern analytics tools and techniques.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>UI/UX Design</h3>
+                    <p>Create user-centered digital experiences with industry-standard design tools and principles.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>AI Powered Cybersecurity Course</h3>
+                    <p>Defend digital systems using AI-driven threat detection and security strategies.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commerce -->
+        <div class="category cat-commerce">
+            <div class="category-header">
+                <div class="category-icon">&#x1F4CA;</div>
+                <h2>Commerce</h2>
+                <span class="count">10 Courses</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>SAP FICO</h3>
+                    <p>Master SAP Financial Accounting and Controlling modules for enterprise resource planning.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Practical Accounting</h3>
+                    <p>Hands-on training in real-world accounting practices, GST, TDS, and financial reporting.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>SAP MM</h3>
+                    <p>Learn SAP Materials Management for procurement, inventory, and supply chain processes.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>SAP SD</h3>
+                    <p>Master SAP Sales and Distribution for order processing, billing, and shipping workflows.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>ACCA</h3>
+                    <p>Prepare for the globally recognized Association of Chartered Certified Accountants qualification.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>HR Management Course</h3>
+                    <p>Learn strategic HR practices including recruitment, payroll, compliance, and employee engagement.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>PwC Edge: Strategic Accounting &amp; Finance Programme</h3>
+                    <p>Industry-partnered programme for advanced skills in strategic accounting and financial management.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Enrolled Agent Course</h3>
+                    <p>Prepare for the IRS Enrolled Agent exam and become a federally authorized tax practitioner.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>CMA USA Course</h3>
+                    <p>Earn the Certified Management Accountant credential recognized across the globe.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Certified Tax Professional Course</h3>
+                    <p>Comprehensive training in taxation laws, filing, and compliance for aspiring tax professionals.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical -->
+        <div class="category cat-technical">
+            <div class="category-header">
+                <div class="category-icon">&#x2699;&#xFE0F;</div>
+                <h2>Technical</h2>
+                <span class="count">6 Courses</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Quantity Survey</h3>
+                    <p>Learn cost estimation, project management, and contract administration for construction projects.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>MEP</h3>
+                    <p>Master Mechanical, Electrical, and Plumbing engineering for modern building systems.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Robotics &amp; AI Course</h3>
+                    <p>Explore robotics systems, automation, and artificial intelligence integration for industry applications.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Structural Design</h3>
+                    <p>Design safe, efficient structures using modern engineering principles and analysis software.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>BIM Course</h3>
+                    <p>Master Building Information Modeling for collaborative design, construction, and facility management.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Embedded System Software Engineering</h3>
+                    <p>Develop firmware and software for embedded systems used in IoT, automotive, and electronics.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Finacademy -->
+        <div class="category cat-finacademy">
+            <div class="category-header">
+                <div class="category-icon">&#x1F4B9;</div>
+                <h2>Finacademy</h2>
+                <span class="count">3 Courses</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Stock Market</h3>
+                    <p>Understand equity markets, technical analysis, and trading strategies for smart investing.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Forex Trading</h3>
+                    <p>Learn currency trading fundamentals, risk management, and global forex market dynamics.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Mutual Funds Course</h3>
+                    <p>Master mutual fund analysis, portfolio construction, and wealth management strategies.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Digital Marketing -->
+        <div class="category cat-digital">
+            <div class="category-header">
+                <div class="category-icon">&#x1F4F1;</div>
+                <h2>Digital Marketing</h2>
+                <span class="count">2 Courses</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Digital Marketing</h3>
+                    <p>Learn SEO, social media, content marketing, and paid advertising to grow brands online.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>Performance Marketing</h3>
+                    <p>Master data-driven ad campaigns, conversion optimization, and ROI-focused marketing strategies.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language Learning -->
+        <div class="category cat-language">
+            <div class="category-header">
+                <div class="category-icon">&#x1F310;</div>
+                <h2>Language Learning</h2>
+                <span class="count">4 Courses</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Spoken English</h3>
+                    <p>Build confidence in English communication with fluency, pronunciation, and grammar training.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>German Language</h3>
+                    <p>Learn German from beginner to advanced levels for career, travel, or academic purposes.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>PTE</h3>
+                    <p>Prepare for the Pearson Test of English with focused practice on all four test modules.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+                <div class="course-card">
+                    <h3>IELTS Exam Coaching</h3>
+                    <p>Expert coaching for IELTS Academic and General with mock tests and band score improvement strategies.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Care -->
+        <div class="category cat-health">
+            <div class="category-header">
+                <div class="category-icon">&#x1F3E5;</div>
+                <h2>Health Care</h2>
+                <span class="count">1 Course</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Hospital Administration</h3>
+                    <p>Learn healthcare management, hospital operations, and medical facility administration.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Others -->
+        <div class="category cat-others">
+            <div class="category-header">
+                <div class="category-icon">&#x2728;</div>
+                <h2>Others</h2>
+                <span class="count">1 Course</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Fashion Designing and Boutique Management</h3>
+                    <p>Learn fashion design, garment creation, and boutique business management from industry experts.</p>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>&copy; 2026 UpliftEdu. All rights reserved. | <a href="https://upliftedu.in">upliftedu.in</a></p>
+    </footer>
+
+</body>
+</html>
