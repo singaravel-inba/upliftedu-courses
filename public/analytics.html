@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UpliftEdu — Founder Command Center</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root{--p50:#fdf2f5;--p100:#fce7ec;--p200:#fad0db;--p300:#f7aabf;--p400:#f27a9d;--p500:#ef5179;--p600:#db3760;--p700:#b82548;--w:#fff;--g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--g900:#111827;--green:#059669;--green-bg:#ecfdf5;--red:#dc2626;--red-bg:#fef2f2;--amber:#d97706;--amber-bg:#fffbeb;--blue:#2563eb;--blue-bg:#eff6ff;--purple:#7c3aed;--sidebar:260px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--g700);-webkit-font-smoothing:antialiased;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--g900);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:transform 0.3s}
+.sb-logo{padding:20px 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sb-logo img{height:32px}
+.sb-logo span{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:var(--w)}
+.sb-logo span em{font-style:normal;color:var(--p400)}
+.sb-nav{flex:1;padding:16px 12px;overflow-y:auto}
+.sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--g500);padding:16px 12px 8px;margin-top:8px}
+.sb-section:first-child{margin-top:0}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:var(--g400);font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s;cursor:pointer;margin-bottom:2px}
+.sb-link:hover{background:rgba(255,255,255,0.06);color:var(--g200)}
+.sb-link.active{background:rgba(239,81,121,0.12);color:var(--p400);font-weight:600}
+.sb-link svg{width:18px;height:18px;flex-shrink:0;opacity:0.7}
+.sb-link.active svg{opacity:1}
+.sb-badge{margin-left:auto;background:var(--red);color:var(--w);font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px}
+.sb-bottom{padding:16px;border-top:1px solid rgba(255,255,255,0.08)}
+.sb-user{display:flex;align-items:center;gap:10px;color:var(--g400);font-size:13px}
+.sb-user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--p500),var(--p400));display:flex;align-items:center;justify-content:center;color:var(--w);font-size:13px;font-weight:800}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;min-height:100vh}
+.topbar{background:var(--w);border-bottom:1px solid var(--g200);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar h1{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:var(--g900)}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-date{font-size:13px;color:var(--g500);font-weight:500}
+.topbar-btn{padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;border:1.5px solid var(--g200);background:var(--w);color:var(--g700);cursor:pointer;transition:all 0.2s;font-family:inherit}
+.topbar-btn:hover{border-color:var(--p400);color:var(--p600)}
+.topbar-btn.primary{background:var(--p500);color:var(--w);border-color:var(--p500)}
+.topbar-btn.primary:hover{background:var(--p600)}
+.hamburger-dash{display:none;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger-dash svg{width:24px;height:24px;color:var(--g700)}
+.content{padding:28px 32px}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px}
+.kpi-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:20px;transition:all 0.3s;position:relative;overflow:hidden}
+.kpi-card:hover{border-color:var(--p200);box-shadow:0 4px 20px rgba(0,0,0,0.06);transform:translateY(-2px)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.kpi-card.pink::before{background:linear-gradient(90deg,var(--p500),var(--p400))}
+.kpi-card.green::before{background:linear-gradient(90deg,#059669,#10b981)}
+.kpi-card.blue::before{background:linear-gradient(90deg,#2563eb,#3b82f6)}
+.kpi-card.purple::before{background:linear-gradient(90deg,#7c3aed,#8b5cf6)}
+.kpi-card.amber::before{background:linear-gradient(90deg,#d97706,#f59e0b)}
+.kpi-label{font-size:12px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.kpi-value{font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;color:var(--g900);line-height:1;margin-bottom:6px}
+.kpi-change{font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:6px}
+.kpi-change.up{background:var(--green-bg);color:var(--green)}
+.kpi-change.down{background:var(--red-bg);color:var(--red)}
+.kpi-change.flat{background:var(--g100);color:var(--g500)}
+.kpi-sub{font-size:11px;color:var(--g400);margin-top:4px}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:28px}
+.charts-row.equal{grid-template-columns:1fr 1fr}
+.chart-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:24px}
+.chart-card h3{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--g900);margin-bottom:4px}
+.chart-card .chart-sub{font-size:12px;color:var(--g400);margin-bottom:20px}
+.chart-canvas{position:relative;height:250px}
+
+/* FUNNEL */
+.funnel-row{display:flex;gap:0;align-items:stretch;margin-bottom:32px}
+.funnel-step{flex:1;text-align:center;position:relative;padding:28px 16px;background:var(--w);border:1px solid var(--g200);transition:all 0.3s}
+.funnel-step:first-child{border-radius:14px 0 0 14px}
+.funnel-step:last-child{border-radius:0 14px 14px 0}
+.funnel-step:hover{background:var(--p50);border-color:var(--p200);z-index:1}
+.funnel-step .f-icon{font-size:24px;margin-bottom:8px}
+.funnel-step .f-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--g500);margin-bottom:6px}
+.funnel-step .f-value{font-family:'Poppins',sans-serif;font-size:24px;font-weight:800;color:var(--g900)}
+.funnel-step .f-pct{font-size:12px;font-weight:700;color:var(--green);margin-top:4px}
+.funnel-step .f-pct.warn{color:var(--amber)}
+.funnel-step .f-pct.bad{color:var(--red)}
+.funnel-arrow{position:absolute;right:-12px;top:50%;transform:translateY(-50%);z-index:2;width:24px;height:24px;background:var(--g100);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--g400);border:1px solid var(--g200)}
+
+/* ALERTS */
+.alerts-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:24px;margin-bottom:28px}
+.alerts-card h3{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--g900);margin-bottom:16px}
+.alert-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:8px;font-size:13px;line-height:1.5}
+.alert-item.critical{background:var(--red-bg);border-left:3px solid var(--red)}
+.alert-item.warning{background:var(--amber-bg);border-left:3px solid var(--amber)}
+.alert-item.info{background:var(--blue-bg);border-left:3px solid var(--blue)}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert-text{color:var(--g700)}
+.alert-text strong{color:var(--g900)}
+.alert-time{font-size:11px;color:var(--g400);margin-left:auto;white-space:nowrap;flex-shrink:0}
+
+/* TABLES */
+.data-table-wrap{background:var(--w);border:1px solid var(--g200);border-radius:14px;overflow:hidden;margin-bottom:28px}
+.data-table-wrap h3{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--g900);padding:20px 24px 16px}
+table.data-table{width:100%;border-collapse:collapse}
+.data-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--g500);padding:10px 16px;text-align:left;background:var(--g50);border-bottom:1px solid var(--g200)}
+.data-table td{font-size:13px;padding:12px 16px;border-bottom:1px solid var(--g100);color:var(--g700)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--g50)}
+.data-table .num{font-weight:700;color:var(--g900);font-variant-numeric:tabular-nums}
+.data-table .good{color:var(--green);font-weight:700}
+.data-table .warn{color:var(--amber);font-weight:700}
+.data-table .bad{color:var(--red);font-weight:700}
+
+/* SECTION TITLES */
+.sec-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.sec-title-row h2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:var(--g900)}
+.filter-btn{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--g200);background:var(--w);color:var(--g600);cursor:pointer;transition:all 0.2s;font-family:inherit}
+.filter-btn:hover,.filter-btn.active{border-color:var(--p400);color:var(--p500);background:var(--p50)}
+
+/* DEEP DIVE TABS */
+.dd-tabs{display:flex;gap:4px;margin-bottom:24px;background:var(--g100);padding:4px;border-radius:12px;width:fit-content}
+.dd-tab{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;color:var(--g500);cursor:pointer;transition:all 0.2s;border:none;background:none;font-family:inherit}
+.dd-tab:hover{color:var(--g700)}
+.dd-tab.active{background:var(--w);color:var(--g900);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.dd-content{display:none}
+.dd-content.active{display:block}
+
+/* KPI DICTIONARY */
+.dict-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:20px;margin-bottom:12px;transition:all 0.2s}
+.dict-card:hover{border-color:var(--p200)}
+.dict-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.dict-header h4{font-size:15px;font-weight:700;color:var(--g900)}
+.dict-header .dict-val{font-family:'Poppins',sans-serif;font-weight:800;color:var(--p500)}
+.dict-body{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--g100)}
+.dict-body.open{display:block}
+.dict-row{display:grid;grid-template-columns:120px 1fr;gap:8px;margin-bottom:8px;font-size:13px}
+.dict-row dt{font-weight:700;color:var(--g500);text-transform:uppercase;font-size:10px;letter-spacing:0.5px;padding-top:2px}
+.dict-row dd{color:var(--g700);line-height:1.5}
+
+/* CADENCE */
+.cadence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:28px}
+.cadence-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:24px;text-align:center;transition:all 0.3s}
+.cadence-card:hover{border-color:var(--p200);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.06)}
+.cadence-icon{font-size:32px;margin-bottom:12px}
+.cadence-card h4{font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--g900);margin-bottom:8px}
+.cadence-card ul{list-style:none;text-align:left;padding:0}
+.cadence-card li{font-size:13px;color:var(--g600);padding:6px 0;border-bottom:1px solid var(--g100);display:flex;align-items:flex-start;gap:6px}
+.cadence-card li:last-child{border-bottom:none}
+.cadence-card li::before{content:'•';color:var(--p400);font-weight:800;flex-shrink:0}
+
+/* DATA STACK */
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.stack-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:20px;text-align:center;transition:all 0.3s}
+.stack-card:hover{border-color:var(--p200);transform:translateY(-2px)}
+.stack-card .stack-icon{width:40px;height:40px;margin:0 auto 10px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.stack-card .stack-icon img{width:28px;height:28px;border-radius:6px}
+.stack-card h5{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:4px}
+.stack-card p{font-size:11px;color:var(--g500);line-height:1.4}
+
+/* EVENT TRACKING */
+.event-group{margin-bottom:24px}
+.event-group h4{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:12px;padding-left:8px;border-left:3px solid var(--p400)}
+
+/* RESPONSIVE */
+@media(max-width:1280px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.main{margin-left:0}
+.hamburger-dash{display:block}
+.kpi-grid{grid-template-columns:repeat(2,1fr)}
+.charts-row,.charts-row.equal{grid-template-columns:1fr}
+.funnel-row{flex-direction:column}
+.funnel-step{border-radius:0!important}
+.funnel-step:first-child{border-radius:14px 14px 0 0!important}
+.funnel-step:last-child{border-radius:0 0 14px 14px!important}
+.funnel-arrow{right:50%;top:auto;bottom:-12px;transform:translateX(50%)}
+.cadence-grid{grid-template-columns:1fr}
+.content{padding:20px 16px}
+.topbar{padding:12px 16px}
+}
+@media(max-width:640px){.kpi-grid{grid-template-columns:1fr}.dd-tabs{overflow-x:auto;width:100%}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+<div class="sb-logo"><img src="logo.png" alt="UpliftEdu"><span>Uplift<em>Edu</em></span></div>
+<nav class="sb-nav">
+<div class="sb-section">Overview</div>
+<a class="sb-link active" onclick="showPage('overview',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Command Center</a>
+<a class="sb-link" onclick="showPage('funnels',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Funnels</a>
+<a class="sb-link" onclick="showPage('alerts',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Alerts <span class="sb-badge">3</span></a>
+
+<div class="sb-section">Deep Dive</div>
+<a class="sb-link" onclick="showPage('deepdive',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Channel / Course / Batch</a>
+
+<div class="sb-section">Reference</div>
+<a class="sb-link" onclick="showPage('kpidict',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> KPI Dictionary</a>
+<a class="sb-link" onclick="showPage('datastack',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg> Data Stack</a>
+<a class="sb-link" onclick="showPage('events',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Event Tracking</a>
+<a class="sb-link" onclick="showPage('cadence',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Reporting Cadence</a>
+</nav>
+<div class="sb-bottom">
+<div class="sb-user"><div class="sb-user-avatar">SI</div><div><div style="color:var(--g200);font-weight:600;font-size:13px">Singaravel I.</div><div style="color:var(--g500);font-size:11px">Founder</div></div></div>
+</div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+<div class="topbar">
+<button class="hamburger-dash" onclick="document.getElementById('sidebar').classList.toggle('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+<h1 id="pageTitle">Founder Command Center</h1>
+<div class="topbar-right">
+<span class="topbar-date" id="todayDate"></span>
+<button class="topbar-btn" onclick="window.location.href='index.html'">← Back to Site</button>
+<button class="topbar-btn primary">Export PDF</button>
+</div>
+</div>
+<div class="content">
+
+<!-- ===== OVERVIEW ===== -->
+<div class="page active" id="page-overview">
+<div class="sec-title-row"><h2>💰 Revenue &amp; Cash</h2><div style="display:flex;gap:8px"><button class="filter-btn active">This Month</button><button class="filter-btn">Last 90 Days</button><button class="filter-btn">YTD</button></div></div>
+<div class="kpi-grid">
+<div class="kpi-card pink"><div class="kpi-label">MRR</div><div class="kpi-value">₹18.4L</div><span class="kpi-change up">↑ 12% vs last month</span></div>
+<div class="kpi-card green"><div class="kpi-label">ARR (Run Rate)</div><div class="kpi-value">₹2.2Cr</div><span class="kpi-change up">↑ 34% YoY</span></div>
+<div class="kpi-card blue"><div class="kpi-label">Cash in Bank</div><div class="kpi-value">₹42.6L</div><span class="kpi-change up">↑ 8L this month</span></div>
+<div class="kpi-card purple"><div class="kpi-label">Avg Revenue/Student</div><div class="kpi-value">₹24.8K</div><span class="kpi-change up">↑ 6%</span></div>
+<div class="kpi-card amber"><div class="kpi-label">EMI Collection %</div><div class="kpi-value">91%</div><span class="kpi-change down">↓ 3% vs target</span><div class="kpi-sub">Target: 94%</div></div>
+</div>
+
+<div class="sec-title-row"><h2>📈 Growth &amp; Acquisition</h2></div>
+<div class="kpi-grid">
+<div class="kpi-card pink"><div class="kpi-label">Leads / Day</div><div class="kpi-value">23</div><span class="kpi-change up">↑ 18% WoW</span></div>
+<div class="kpi-card green"><div class="kpi-label">Lead → Paid %</div><div class="kpi-value">11.2%</div><span class="kpi-change up">↑ 1.4pp</span><div class="kpi-sub">Industry avg: 8-10%</div></div>
+<div class="kpi-card blue"><div class="kpi-label">CAC (Blended)</div><div class="kpi-value">₹2,840</div><span class="kpi-change up">↓ ₹320</span></div>
+<div class="kpi-card purple"><div class="kpi-label">LTV : CAC Ratio</div><div class="kpi-value">8.7x</div><span class="kpi-change up">↑ Healthy</span><div class="kpi-sub">Target: >5x</div></div>
+<div class="kpi-card amber"><div class="kpi-label">New Enrollments</div><div class="kpi-value">74</div><span class="kpi-change up">↑ 22% MoM</span></div>
+</div>
+
+<div class="sec-title-row"><h2>🎓 Student Outcomes</h2></div>
+<div class="kpi-grid">
+<div class="kpi-card green"><div class="kpi-label">Active Learners</div><div class="kpi-value">612</div><span class="kpi-change up">↑ 48 this month</span></div>
+<div class="kpi-card pink"><div class="kpi-label">Avg Attendance</div><div class="kpi-value">78%</div><span class="kpi-change flat">— Stable</span><div class="kpi-sub">Target: 80%</div></div>
+<div class="kpi-card blue"><div class="kpi-label">Placement Rate</div><div class="kpi-value">93%</div><span class="kpi-change up">↑ 2pp vs Q3</span></div>
+<div class="kpi-card purple"><div class="kpi-label">NPS Score</div><div class="kpi-value">72</div><span class="kpi-change up">↑ 5 pts</span><div class="kpi-sub">Excellent (>50)</div></div>
+<div class="kpi-card amber"><div class="kpi-label">Refund Rate</div><div class="kpi-value">2.1%</div><span class="kpi-change up">↓ 0.8pp (Good)</span><div class="kpi-sub">Alert if >5%</div></div>
+</div>
+
+<!-- CHARTS -->
+<div class="charts-row">
+<div class="chart-card"><h3>Revenue Trend</h3><div class="chart-sub">Monthly revenue (₹ Lakhs) — Last 6 months</div><div class="chart-canvas"><canvas id="revenueChart"></canvas></div></div>
+<div class="chart-card"><h3>Lead Source Mix</h3><div class="chart-sub">Where leads come from this month</div><div class="chart-canvas"><canvas id="leadSourceChart"></canvas></div></div>
+</div>
+<div class="charts-row equal">
+<div class="chart-card"><h3>Leads vs Enrollments</h3><div class="chart-sub">Daily trend — Last 30 days</div><div class="chart-canvas"><canvas id="leadsChart"></canvas></div></div>
+<div class="chart-card"><h3>Course Popularity</h3><div class="chart-sub">Enrollments by course this quarter</div><div class="chart-canvas"><canvas id="courseChart"></canvas></div></div>
+</div>
+
+<!-- LIVE ALERTS -->
+<div class="alerts-card">
+<h3>🚨 Live Alerts</h3>
+<div class="alert-item critical"><span class="alert-icon">🔴</span><div class="alert-text"><strong>Attendance below 60%</strong> — Data Analytics Batch #DA-12. 4 students missed 3+ sessions.</div><span class="alert-time">2h ago</span></div>
+<div class="alert-item warning"><span class="alert-icon">🟡</span><div class="alert-text"><strong>EMI collection dip:</strong> 6 overdue payments (₹1.2L) pending >15 days.</div><span class="alert-time">5h ago</span></div>
+<div class="alert-item warning"><span class="alert-icon">🟡</span><div class="alert-text"><strong>Lead quality drop:</strong> Meta campaign "DS-Retarget-Mar" at 3.2% conversion vs 8% benchmark.</div><span class="alert-time">1d ago</span></div>
+<div class="alert-item info"><span class="alert-icon">🔵</span><div class="alert-text"><strong>Milestone:</strong> Full Stack Batch #FSD-8 hit 100% assignment submission rate.</div><span class="alert-time">1d ago</span></div>
+</div>
+
+<!-- TABLES -->
+<div class="data-table-wrap"><h3>📊 Course Performance — This Month</h3>
+<table class="data-table"><thead><tr><th>Course</th><th>Enrolled</th><th>Attendance</th><th>Completion</th><th>Placement</th><th>NPS</th><th>Revenue</th></tr></thead><tbody>
+<tr><td><strong>Full Stack Development</strong></td><td class="num">18</td><td class="good">84%</td><td class="good">91%</td><td class="good">96%</td><td class="num">78</td><td class="num">₹5.4L</td></tr>
+<tr><td><strong>Data Science</strong></td><td class="num">14</td><td class="good">80%</td><td class="good">88%</td><td class="good">94%</td><td class="num">74</td><td class="num">₹4.2L</td></tr>
+<tr><td><strong>Digital Marketing</strong></td><td class="num">12</td><td class="warn">72%</td><td class="good">85%</td><td class="good">91%</td><td class="num">70</td><td class="num">₹2.9L</td></tr>
+<tr><td><strong>SAP FICO</strong></td><td class="num">10</td><td class="good">82%</td><td class="good">90%</td><td class="good">93%</td><td class="num">76</td><td class="num">₹2.5L</td></tr>
+<tr><td><strong>Software Testing</strong></td><td class="num">9</td><td class="warn">68%</td><td class="warn">79%</td><td class="good">89%</td><td class="num">65</td><td class="num">₹1.8L</td></tr>
+<tr><td><strong>Data Analytics</strong></td><td class="num">7</td><td class="bad">58%</td><td class="warn">72%</td><td class="warn">82%</td><td class="warn">58</td><td class="num">₹1.4L</td></tr>
+</tbody></table></div>
+
+<div class="data-table-wrap"><h3>🎯 Counselor Performance</h3>
+<table class="data-table"><thead><tr><th>Counselor</th><th>Leads</th><th>Contacted</th><th>Counselled</th><th>Enrolled</th><th>Conv %</th><th>Avg Response</th></tr></thead><tbody>
+<tr><td><strong>Priya S.</strong></td><td class="num">82</td><td class="num">78</td><td class="num">45</td><td class="num">18</td><td class="good">22%</td><td class="good">14 min</td></tr>
+<tr><td><strong>Arun M.</strong></td><td class="num">76</td><td class="num">70</td><td class="num">38</td><td class="num">14</td><td class="good">18%</td><td class="good">22 min</td></tr>
+<tr><td><strong>Deepa R.</strong></td><td class="num">68</td><td class="num">61</td><td class="num">30</td><td class="num">10</td><td class="warn">15%</td><td class="warn">38 min</td></tr>
+<tr><td><strong>Karthik V.</strong></td><td class="num">54</td><td class="num">42</td><td class="num">20</td><td class="num">5</td><td class="bad">9%</td><td class="bad">1h 12min</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ===== FUNNELS ===== -->
+<div class="page" id="page-funnels">
+<div class="sec-title-row"><h2>1️⃣ Acquisition Funnel</h2></div>
+<div class="funnel-row"><div class="funnel-step"><div class="f-icon">🌐</div><div class="f-label">Website Visits</div><div class="f-value">12,400</div><div class="f-pct">100%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">📝</div><div class="f-label">Lead Captured</div><div class="f-value">682</div><div class="f-pct warn">5.5%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">📞</div><div class="f-label">Counselled</div><div class="f-value">310</div><div class="f-pct warn">45%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">💳</div><div class="f-label">Payment Init</div><div class="f-value">112</div><div class="f-pct warn">36%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">✅</div><div class="f-label">Enrolled</div><div class="f-value">74</div><div class="f-pct">66%</div></div></div>
+
+<div class="sec-title-row"><h2>2️⃣ Onboarding Funnel</h2></div>
+<div class="funnel-row"><div class="funnel-step"><div class="f-icon">🎟️</div><div class="f-label">Enrolled</div><div class="f-value">74</div><div class="f-pct">100%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">🔑</div><div class="f-label">LMS Login</div><div class="f-value">71</div><div class="f-pct">96%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">📚</div><div class="f-label">1st Session</div><div class="f-value">68</div><div class="f-pct">92%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">📋</div><div class="f-label">1st Assignment</div><div class="f-value">59</div><div class="f-pct warn">80%</div></div></div>
+
+<div class="sec-title-row"><h2>3️⃣ Engagement Funnel</h2></div>
+<div class="funnel-row"><div class="funnel-step"><div class="f-icon">👥</div><div class="f-label">Active Students</div><div class="f-value">612</div><div class="f-pct">100%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">📅</div><div class="f-label">Attending >70%</div><div class="f-value">478</div><div class="f-pct">78%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">✍️</div><div class="f-label">Assignments Done</div><div class="f-value">401</div><div class="f-pct warn">66%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">🏗️</div><div class="f-label">Project Submitted</div><div class="f-value">338</div><div class="f-pct warn">55%</div></div></div>
+
+<div class="sec-title-row"><h2>4️⃣ Outcomes Funnel</h2></div>
+<div class="funnel-row"><div class="funnel-step"><div class="f-icon">🎓</div><div class="f-label">Graduated</div><div class="f-value">286</div><div class="f-pct">100%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">📄</div><div class="f-label">Resume Ready</div><div class="f-value">274</div><div class="f-pct">96%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">🎙️</div><div class="f-label">Mock Interviewed</div><div class="f-value">258</div><div class="f-pct">90%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">💼</div><div class="f-label">Placed</div><div class="f-value">266</div><div class="f-pct">93%</div></div></div>
+
+<div class="sec-title-row"><h2>5️⃣ Referral Funnel</h2></div>
+<div class="funnel-row"><div class="funnel-step"><div class="f-icon">⭐</div><div class="f-label">NPS Promoters</div><div class="f-value">198</div><div class="f-pct">100%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">📣</div><div class="f-label">Referral Shared</div><div class="f-value">84</div><div class="f-pct warn">42%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">👤</div><div class="f-label">Referred Lead</div><div class="f-value">36</div><div class="f-pct warn">43%</div><div class="funnel-arrow">→</div></div><div class="funnel-step"><div class="f-icon">🎉</div><div class="f-label">Referral Enrolled</div><div class="f-value">14</div><div class="f-pct warn">39%</div></div></div>
+</div>
+
+<!-- ===== ALERTS ===== -->
+<div class="page" id="page-alerts">
+<div class="sec-title-row"><h2>🚨 Red-Flag Alert System</h2></div>
+<p style="color:var(--g500);margin-bottom:24px;font-size:14px">Automated threshold monitoring. Alerts trigger via SMS/WhatsApp to founder + relevant team member.</p>
+<div class="data-table-wrap"><h3>Alert Thresholds &amp; Rules</h3>
+<table class="data-table"><thead><tr><th>Metric</th><th>Threshold</th><th>Severity</th><th>Channel</th><th>Current</th></tr></thead><tbody>
+<tr><td><strong>Daily Leads</strong></td><td>&lt; 10/day for 2 days</td><td class="bad">Critical</td><td>SMS + WhatsApp</td><td class="good">23/day ✓</td></tr>
+<tr><td><strong>Lead→Paid %</strong></td><td>&lt; 8% rolling 7-day</td><td class="bad">Critical</td><td>SMS + WhatsApp</td><td class="good">11.2% ✓</td></tr>
+<tr><td><strong>Batch Attendance</strong></td><td>&lt; 60% any batch</td><td class="bad">Critical</td><td>WhatsApp</td><td class="bad">DA-12: 58% ✗</td></tr>
+<tr><td><strong>NPS Score</strong></td><td>&lt; 40 any course</td><td class="warn">Warning</td><td>Email</td><td class="good">72 avg ✓</td></tr>
+<tr><td><strong>Refund Rate</strong></td><td>&gt; 5% in any week</td><td class="bad">Critical</td><td>SMS</td><td class="good">2.1% ✓</td></tr>
+<tr><td><strong>EMI Overdue</strong></td><td>&gt; ₹2L pending &gt;15 days</td><td class="warn">Warning</td><td>WhatsApp</td><td class="warn">₹1.2L ⚠</td></tr>
+<tr><td><strong>Counselor Response</strong></td><td>&gt; 30 min avg</td><td class="warn">Warning</td><td>WhatsApp</td><td class="bad">Karthik: 1h12m ✗</td></tr>
+<tr><td><strong>Student Drop-off</strong></td><td>3+ missed sessions</td><td class="warn">Warning</td><td>WhatsApp</td><td class="bad">4 students ✗</td></tr>
+<tr><td><strong>Ad Spend ROI</strong></td><td>CAC &gt; ₹5,000</td><td class="warn">Warning</td><td>Email</td><td class="good">₹2,840 ✓</td></tr>
+<tr><td><strong>Placement Rate</strong></td><td>&lt; 85% any batch</td><td class="bad">Critical</td><td>SMS</td><td class="good">93% ✓</td></tr>
+</tbody></table></div>
+
+<div class="alerts-card"><h3>🔔 Active Alerts</h3>
+<div class="alert-item critical"><span class="alert-icon">🔴</span><div class="alert-text"><strong>CRITICAL — Batch Attendance:</strong> DA-12 at 58%. 4 students missed 3+ sessions. Action: Mentor Raj K. to call each student today.</div><span class="alert-time">2h</span></div>
+<div class="alert-item critical"><span class="alert-icon">🔴</span><div class="alert-text"><strong>CRITICAL — Counselor SLA:</strong> Karthik V. avg response 1h12min. 12 leads uncontacted >24h. Action: Reassign overflow.</div><span class="alert-time">4h</span></div>
+<div class="alert-item warning"><span class="alert-icon">🟡</span><div class="alert-text"><strong>WARNING — EMI Overdue:</strong> ₹1.2L pending across 6 students. Approaching ₹2L threshold.</div><span class="alert-time">5h</span></div>
+<div class="alert-item warning"><span class="alert-icon">🟡</span><div class="alert-text"><strong>WARNING — Ad Performance:</strong> Meta "DS-Retarget-Mar" at 3.2% conv. ₹18K spent, 2 enrollments. Pause &amp; review.</div><span class="alert-time">1d</span></div>
+</div>
+</div>
+
+<!-- ===== DEEP DIVE ===== -->
+<div class="page" id="page-deepdive">
+<div class="dd-tabs">
+<button class="dd-tab active" onclick="showDD('channel',this)">By Channel</button>
+<button class="dd-tab" onclick="showDD('course',this)">By Course</button>
+<button class="dd-tab" onclick="showDD('batch',this)">By Batch</button>
+<button class="dd-tab" onclick="showDD('counselor',this)">By Counselor</button>
+<button class="dd-tab" onclick="showDD('mentor',this)">By Mentor</button>
+</div>
+<div class="dd-content active" id="dd-channel"><div class="data-table-wrap"><h3>Channel Performance — March 2026</h3><table class="data-table"><thead><tr><th>Channel</th><th>Spend</th><th>Leads</th><th>CPL</th><th>Enrolled</th><th>CAC</th><th>Revenue</th><th>ROAS</th></tr></thead><tbody>
+<tr><td><strong>Google Ads</strong></td><td class="num">₹1.8L</td><td class="num">248</td><td class="num">₹726</td><td class="num">28</td><td class="num">₹6,428</td><td class="num">₹6.9L</td><td class="good">3.8x</td></tr>
+<tr><td><strong>Meta Ads</strong></td><td class="num">₹1.2L</td><td class="num">196</td><td class="num">₹612</td><td class="num">18</td><td class="num">₹6,667</td><td class="num">₹4.5L</td><td class="good">3.7x</td></tr>
+<tr><td><strong>Organic/SEO</strong></td><td class="num">₹0</td><td class="num">124</td><td class="num">₹0</td><td class="num">14</td><td class="num">₹0</td><td class="num">₹3.5L</td><td class="good">∞</td></tr>
+<tr><td><strong>Referral</strong></td><td class="num">₹28K</td><td class="num">36</td><td class="num">₹778</td><td class="num">14</td><td class="num">₹2,000</td><td class="num">₹3.5L</td><td class="good">12.5x</td></tr>
+<tr><td><strong>WhatsApp/Direct</strong></td><td class="num">₹0</td><td class="num">78</td><td class="num">₹0</td><td class="num">8</td><td class="num">₹0</td><td class="num">₹2.0L</td><td class="good">∞</td></tr>
+</tbody></table></div></div>
+
+<div class="dd-content" id="dd-course"><div class="data-table-wrap"><h3>Course Deep Dive</h3><table class="data-table"><thead><tr><th>Course</th><th>Batches</th><th>Students</th><th>Attendance</th><th>Completion</th><th>Placement</th><th>NPS</th><th>Revenue (Q)</th></tr></thead><tbody>
+<tr><td><strong>Full Stack Dev</strong></td><td class="num">3</td><td class="num">86</td><td class="good">84%</td><td class="good">91%</td><td class="good">96%</td><td class="num">78</td><td class="num">₹16.2L</td></tr>
+<tr><td><strong>Data Science</strong></td><td class="num">2</td><td class="num">62</td><td class="good">80%</td><td class="good">88%</td><td class="good">94%</td><td class="num">74</td><td class="num">₹12.4L</td></tr>
+<tr><td><strong>Digital Marketing</strong></td><td class="num">2</td><td class="num">54</td><td class="warn">72%</td><td class="good">85%</td><td class="good">91%</td><td class="num">70</td><td class="num">₹8.1L</td></tr>
+<tr><td><strong>SAP FICO</strong></td><td class="num">2</td><td class="num">48</td><td class="good">82%</td><td class="good">90%</td><td class="good">93%</td><td class="num">76</td><td class="num">₹7.2L</td></tr>
+<tr><td><strong>Data Analytics</strong></td><td class="num">1</td><td class="num">28</td><td class="bad">58%</td><td class="warn">72%</td><td class="warn">82%</td><td class="warn">58</td><td class="num">₹3.4L</td></tr>
+</tbody></table></div></div>
+
+<div class="dd-content" id="dd-batch"><div class="data-table-wrap"><h3>Batch-Level Tracking</h3><table class="data-table"><thead><tr><th>Batch</th><th>Course</th><th>Start</th><th>Students</th><th>Week</th><th>Attendance</th><th>Assignments</th><th>Status</th></tr></thead><tbody>
+<tr><td><strong>#FSD-8</strong></td><td>Full Stack</td><td>Jan 15</td><td class="num">32</td><td class="num">W9</td><td class="good">88%</td><td class="good">100%</td><td class="good">⭐ Top</td></tr>
+<tr><td><strong>#FSD-9</strong></td><td>Full Stack</td><td>Feb 20</td><td class="num">28</td><td class="num">W4</td><td class="good">82%</td><td class="good">86%</td><td>On Track</td></tr>
+<tr><td><strong>#DS-11</strong></td><td>Data Science</td><td>Feb 1</td><td class="num">34</td><td class="num">W7</td><td class="good">80%</td><td class="warn">74%</td><td>On Track</td></tr>
+<tr><td><strong>#DA-12</strong></td><td>Analytics</td><td>Feb 15</td><td class="num">28</td><td class="num">W5</td><td class="bad">58%</td><td class="bad">52%</td><td class="bad">🔴 At Risk</td></tr>
+<tr><td><strong>#SAP-14</strong></td><td>SAP FICO</td><td>Mar 5</td><td class="num">22</td><td class="num">W2</td><td class="good">86%</td><td class="good">82%</td><td>On Track</td></tr>
+</tbody></table></div></div>
+
+<div class="dd-content" id="dd-counselor"><div class="data-table-wrap"><h3>Counselor Deep Dive</h3><table class="data-table"><thead><tr><th>Counselor</th><th>Leads</th><th>Contact %</th><th>Enrolled</th><th>Conv %</th><th>Avg Response</th><th>Revenue</th></tr></thead><tbody>
+<tr><td><strong>Priya S.</strong></td><td class="num">82</td><td class="good">95%</td><td class="num">18</td><td class="good">22%</td><td class="good">14 min</td><td class="num">₹5.4L</td></tr>
+<tr><td><strong>Arun M.</strong></td><td class="num">76</td><td class="good">92%</td><td class="num">14</td><td class="good">18%</td><td class="good">22 min</td><td class="num">₹3.5L</td></tr>
+<tr><td><strong>Deepa R.</strong></td><td class="num">68</td><td class="good">90%</td><td class="num">10</td><td class="warn">15%</td><td class="warn">38 min</td><td class="num">₹2.5L</td></tr>
+<tr><td><strong>Karthik V.</strong></td><td class="num">54</td><td class="bad">78%</td><td class="num">5</td><td class="bad">9%</td><td class="bad">1h 12min</td><td class="num">₹1.3L</td></tr>
+</tbody></table></div></div>
+
+<div class="dd-content" id="dd-mentor"><div class="data-table-wrap"><h3>Mentor Deep Dive</h3><table class="data-table"><thead><tr><th>Mentor</th><th>Batches</th><th>Students</th><th>Attendance</th><th>Assignment %</th><th>NPS</th><th>Tickets</th></tr></thead><tbody>
+<tr><td><strong>Sridhar K.</strong> — Full Stack</td><td class="num">2</td><td class="num">60</td><td class="good">85%</td><td class="good">93%</td><td class="num">82</td><td class="good">3</td></tr>
+<tr><td><strong>Meera P.</strong> — Data Science</td><td class="num">2</td><td class="num">62</td><td class="good">80%</td><td class="good">84%</td><td class="num">76</td><td class="good">5</td></tr>
+<tr><td><strong>Anil V.</strong> — SAP FICO</td><td class="num">2</td><td class="num">48</td><td class="good">82%</td><td class="good">86%</td><td class="num">76</td><td class="good">2</td></tr>
+<tr><td><strong>Raj K.</strong> — Analytics</td><td class="num">1</td><td class="num">28</td><td class="bad">58%</td><td class="bad">52%</td><td class="warn">58</td><td class="bad">12</td></tr>
+</tbody></table></div></div>
+</div>
+
+<!-- ===== KPI DICTIONARY ===== -->
+<div class="page" id="page-kpidict">
+<div class="sec-title-row"><h2>📖 KPI Dictionary — 15 Core Metrics</h2></div>
+<p style="color:var(--g500);margin-bottom:24px;font-size:14px">Click any metric to expand its full definition, formula, source, and rationale.</p>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>💰 MRR</h4><div class="dict-val">₹18.4L</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>Sum of all payments received in calendar month</dd></div><div class="dict-row"><dt>Source</dt><dd>Razorpay settlements</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Daily auto-update</dd></div><div class="dict-row"><dt>Owner</dt><dd>Founder + Finance</dd></div><div class="dict-row"><dt>Why</dt><dd>Core revenue health. Declining MRR for 2+ months = systemic problem.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>📊 CAC</h4><div class="dict-val">₹2,840</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>(Total marketing spend + sales salaries) ÷ New enrollments</dd></div><div class="dict-row"><dt>Source</dt><dd>Meta/Google Ads + Payroll → Razorpay</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Weekly (rolling 30d)</dd></div><div class="dict-row"><dt>Owner</dt><dd>Marketing + Founder</dd></div><div class="dict-row"><dt>Why</dt><dd>Efficiency of spend. >₹5K = investigate channel ROI. Target: 10-15% of ARPU.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>🔄 LTV:CAC</h4><div class="dict-val">8.7x</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>Avg Revenue/Student ÷ CAC</dd></div><div class="dict-row"><dt>Source</dt><dd>Razorpay + Ad platforms</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Monthly</dd></div><div class="dict-row"><dt>Owner</dt><dd>Founder</dd></div><div class="dict-row"><dt>Why</dt><dd>>5x excellent. <3x = overspending or underearning per student.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>📞 Leads/Day</h4><div class="dict-val">23</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>New lead form submissions per calendar day</dd></div><div class="dict-row"><dt>Source</dt><dd>Website popup + Ads → CRM</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Real-time</dd></div><div class="dict-row"><dt>Owner</dt><dd>Marketing</dd></div><div class="dict-row"><dt>Why</dt><dd>Top-of-funnel health. <10/day for 2+ days = pipeline broken.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>🎯 Lead→Paid %</h4><div class="dict-val">11.2%</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>(Enrolled ÷ Total leads) × 100, rolling 30 days</dd></div><div class="dict-row"><dt>Source</dt><dd>CRM + Razorpay</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Daily</dd></div><div class="dict-row"><dt>Owner</dt><dd>Sales Head</dd></div><div class="dict-row"><dt>Why</dt><dd>Sales efficiency. Industry avg 8-10%. <8% = lead or counseling quality issue.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>👥 Active Learners</h4><div class="dict-val">612</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>Students with ≥1 session/assignment in last 14 days</dd></div><div class="dict-row"><dt>Source</dt><dd>LMS logs</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Daily</dd></div><div class="dict-row"><dt>Owner</dt><dd>Operations</dd></div><div class="dict-row"><dt>Why</dt><dd>Leading indicator of completion/placement. Declining = rising dropout risk.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>📅 Attendance %</h4><div class="dict-val">78%</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>(Sessions attended ÷ Sessions scheduled) × 100</dd></div><div class="dict-row"><dt>Source</dt><dd>LMS attendance</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Daily per batch</dd></div><div class="dict-row"><dt>Owner</dt><dd>Mentors + Ops</dd></div><div class="dict-row"><dt>Why</dt><dd>Strongest completion predictor. <60% at batch level = intervention needed.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>🏆 Placement Rate</h4><div class="dict-val">93%</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>(Placed within 90 days ÷ Graduates seeking placement) × 100</dd></div><div class="dict-row"><dt>Source</dt><dd>Placement tracker</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Weekly per batch</dd></div><div class="dict-row"><dt>Owner</dt><dd>Placement + Founder</dd></div><div class="dict-row"><dt>Why</dt><dd>THE outcome metric. Drives word-of-mouth and marketing claims. <85% = investigate.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>😊 NPS</h4><div class="dict-val">72</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>% Promoters (9-10) minus % Detractors (0-6)</dd></div><div class="dict-row"><dt>Source</dt><dd>Google Forms survey</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Per batch, monthly aggregate</dd></div><div class="dict-row"><dt>Owner</dt><dd>Ops + Founder</dd></div><div class="dict-row"><dt>Why</dt><dd>>50 excellent, >70 world-class, <40 red flag. Predicts referral rate.</dd></div></dl></div></div>
+
+<div class="dict-card" onclick="this.querySelector('.dict-body').classList.toggle('open')"><div class="dict-header"><h4>↩️ Refund Rate</h4><div class="dict-val">2.1%</div></div><div class="dict-body"><dl><div class="dict-row"><dt>Formula</dt><dd>(Refunds ÷ Enrollments) × 100, rolling 30d</dd></div><div class="dict-row"><dt>Source</dt><dd>Razorpay refund logs</dd></div><div class="dict-row"><dt>Frequency</dt><dd>Weekly</dd></div><div class="dict-row"><dt>Owner</dt><dd>Finance + Founder</dd></div><div class="dict-row"><dt>Why</dt><dd>>5% = mis-selling, bad onboarding, or poor delivery. <3% healthy.</dd></div></dl></div></div>
+</div>
+
+<!-- ===== DATA STACK ===== -->
+<div class="page" id="page-datastack">
+<div class="sec-title-row"><h2>🛠️ Minimum Viable Data Stack</h2></div>
+<p style="color:var(--g500);margin-bottom:24px;font-size:14px">Startup-practical. Total cost: ₹0–₹5K/month.</p>
+<div class="stack-grid">
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=analytics.google.com&sz=128"></div><h5>GA4</h5><p>Website traffic, events, conversions</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=ads.google.com&sz=128"></div><h5>Google Ads</h5><p>Search campaigns, CPL tracking</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=facebook.com&sz=128"></div><h5>Meta Ads</h5><p>Social campaigns, retargeting</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=razorpay.com&sz=128"></div><h5>Razorpay</h5><p>Payments, EMI, refunds</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=sheets.google.com&sz=128"></div><h5>Google Sheets</h5><p>CRM + lead + batch tracker</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=lookerstudio.google.com&sz=128"></div><h5>Looker Studio</h5><p>BI dashboards, auto-refresh</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=posthog.com&sz=128"></div><h5>PostHog</h5><p>Product analytics, funnels</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=whatsapp.com&sz=128"></div><h5>WhatsApp Biz</h5><p>Leads, alerts, support</p></div>
+<div class="stack-card"><div class="stack-icon"><img src="https://www.google.com/s2/favicons?domain=zapier.com&sz=128"></div><h5>Zapier</h5><p>Glue: forms → sheets → alerts</p></div>
+</div>
+
+<div class="data-table-wrap"><h3>🗄️ Entity Model (Source of Truth)</h3>
+<table class="data-table"><thead><tr><th>Entity</th><th>Source</th><th>Key Fields</th><th>Syncs To</th></tr></thead><tbody>
+<tr><td><strong>Lead</strong></td><td>Website + Ads</td><td>name, phone, course_interest, source, utm, created_at</td><td>Sheets → Looker</td></tr>
+<tr><td><strong>Student</strong></td><td>CRM</td><td>lead_id, course, batch, enrollment_date, payment_plan</td><td>LMS + Looker</td></tr>
+<tr><td><strong>Course</strong></td><td>Master Sheet</td><td>id, name, category, duration, price, mentor</td><td>Website + LMS</td></tr>
+<tr><td><strong>Batch</strong></td><td>Ops Sheet</td><td>id, course_id, start_date, mentor, capacity, status</td><td>LMS + Looker</td></tr>
+<tr><td><strong>Payment</strong></td><td>Razorpay</td><td>student_id, amount, type, status, date</td><td>Sheets → Looker</td></tr>
+<tr><td><strong>Session</strong></td><td>LMS</td><td>batch_id, date, topic, attendance_list</td><td>Sheets → Looker</td></tr>
+<tr><td><strong>Placement</strong></td><td>Tracker Sheet</td><td>student_id, company, role, salary, placed_date</td><td>Looker</td></tr>
+<tr><td><strong>Ticket</strong></td><td>WhatsApp/Form</td><td>student_id, type, priority, status, created</td><td>Sheets → Looker</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ===== EVENTS ===== -->
+<div class="page" id="page-events">
+<div class="sec-title-row"><h2>📡 Event Tracking Plan</h2></div>
+<div class="event-group"><h4>🌐 Website Events</h4><div class="data-table-wrap"><table class="data-table"><thead><tr><th>Event</th><th>Trigger</th><th>Properties</th><th>Tool</th></tr></thead><tbody>
+<tr><td><strong>page_view</strong></td><td>Page load</td><td>page_path, referrer, utm_*</td><td>GA4</td></tr>
+<tr><td><strong>cta_click</strong></td><td>CTA button clicked</td><td>button_text, page_section</td><td>GA4+PostHog</td></tr>
+<tr><td><strong>popup_shown</strong></td><td>Lead popup appears</td><td>trigger_time, page_path</td><td>PostHog</td></tr>
+<tr><td><strong>lead_submitted</strong></td><td>Form submitted</td><td>name, phone, course_interest</td><td>GA4 conv</td></tr>
+<tr><td><strong>course_modal_open</strong></td><td>Course card clicked</td><td>course_id, course_name</td><td>PostHog</td></tr>
+<tr><td><strong>whatsapp_click</strong></td><td>WA button clicked</td><td>page_path</td><td>GA4</td></tr>
+<tr><td><strong>phone_call_click</strong></td><td>Phone link clicked</td><td>page_path</td><td>GA4 conv</td></tr>
+</tbody></table></div></div>
+
+<div class="event-group"><h4>📞 Admissions Events</h4><div class="data-table-wrap"><table class="data-table"><thead><tr><th>Event</th><th>Trigger</th><th>Properties</th><th>Tool</th></tr></thead><tbody>
+<tr><td><strong>lead_assigned</strong></td><td>Assigned to counselor</td><td>lead_id, counselor_id</td><td>CRM</td></tr>
+<tr><td><strong>lead_contacted</strong></td><td>First call made</td><td>lead_id, response_time_min</td><td>CRM</td></tr>
+<tr><td><strong>counselling_done</strong></td><td>Session completed</td><td>lead_id, outcome (hot/warm/cold)</td><td>CRM</td></tr>
+<tr><td><strong>payment_completed</strong></td><td>Successful payment</td><td>student_id, amount, emi_plan</td><td>Razorpay</td></tr>
+<tr><td><strong>enrollment_confirmed</strong></td><td>Added to batch</td><td>student_id, course, batch_id</td><td>CRM</td></tr>
+</tbody></table></div></div>
+
+<div class="event-group"><h4>📚 LMS Events</h4><div class="data-table-wrap"><table class="data-table"><thead><tr><th>Event</th><th>Trigger</th><th>Properties</th><th>Tool</th></tr></thead><tbody>
+<tr><td><strong>lms_login</strong></td><td>Portal login</td><td>student_id, device</td><td>LMS</td></tr>
+<tr><td><strong>session_attended</strong></td><td>Present in class</td><td>student_id, session_id, duration</td><td>LMS</td></tr>
+<tr><td><strong>assignment_submitted</strong></td><td>Assignment uploaded</td><td>student_id, on_time</td><td>LMS</td></tr>
+<tr><td><strong>project_submitted</strong></td><td>Capstone submitted</td><td>student_id, project_title</td><td>LMS</td></tr>
+<tr><td><strong>certificate_issued</strong></td><td>Certificate generated</td><td>student_id, cert_type</td><td>LMS</td></tr>
+</tbody></table></div></div>
+
+<div class="event-group"><h4>💼 Placement Events</h4><div class="data-table-wrap"><table class="data-table"><thead><tr><th>Event</th><th>Trigger</th><th>Properties</th><th>Tool</th></tr></thead><tbody>
+<tr><td><strong>resume_submitted</strong></td><td>Resume uploaded</td><td>student_id</td><td>Sheet</td></tr>
+<tr><td><strong>mock_interview_done</strong></td><td>Mock completed</td><td>student_id, score</td><td>Sheet</td></tr>
+<tr><td><strong>offer_received</strong></td><td>Job offer</td><td>student_id, company, salary_lpa</td><td>Sheet</td></tr>
+<tr><td><strong>placement_confirmed</strong></td><td>Joins company</td><td>student_id, company, salary_lpa</td><td>Sheet</td></tr>
+</tbody></table></div></div>
+</div>
+
+<!-- ===== CADENCE ===== -->
+<div class="page" id="page-cadence">
+<div class="sec-title-row"><h2>🕐 Reporting Cadence</h2></div>
+<div class="cadence-grid">
+<div class="cadence-card"><div class="cadence-icon">📱</div><h4>Daily — SMS/WhatsApp</h4><p style="font-size:12px;color:var(--g400);margin-bottom:16px">9:00 AM to Founder</p><ul><li>Yesterday's leads &amp; source</li><li>New enrollments</li><li>Revenue collected</li><li>Red-flag alerts</li><li>Today's sessions count</li></ul></div>
+<div class="cadence-card"><div class="cadence-icon">💬</div><h4>Weekly — Team Digest</h4><p style="font-size:12px;color:var(--g400);margin-bottom:16px">Monday 10 AM</p><ul><li>Leads, enrollments, revenue WoW</li><li>Funnel conversion rates</li><li>Counselor scoreboard</li><li>Batch health summary</li><li>Top 3 action items</li><li>Ad spend vs ROAS</li></ul></div>
+<div class="cadence-card"><div class="cadence-icon">📄</div><h4>Monthly — Board PDF</h4><p style="font-size:12px;color:var(--g400);margin-bottom:16px">1st of every month</p><ul><li>Full P&amp;L</li><li>All 15 KPIs with MoM trend</li><li>Funnel drop-off analysis</li><li>Course performance matrix</li><li>Placement &amp; salary data</li><li>NPS + verbatim feedback</li><li>Next month targets</li></ul></div>
+</div>
+
+<div class="data-table-wrap"><h3>🚀 MVP Build Plan — 4 Weeks</h3>
+<table class="data-table"><thead><tr><th>Week</th><th>Focus</th><th>Deliverables</th><th>Tools</th></tr></thead><tbody>
+<tr><td><strong>Week 1</strong></td><td>Foundation</td><td>GA4 setup, 8 website events, lead form → Sheets via Zapier, Razorpay webhook</td><td>GA4, Zapier, Sheets</td></tr>
+<tr><td><strong>Week 2</strong></td><td>CRM + Sales</td><td>Lead tracker sheet, counselor dashboard in Looker, daily lead SMS alert</td><td>Sheets, Looker, Zapier</td></tr>
+<tr><td><strong>Week 3</strong></td><td>LMS + Delivery</td><td>Batch tracker, attendance log, assignment tracker, mentor dashboard, alerts</td><td>Sheets, Looker, WhatsApp</td></tr>
+<tr><td><strong>Week 4</strong></td><td>Command Center</td><td>This dashboard with live Looker embeds, alert rules, weekly/monthly templates</td><td>Looker, Zapier, Sheets</td></tr>
+</tbody></table></div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+function showPage(id,el){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById('page-'+id).classList.add('active');
+document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+if(el)el.classList.add('active');
+const t={overview:'Founder Command Center',funnels:'Conversion Funnels',alerts:'Red-Flag Alerts',deepdive:'Deep Dive Analysis',kpidict:'KPI Dictionary',datastack:'Data Stack & Model',events:'Event Tracking Plan',cadence:'Reporting Cadence'};
+document.getElementById('pageTitle').textContent=t[id]||'Dashboard';
+document.getElementById('sidebar').classList.remove('open');
+window.scrollTo(0,0);
+}
+
+function showDD(id,el){
+document.querySelectorAll('.dd-content').forEach(d=>d.classList.remove('active'));
+document.getElementById('dd-'+id).classList.add('active');
+document.querySelectorAll('.dd-tab').forEach(t=>t.classList.remove('active'));
+if(el)el.classList.add('active');
+}
+
+// CHARTS
+window.addEventListener('load',()=>{
+const cf={family:'Inter',weight:'500'};
+const gc='rgba(0,0,0,0.04)';
+
+new Chart(document.getElementById('revenueChart'),{type:'bar',data:{labels:['Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Revenue',data:[11.2,12.8,13.5,15.1,16.4,18.4],backgroundColor:['rgba(239,81,121,0.15)','rgba(239,81,121,0.15)','rgba(239,81,121,0.15)','rgba(239,81,121,0.15)','rgba(239,81,121,0.15)','rgba(239,81,121,0.9)'],borderColor:'transparent',borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1f2937',cornerRadius:10,padding:12,callbacks:{label:c=>'₹'+c.parsed.y+'L'}}},scales:{x:{grid:{display:false},ticks:{font:cf,color:'#6b7280'}},y:{grid:{color:gc},ticks:{font:cf,color:'#6b7280',callback:v=>'₹'+v+'L'},beginAtZero:true}}}});
+
+new Chart(document.getElementById('leadSourceChart'),{type:'doughnut',data:{labels:['Google Ads','Meta Ads','Organic','Referral','Direct'],datasets:[{data:[248,196,124,36,78],backgroundColor:['#ef5179','#8b5cf6','#10b981','#f59e0b','#3b82f6'],borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{font:{family:'Inter',size:11,weight:'500'},color:'#6b7280',padding:12,usePointStyle:true,pointStyleWidth:8}}}}});
+
+const days=Array.from({length:30},(_,i)=>i+1);
+new Chart(document.getElementById('leadsChart'),{type:'line',data:{labels:days.map(d=>'Mar '+d),datasets:[{label:'Leads',data:days.map(()=>Math.floor(Math.random()*15)+15),borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.08)',fill:true,tension:0.4,pointRadius:0,borderWidth:2},{label:'Enrollments',data:days.map(()=>Math.floor(Math.random()*4)+1),borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.08)',fill:true,tension:0.4,pointRadius:0,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',labels:{font:{family:'Inter',size:11,weight:'600'},usePointStyle:true,pointStyleWidth:8}}},scales:{x:{grid:{display:false},ticks:{font:cf,color:'#9ca3af',maxRotation:0,maxTicksLimit:6}},y:{grid:{color:gc},ticks:{font:cf,color:'#9ca3af'},beginAtZero:true}}}});
+
+new Chart(document.getElementById('courseChart'),{type:'bar',data:{labels:['Full Stack','Data Science','Marketing','SAP FICO','Testing','Analytics','Python'],datasets:[{data:[52,38,34,28,24,18,12],backgroundColor:'rgba(99,102,241,0.8)',borderRadius:8,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gc},ticks:{font:cf,color:'#9ca3af'}},y:{grid:{display:false},ticks:{font:{family:'Inter',size:12,weight:'600'},color:'#374151'}}}}});
+});
+</script>
+</body>
+</html>
