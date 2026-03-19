@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | UpliftEdu Student Portal</title>
+<meta name="description" content="Your UpliftEdu student dashboard. Track progress, join live classes, view billing, connect with mentors.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--p500:#ef5179;--p600:#db3760;--p50:#fdf2f5;--p100:#fce7ec;--p200:#fad0db;--p300:#f7aabf;--g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--g900:#111827;--w:#fff;--blue:#3b82f6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--sidebar:260px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--g800);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* LOADING SKELETON */
+.skeleton{background:linear-gradient(90deg,var(--g100) 25%,var(--g200) 50%,var(--g100) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-text{height:14px;margin-bottom:8px;border-radius:6px}
+.skel-title{height:24px;width:60%;margin-bottom:12px;border-radius:6px}
+.skel-circle{width:48px;height:48px;border-radius:50%}
+.skel-card{height:180px;border-radius:16px}
+.loading-dash{display:grid;gap:24px;padding:24px}
+.loading-dash .skel-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+
+/* LAYOUT */
+.dash-layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--g900);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:transform 0.3s}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sb-logo img{height:32px}
+.sb-logo span{font-size:18px;font-weight:800;color:var(--w)}
+.sb-logo span em{font-style:normal;color:var(--p500)}
+.sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:2px}
+.sb-link{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;color:var(--g400);text-decoration:none;font-size:13px;font-weight:500;transition:all 0.2s;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.sb-link:hover{background:rgba(255,255,255,0.06);color:var(--g200)}
+.sb-link.active{background:rgba(239,81,121,0.12);color:var(--p500);font-weight:600}
+.sb-link .icon{width:20px;text-align:center;font-size:16px}
+.sb-link .badge{margin-left:auto;background:var(--p500);color:var(--w);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.sb-divider{height:1px;background:rgba(255,255,255,0.06);margin:12px 0}
+.sb-user{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px}
+.sb-avatar{width:36px;height:36px;background:var(--p500);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--w);font-size:13px;font-weight:700;flex-shrink:0}
+.sb-user-info{flex:1;min-width:0}
+.sb-user-name{font-size:13px;font-weight:600;color:var(--w);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user-email{font-size:11px;color:var(--g500);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-logout{background:none;border:none;color:var(--g500);cursor:pointer;font-size:16px;padding:4px;transition:color 0.2s}
+.sb-logout:hover{color:var(--red)}
+
+/* MAIN CONTENT */
+.main{margin-left:var(--sidebar);flex:1;min-height:100vh}
+
+/* TOP BAR */
+.topbar{background:var(--w);border-bottom:1px solid var(--g200);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(255,255,255,0.9)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.menu-toggle{display:none;background:none;border:none;font-size:22px;cursor:pointer;padding:4px;color:var(--g600)}
+.topbar h1{font-family:'Poppins',sans-serif;font-size:20px;font-weight:700;color:var(--g900)}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.notif-btn{position:relative;background:none;border:none;font-size:20px;cursor:pointer;padding:6px;color:var(--g500);transition:color 0.2s}
+.notif-btn:hover{color:var(--g800)}
+.notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--w)}
+
+/* CONTENT */
+.content{padding:28px 32px;max-width:1200px}
+
+/* WELCOME BANNER */
+.welcome{background:linear-gradient(135deg,var(--g900) 0%,#1e293b 100%);border-radius:20px;padding:32px;color:var(--w);position:relative;overflow:hidden;margin-bottom:28px}
+.welcome::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(239,81,121,0.2),transparent);border-radius:50%}
+.welcome h2{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px;position:relative}
+.welcome p{font-size:14px;color:var(--g400);position:relative;margin-bottom:20px}
+.welcome .live-banner{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;color:var(--green);cursor:pointer;text-decoration:none;transition:all 0.2s;position:relative}
+.welcome .live-banner:hover{background:rgba(16,185,129,0.25);transform:translateY(-1px)}
+.welcome .live-banner .pulse{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+.welcome .live-banner.inactive{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:var(--g400);cursor:default}
+.welcome .live-banner.inactive:hover{transform:none}
+.welcome .live-banner.upcoming{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:20px;transition:all 0.2s}
+.stat-card:hover{border-color:var(--p200);box-shadow:0 4px 16px rgba(0,0,0,0.04);transform:translateY(-2px)}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.sc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.sc-icon.pink{background:var(--p50)}
+.sc-icon.blue{background:#eff6ff}
+.sc-icon.green{background:#ecfdf5}
+.sc-icon.purple{background:#f5f3ff}
+.sc-change{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
+.sc-change.up{background:#ecfdf5;color:var(--green)}
+.sc-change.neutral{background:var(--g100);color:var(--g500)}
+.sc-val{font-size:24px;font-weight:800;color:var(--g900);margin-bottom:2px}
+.sc-label{font-size:12px;color:var(--g500);font-weight:500}
+
+/* GRID LAYOUT */
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:28px}
+
+/* COURSE CARD */
+.enrolled-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;overflow:hidden}
+.ec-header{padding:20px 24px;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+.ec-header h3{font-size:16px;font-weight:700;color:var(--g900)}
+.ec-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;background:#ecfdf5;color:var(--green)}
+.ec-body{padding:20px 24px}
+.ec-course{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+.ec-thumb{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.ec-thumb.coding{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+.ec-thumb.marketing{background:linear-gradient(135deg,var(--p500),#f472b6)}
+.ec-thumb.commerce{background:linear-gradient(135deg,#f59e0b,#f97316)}
+.ec-info h4{font-size:15px;font-weight:700;color:var(--g900);margin-bottom:2px}
+.ec-info p{font-size:12px;color:var(--g500)}
+.ec-mentor-small{font-size:12px;color:var(--g400);margin-top:4px}
+.ec-mentor-small strong{color:var(--g600)}
+
+/* PROGRESS BAR */
+.progress-section{margin-bottom:20px}
+.prog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog-header span{font-size:13px;font-weight:600;color:var(--g700)}
+.prog-header em{font-style:normal;font-size:13px;font-weight:700;color:var(--p500)}
+.prog-bar{height:10px;background:var(--g100);border-radius:10px;overflow:hidden;position:relative}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--p500),#f472b6);border-radius:10px;transition:width 1.5s cubic-bezier(0.25,0.46,0.45,0.94);position:relative}
+.prog-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3));border-radius:10px}
+
+/* MODULE LIST */
+.mod-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.mod-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;font-size:13px;color:var(--g600);background:var(--g50);border:1px solid var(--g100);transition:all 0.2s}
+.mod-item.done{color:var(--green)}
+.mod-item.done .mod-check{background:var(--green);color:var(--w)}
+.mod-item.current{color:var(--p600);background:var(--p50);border-color:var(--p200);font-weight:600}
+.mod-item.current .mod-check{background:var(--p500);color:var(--w)}
+.mod-item.locked{color:var(--g400)}
+.mod-check{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:var(--g200);color:var(--g400);font-weight:700}
+
+/* RIGHT COL */
+/* MENTOR CARD */
+.mentor-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:24px;margin-bottom:20px}
+.mentor-card h3{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.mentor-profile{display:flex;flex-direction:column;align-items:center;text-align:center}
+.mentor-avatar{width:72px;height:72px;background:linear-gradient(135deg,var(--p500),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--w);font-size:24px;font-weight:700;margin-bottom:12px}
+.mentor-name{font-size:16px;font-weight:700;color:var(--g900);margin-bottom:2px}
+.mentor-title{font-size:12px;color:var(--g500);margin-bottom:4px}
+.mentor-company{font-size:11px;color:var(--p500);font-weight:600;margin-bottom:14px}
+.mentor-bio{font-size:12px;color:var(--g500);line-height:1.6;margin-bottom:16px}
+.mentor-actions{display:flex;gap:8px;width:100%}
+.mentor-actions a,.mentor-actions button{flex:1;padding:9px 14px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;text-align:center;transition:all 0.2s;cursor:pointer;font-family:inherit;border:none}
+.mentor-msg{background:var(--p500);color:var(--w)}
+.mentor-msg:hover{background:var(--p600)}
+.mentor-email{background:var(--g100);color:var(--g700)}
+.mentor-email:hover{background:var(--g200)}
+
+/* BILLING */
+.billing-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:24px;margin-bottom:20px}
+.billing-card h3{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.bill-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--g100)}
+.bill-row:last-child{border:none}
+.bill-label{font-size:13px;color:var(--g500)}
+.bill-val{font-size:13px;font-weight:700;color:var(--g900)}
+.bill-val.paid{color:var(--green)}
+.bill-val.pending{color:var(--amber)}
+.bill-val.total{color:var(--g900);font-size:15px}
+.invoice-btn{width:100%;margin-top:12px;padding:10px;border:1.5px solid var(--g200);border-radius:10px;background:var(--w);font-size:13px;font-weight:600;color:var(--g700);cursor:pointer;transition:all 0.2s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+.invoice-btn:hover{border-color:var(--p300);color:var(--p600);background:var(--p50)}
+
+/* ANNOUNCEMENTS */
+.announce-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:24px}
+.announce-card h3{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.announce-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.announce-item{display:flex;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--g100)}
+.announce-item:last-child{border:none;padding-bottom:0}
+.ann-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ann-icon.info{background:#eff6ff}
+.ann-icon.warn{background:#fffbeb}
+.ann-icon.success{background:#ecfdf5}
+.ann-icon.live{background:#fef2f2}
+.ann-text{font-size:13px;color:var(--g700);line-height:1.5}
+.ann-text strong{font-weight:600}
+.ann-time{font-size:11px;color:var(--g400);margin-top:2px}
+
+/* MOBILE OVERLAY */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:90}
+.sb-overlay.open{display:block}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+.stat-row{grid-template-columns:repeat(2,1fr)}
+.dash-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.main{margin-left:0}
+.menu-toggle{display:block}
+.topbar{padding:12px 16px}
+.topbar h1{font-size:17px}
+.content{padding:20px 16px}
+.welcome{padding:24px 20px;border-radius:16px}
+.welcome h2{font-size:18px}
+.stat-row{grid-template-columns:1fr 1fr;gap:12px}
+.stat-card{padding:16px}
+.sc-val{font-size:20px}
+.dash-grid{gap:16px}
+.ec-header,.ec-body{padding:16px}
+.mentor-card,.billing-card,.announce-card{padding:18px}
+}
+@media(max-width:480px){
+.stat-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING STATE -->
+<div id="loadingState" class="loading-dash">
+<div class="skel-title skeleton" style="width:200px;height:32px"></div>
+<div class="skel-card skeleton"></div>
+<div class="skel-row">
+<div class="skel-card skeleton"></div>
+<div class="skel-card skeleton"></div>
+<div class="skel-card skeleton"></div>
+<div class="skel-card skeleton"></div>
+</div>
+<div class="skel-card skeleton" style="height:300px"></div>
+</div>
+
+<!-- DASHBOARD (hidden until loaded) -->
+<div class="dash-layout" id="dashLayout" style="display:none">
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+<div class="sb-logo">
+<img src="logo.png" alt="UpliftEdu">
+<span>Uplift<em>Edu</em></span>
+</div>
+<div class="sb-nav">
+<a class="sb-link active" href="#"><span class="icon">📊</span> Dashboard</a>
+<a class="sb-link" href="#"><span class="icon">📚</span> My Courses</a>
+<a class="sb-link" href="#"><span class="icon">🎥</span> Live Classes <span class="badge">1</span></a>
+<a class="sb-link" href="#"><span class="icon">📝</span> Assignments</a>
+<a class="sb-link" href="#"><span class="icon">📜</span> Certificates</a>
+<div class="sb-divider"></div>
+<a class="sb-link" href="#"><span class="icon">💳</span> Billing</a>
+<a class="sb-link" href="#"><span class="icon">👤</span> Profile</a>
+<a class="sb-link" href="#"><span class="icon">⚙️</span> Settings</a>
+<div class="sb-divider"></div>
+<a class="sb-link" href="index.html"><span class="icon">🌐</span> Browse Courses</a>
+</div>
+<div class="sb-user">
+<div class="sb-avatar" id="sbAvatar">AK</div>
+<div class="sb-user-info">
+<div class="sb-user-name" id="sbName">Student</div>
+<div class="sb-user-email" id="sbEmail">student@upliftedu.in</div>
+</div>
+<button class="sb-logout" onclick="logout()" title="Sign out">⏻</button>
+</div>
+</nav>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<div class="main">
+<div class="topbar">
+<div class="topbar-left">
+<button class="menu-toggle" onclick="openSidebar()">☰</button>
+<h1 id="greeting">Dashboard</h1>
+</div>
+<div class="topbar-right">
+<button class="notif-btn">🔔<span class="notif-dot"></span></button>
+</div>
+</div>
+
+<div class="content">
+
+<!-- WELCOME -->
+<div class="welcome">
+<h2 id="welcomeText">Good morning, Student!</h2>
+<p>You have a live class scheduled today. Keep up the great work!</p>
+<a href="#" class="live-banner" id="liveBtn" target="_blank" rel="noopener">
+<span class="pulse"></span>
+<span id="liveBtnText">Join Live Class — React.js Session</span>
+</a>
+</div>
+
+<!-- STAT CARDS -->
+<div class="stat-row">
+<div class="stat-card">
+<div class="sc-top"><div class="sc-icon pink">📊</div><span class="sc-change up">On Track</span></div>
+<div class="sc-val" id="statProgress">45%</div>
+<div class="sc-label">Course Progress</div>
+</div>
+<div class="stat-card">
+<div class="sc-top"><div class="sc-icon blue">📚</div><span class="sc-change neutral">Current</span></div>
+<div class="sc-val" id="statModules">4/10</div>
+<div class="sc-label">Modules Completed</div>
+</div>
+<div class="stat-card">
+<div class="sc-top"><div class="sc-icon green">⏱️</div><span class="sc-change up">+3h this week</span></div>
+<div class="sc-val" id="statHours">48h</div>
+<div class="sc-label">Learning Hours</div>
+</div>
+<div class="stat-card">
+<div class="sc-top"><div class="sc-icon purple">🏅</div><span class="sc-change neutral">Next: Module 5</span></div>
+<div class="sc-val" id="statAssign">12/15</div>
+<div class="sc-label">Assignments Done</div>
+</div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="dash-grid">
+<!-- LEFT: COURSE + PROGRESS -->
+<div>
+<div class="enrolled-card">
+<div class="ec-header">
+<h3>Active Enrollment</h3>
+<span class="ec-badge" id="enrollStatus">Active</span>
+</div>
+<div class="ec-body">
+<div class="ec-course">
+<div class="ec-thumb coding" id="courseThumb">💻</div>
+<div class="ec-info">
+<h4 id="courseName">Full Stack Development</h4>
+<p id="courseMeta">7 Months · 80+ Sessions · Batch March 2026</p>
+<div class="ec-mentor-small">Mentor: <strong id="courseMentor">Akhil Unnikrishnan</strong></div>
+</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+<div class="prog-header">
+<span>Overall Progress</span>
+<em id="progPercent">45%</em>
+</div>
+<div class="prog-bar">
+<div class="prog-fill" id="progFill" style="width:0%"></div>
+</div>
+</div>
+
+<!-- MODULES -->
+<ul class="mod-list" id="modList">
+<li class="mod-item done"><span class="mod-check">✓</span>Module 1: Fundamentals & Git</li>
+<li class="mod-item done"><span class="mod-check">✓</span>Module 2: HTML5, CSS3 & Bootstrap</li>
+<li class="mod-item done"><span class="mod-check">✓</span>Module 3: Responsive Web Design</li>
+<li class="mod-item done"><span class="mod-check">✓</span>Module 4: JavaScript Fundamentals</li>
+<li class="mod-item current"><span class="mod-check">▶</span>Module 5: ES6+ & Advanced JS</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 6: React.js</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 7: React Hooks</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 8: Databases</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 9: Node.js & Express</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 10: Capstone Projects</li>
+</ul>
+</div>
+</div>
+
+<!-- ANNOUNCEMENTS -->
+<div class="announce-card" style="margin-top:24px">
+<h3>📢 What's Happening</h3>
+<ul class="announce-list">
+<li class="announce-item">
+<div class="ann-icon live">🔴</div>
+<div><div class="ann-text"><strong>Live Class Today at 7:00 PM</strong> — ES6 Destructuring & Spread Syntax with Akhil</div><div class="ann-time">Today</div></div>
+</li>
+<li class="announce-item">
+<div class="ann-icon warn">⚠️</div>
+<div><div class="ann-text"><strong>Assignment Due:</strong> JavaScript Array Methods — submit by March 21</div><div class="ann-time">2 days left</div></div>
+</li>
+<li class="announce-item">
+<div class="ann-icon success">✅</div>
+<div><div class="ann-text">You scored <strong>92%</strong> on the Module 4 assessment. Great job!</div><div class="ann-time">Yesterday</div></div>
+</li>
+<li class="announce-item">
+<div class="ann-icon info">💡</div>
+<div><div class="ann-text"><strong>New Resource:</strong> ES6 Cheat Sheet uploaded to the learning portal</div><div class="ann-time">2 days ago</div></div>
+</li>
+<li class="announce-item">
+<div class="ann-icon info">📅</div>
+<div><div class="ann-text"><strong>Schedule Update:</strong> Saturday session moved to 10 AM instead of 9 AM</div><div class="ann-time">3 days ago</div></div>
+</li>
+</ul>
+</div>
+</div>
+
+<!-- RIGHT COLUMN -->
+<div>
+<!-- MENTOR -->
+<div class="mentor-card">
+<h3>👨‍🏫 Your Mentor</h3>
+<div class="mentor-profile">
+<div class="mentor-avatar" id="mentorAvatar">AU</div>
+<div class="mentor-name" id="mentorName">Akhil Unnikrishnan</div>
+<div class="mentor-title">Senior Software Engineer</div>
+<div class="mentor-company">Ex-Samsung STAR Labs</div>
+<p class="mentor-bio">10+ years in full stack development. Founding member at Samsung STAR Labs. Expert in React, Node.js, and cloud architecture. Passionate about mentoring the next generation of developers.</p>
+<div class="mentor-actions">
+<button class="mentor-msg" onclick="alert('Messaging feature coming soon!')">Message</button>
+<a class="mentor-email" href="mailto:mentor@upliftedu.in">Email</a>
+</div>
+</div>
+</div>
+
+<!-- BILLING -->
+<div class="billing-card">
+<h3>💳 Billing Summary</h3>
+<div class="bill-row"><span class="bill-label">Course Fee</span><span class="bill-val total">₹49,999</span></div>
+<div class="bill-row"><span class="bill-label">Amount Paid</span><span class="bill-val paid">₹35,000</span></div>
+<div class="bill-row"><span class="bill-label">Pending Balance</span><span class="bill-val pending">₹14,999</span></div>
+<div class="bill-row"><span class="bill-label">Next EMI Due</span><span class="bill-val">April 5, 2026</span></div>
+<div class="bill-row"><span class="bill-label">Payment Plan</span><span class="bill-val">3-Month EMI</span></div>
+<button class="invoice-btn" onclick="downloadInvoice()">📄 Download Invoice (PDF)</button>
+</div>
+
+<!-- UPCOMING -->
+<div class="billing-card">
+<h3>📅 Upcoming Schedule</h3>
+<div class="bill-row"><span class="bill-label">Today, 7 PM</span><span class="bill-val" style="color:var(--green)">ES6 Advanced JS</span></div>
+<div class="bill-row"><span class="bill-label">Thu, 7 PM</span><span class="bill-val">Async/Await</span></div>
+<div class="bill-row"><span class="bill-label">Sat, 10 AM</span><span class="bill-val">JS Project Review</span></div>
+<div class="bill-row"><span class="bill-label">Mon, 7 PM</span><span class="bill-val">Intro to React</span></div>
+</div>
+</div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /dash-layout -->
+
+<script>
+// AUTH CHECK
+function checkAuth(){
+const s=localStorage.getItem('ue_session');
+if(!s){window.location.href='login.html';return null;}
+try{
+const session=JSON.parse(s);
+if(!session.token||Date.now()-session.loginAt>86400000){
+localStorage.removeItem('ue_session');
+window.location.href='login.html';
+return null;
+}
+return session;
+}catch(e){
+localStorage.removeItem('ue_session');
+window.location.href='login.html';
+return null;
+}
+}
+
+// INIT
+function initDashboard(){
+const session=checkAuth();
+if(!session)return;
+
+// Simulate loading
+setTimeout(()=>{
+document.getElementById('loadingState').style.display='none';
+document.getElementById('dashLayout').style.display='flex';
+
+// Populate user data
+document.getElementById('sbAvatar').textContent=session.avatar||'U';
+document.getElementById('sbName').textContent=session.name;
+document.getElementById('sbEmail').textContent=session.email;
+
+// Greeting
+const hour=new Date().getHours();
+const greet=hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
+document.getElementById('welcomeText').textContent=`${greet}, ${session.name.split(' ')[0]}!`;
+document.getElementById('greeting').textContent='Dashboard';
+
+// Course-specific data
+if(session.course==='Data Science'){
+document.getElementById('courseName').textContent='Data Science';
+document.getElementById('courseMeta').textContent='6 Months · 80+ Sessions · Batch March 2026';
+document.getElementById('courseThumb').textContent='🧬';
+document.getElementById('courseThumb').className='ec-thumb coding';
+document.getElementById('statProgress').textContent='38%';
+document.getElementById('progPercent').textContent='38%';
+document.getElementById('statModules').textContent='3/9';
+document.getElementById('statHours').textContent='36h';
+document.getElementById('statAssign').textContent='9/12';
+document.getElementById('mentorName').textContent='Dinesh Karthik R';
+document.getElementById('mentorAvatar').textContent='DK';
+document.getElementById('courseMentor').textContent='Dinesh Karthik R';
+document.querySelector('.mentor-title').textContent='Senior Data Engineer';
+document.querySelector('.mentor-company').textContent='Tesla';
+document.querySelector('.mentor-bio').textContent='8+ years in data engineering and machine learning. Currently at Tesla. Expert in Python, SQL, and large-scale data pipelines.';
+document.getElementById('liveBtnText').textContent='Join Live Class — Python Data Structures';
+
+// Update modules
+document.getElementById('modList').innerHTML=`
+<li class="mod-item done"><span class="mod-check">✓</span>Module 1: Preparatory Session</li>
+<li class="mod-item done"><span class="mod-check">✓</span>Module 2: Python Programming</li>
+<li class="mod-item done"><span class="mod-check">✓</span>Module 3: Advanced Python</li>
+<li class="mod-item current"><span class="mod-check">▶</span>Module 4: Data Analysis Libraries</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 5: Data Visualization</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 6: MySQL Database</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 7: Power BI</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 8: Machine Learning</li>
+<li class="mod-item locked"><span class="mod-check">🔒</span>Module 9: Capstone Projects</li>`;
+
+setTimeout(()=>{document.getElementById('progFill').style.width='38%'},100);
+} else {
+document.getElementById('courseMentor').textContent=session.mentor||'Akhil Unnikrishnan';
+setTimeout(()=>{document.getElementById('progFill').style.width='45%'},100);
+}
+
+// Live class state management
+updateLiveButton();
+setInterval(updateLiveButton,60000);
+
+},800);
+}
+
+function updateLiveButton(){
+const now=new Date();
+const hour=now.getHours();
+const min=now.getMinutes();
+const btn=document.getElementById('liveBtn');
+const text=document.getElementById('liveBtnText');
+
+// Class at 19:00 (7 PM) — active from 18:45 to 20:30
+if(hour===19||(hour===18&&min>=45)||(hour===20&&min<=30)){
+btn.className='live-banner';
+btn.href='https://meet.google.com/upliftedu-live';
+text.innerHTML='<strong>LIVE NOW</strong> — Join Class';
+} else if(hour>=17&&hour<19){
+btn.className='live-banner upcoming';
+const minsUntil=(19-hour)*60-min;
+text.textContent=`Class starts in ${minsUntil} min — ES6 Advanced JS`;
+if(minsUntil<=15){
+btn.className='live-banner';
+btn.href='https://meet.google.com/upliftedu-live';
+}
+} else {
+btn.className='live-banner inactive';
+btn.removeAttribute('href');
+text.textContent='Next class: Today at 7:00 PM';
+}
+}
+
+function downloadInvoice(){
+// Generate a simple PDF-like invoice
+const invoiceHTML=`
+<html><head><title>Invoice - UpliftEdu</title>
+<style>body{font-family:Arial,sans-serif;padding:40px;color:#333}
+.header{display:flex;justify-content:space-between;border-bottom:2px solid #ef5179;padding-bottom:20px;margin-bottom:30px}
+.logo{font-size:24px;font-weight:bold}.logo span{color:#ef5179}
+table{width:100%;border-collapse:collapse;margin:20px 0}
+th,td{padding:12px;text-align:left;border-bottom:1px solid #eee}
+th{background:#f9fafb;font-weight:600}
+.total{font-size:18px;font-weight:bold;color:#ef5179}
+.footer{margin-top:40px;padding-top:20px;border-top:1px solid #eee;font-size:12px;color:#999}
+</style></head><body>
+<div class="header"><div class="logo">Uplift<span>Edu</span></div><div>INVOICE<br><small>Date: March 19, 2026</small><br><small>Invoice #: UE-2026-0342</small></div></div>
+<p><strong>Bill To:</strong> ${JSON.parse(localStorage.getItem('ue_session')).name}</p>
+<p>${JSON.parse(localStorage.getItem('ue_session')).email}</p>
+<table><tr><th>Description</th><th>Amount</th></tr>
+<tr><td>Full Stack Development Course (7 Months)<br><small>Batch: March 2026 · Illinois Tech + NSDC Certified</small></td><td>₹49,999</td></tr>
+<tr><td>Amount Paid (2 EMIs)</td><td style="color:#10b981">- ₹35,000</td></tr>
+<tr><td><strong>Balance Due</strong></td><td class="total">₹14,999</td></tr></table>
+<p><strong>Next EMI:</strong> ₹14,999 due by April 5, 2026</p>
+<p><strong>Payment Methods:</strong> UPI / Bank Transfer / Credit Card</p>
+<div class="footer">UpliftEdu · Chennai, Tamil Nadu, India · +91 93800 58580 · info@upliftedu.in</div>
+</body></html>`;
+const w=window.open('','_blank');
+w.document.write(invoiceHTML);
+w.document.close();
+setTimeout(()=>w.print(),500);
+}
+
+// SIDEBAR
+function openSidebar(){
+document.getElementById('sidebar').classList.add('open');
+document.getElementById('sbOverlay').classList.add('open');
+}
+function closeSidebar(){
+document.getElementById('sidebar').classList.remove('open');
+document.getElementById('sbOverlay').classList.remove('open');
+}
+
+// LOGOUT
+function logout(){
+localStorage.removeItem('ue_session');
+window.location.href='login.html';
+}
+
+// INIT
+initDashboard();
+</script>
+</body>
+</html>

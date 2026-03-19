@@ -1,651 +1,1796 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses | UpliftEdu</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-50: #fdf2f5;
-            --primary-100: #fce7ec;
-            --primary-200: #fad0db;
-            --primary-300: #f7aabf;
-            --primary-400: #f27a9d;
-            --primary-500: #ef5179;
-            --primary-600: #db3760;
-            --primary-700: #b82548;
-            --primary-800: #99213e;
-            --primary-900: #821f38;
-            --white: #ffffff;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UpliftEdu - India's Premier Career-Focused Learning Platform | 35+ Courses | Placement Support</title>
+<meta name="description" content="UpliftEdu offers 35+ industry-relevant courses in Full Stack Development, Data Science, Digital Marketing, SAP, UI/UX Design & more. Get certified by Illinois Tech & NSDC. 100% placement assistance. Based in Chennai.">
+<meta name="keywords" content="UpliftEdu, online courses India, full stack development course, data science course, digital marketing course, SAP FICO training, software testing course, placement assistance, career courses Chennai, coding bootcamp, professional certification">
+<meta name="author" content="UpliftEdu">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="UpliftEdu - Transform Your Career with Industry-Ready Skills">
+<meta property="og:description" content="35+ certified courses with placement support. Learn from industry experts at Samsung, Tesla, Deloitte. Join 15,000+ successful learners.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://upliftedu.in">
+<meta property="og:image" content="https://upliftedu.in/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://upliftedu.in">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"EducationalOrganization","name":"UpliftEdu","url":"https://upliftedu.in","logo":"https://upliftedu.in/logo.png","description":"India's premier career-focused learning platform offering 35+ industry-relevant courses with placement assistance.","address":{"@type":"PostalAddress","addressLocality":"Chennai","addressRegion":"Tamil Nadu","addressCountry":"IN"},"telephone":"+919380058580","sameAs":[],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Professional Courses","itemListElement":[{"@type":"Course","name":"Full Stack Development","description":"7-month program covering HTML, CSS, JavaScript, React, Node.js, MongoDB, AWS","provider":{"@type":"Organization","name":"UpliftEdu"}},{"@type":"Course","name":"Data Science","description":"6-month AI-driven program covering Python, SQL, Power BI, Machine Learning","provider":{"@type":"Organization","name":"UpliftEdu"}},{"@type":"Course","name":"Digital Marketing","description":"6-month program covering SEO, Google Ads, Meta Ads, Analytics, AI tools","provider":{"@type":"Organization","name":"UpliftEdu"}},{"@type":"Course","name":"SAP FICO","description":"3-month SAP financial accounting and controlling certification","provider":{"@type":"Organization","name":"UpliftEdu"}},{"@type":"Course","name":"Software Testing","description":"6-month program covering manual testing, Selenium, Java, API testing","provider":{"@type":"Organization","name":"UpliftEdu"}}]}}
+</script>
+<style>
+:root{--p50:#fdf2f5;--p100:#fce7ec;--p200:#fad0db;--p300:#f7aabf;--p400:#f27a9d;--p500:#ef5179;--p600:#db3760;--p700:#b82548;--p800:#99213e;--w:#fff;--g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--g900:#111827}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--w);color:var(--g700);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* STICKY HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.85);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.08);transition:all 0.3s}
+header.scrolled{background:rgba(255,255,255,0.95);box-shadow:0 1px 12px rgba(0,0,0,0.08)}
+.h-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo img{height:38px;width:auto}
+.logo-t{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:var(--g900)}
+.logo-t span{color:var(--p500)}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-links a{color:var(--g600);text-decoration:none;font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px;transition:all 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--p600);background:var(--p50)}
+.h-cta{background:var(--p500);color:var(--w);padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;text-decoration:none;transition:all 0.3s;border:none;cursor:pointer}
+.h-cta:hover{background:var(--p600);transform:scale(1.04)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.hamburger span{width:22px;height:2px;background:var(--g800);border-radius:2px;transition:all 0.3s}
+.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--w);padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.1);border-bottom:1px solid var(--g200);z-index:999}
+.mob-menu.open{display:flex;flex-direction:column;gap:4px;animation:slideDown 0.3s ease}
+.mob-menu a{color:var(--g700);text-decoration:none;font-size:15px;font-weight:500;padding:12px 16px;border-radius:10px;transition:all 0.2s}
+.mob-menu a:hover{background:var(--p50);color:var(--p600)}
 
-        html {
-            scroll-behavior: smooth;
-        }
+/* HERO */
+.hero{padding:120px 24px 80px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,var(--p50) 0%,var(--w) 100%)}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(239,81,121,0.08) 0%,transparent 70%);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,0.06) 0%,transparent 70%);border-radius:50%}
+.hero>*{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--w);border:1px solid var(--p200);color:var(--p600);font-size:13px;font-weight:600;padding:6px 16px;border-radius:20px;margin-bottom:24px;animation:fadeUp 0.6s ease}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--p500);border-radius:50%;animation:pulse 2s infinite}
+.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2px;color:var(--g900);margin-bottom:20px;animation:fadeUp 0.6s ease 0.1s both}
+.hero h1 em{font-style:normal;color:var(--p500);position:relative}
+.hero h1 em::after{content:'';position:absolute;bottom:4px;left:0;right:0;height:6px;background:var(--p200);border-radius:3px;z-index:-1}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--g500);line-height:1.6;max-width:600px;margin:0 auto 36px;animation:fadeUp 0.6s ease 0.2s both}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.6s ease 0.3s both}
+.btn-p{background:var(--p500);color:var(--w);padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;text-decoration:none;transition:all 0.3s;box-shadow:0 4px 20px rgba(239,81,121,0.3)}
+.btn-p:hover{background:var(--p600);transform:translateY(-2px);box-shadow:0 8px 30px rgba(239,81,121,0.4)}
+.btn-o{background:var(--w);color:var(--g700);padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;text-decoration:none;border:1.5px solid var(--g300);transition:all 0.3s}
+.btn-o:hover{border-color:var(--p400);color:var(--p600);transform:translateY(-2px)}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--white);
-            color: var(--gray-800);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+/* STATS */
+.stats{padding:48px 24px;background:var(--g900);color:var(--w)}
+.stats-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}
+.stat-n{font-family:'Poppins',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:var(--p400);margin-bottom:4px}
+.stat-l{font-size:13px;color:var(--g400);font-weight:500;text-transform:uppercase;letter-spacing:1px}
 
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--gray-200);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+/* SECTION COMMON */
+section{padding:100px 24px}
+.sec-head{text-align:center;margin-bottom:64px}
+.sec-tag{display:inline-block;background:var(--p50);color:var(--p600);font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+.sec-title{font-family:'Poppins',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:var(--g900);letter-spacing:-1px;margin-bottom:12px}
+.sec-sub{font-size:16px;color:#8b95a5;max-width:560px;margin:0 auto;line-height:1.6}
 
-        .header-inner {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 18px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+/* CATEGORY FILTER */
+.cat-filter{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.cat-btn{background:var(--g100);color:var(--g600);border:none;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.3s}
+.cat-btn:hover,.cat-btn.active{background:var(--p500);color:var(--w);transform:translateY(-1px)}
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--gray-900);
-        }
+/* COURSE GRID */
+.courses-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px}
+.course-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;overflow:hidden;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);cursor:pointer;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.course-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.12),0 -3px 0 0 var(--p500) inset;border-color:var(--p200)}
+.cc-badge{position:absolute;top:16px;right:16px;background:var(--p500);color:var(--w);font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:0.5px;z-index:2}
+.cc-top{padding:24px 24px 0;position:relative}
+.cc-visual{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.cc-cat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cc-cat-icon svg{width:22px;height:22px;stroke-width:1.8}
+.cc-cat-icon.coding{background:linear-gradient(135deg,#eef2ff,#e0e7ff);color:#6366f1}
+.cc-cat-icon.commerce{background:linear-gradient(135deg,#fff7ed,#ffedd5);color:#f97316}
+.cc-cat-icon.technical{background:linear-gradient(135deg,#ecfdf5,#d1fae5);color:#10b981}
+.cc-cat-icon.marketing{background:linear-gradient(135deg,#fdf2f8,#fce7f3);color:#ec4899}
+.cc-cat-icon.finance{background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#3b82f6}
+.cc-cat-icon.teaching{background:linear-gradient(135deg,#fdf2f8,#fce7f3);color:#ec4899}
+.cc-cat-icon.language{background:linear-gradient(135deg,#f5f3ff,#ede9fe);color:#8b5cf6}
+.cc-cat-icon.healthcare{background:linear-gradient(135deg,#ecfdf5,#d1fae5);color:#10b981}
+.cc-cat-icon.others{background:linear-gradient(135deg,var(--g50),var(--g100));color:var(--g500)}
+.cc-tools{display:flex;align-items:center;gap:0;margin-bottom:12px}
+.cc-tools img{width:22px;height:22px;border-radius:5px;border:2px solid var(--w);margin-left:-4px;background:var(--w);object-fit:contain;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.cc-tools img:first-child{margin-left:0}
+.cc-tools .cc-tools-more{width:22px;height:22px;border-radius:5px;border:2px solid var(--w);margin-left:-4px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--g500)}
+.cc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.cc-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--p500);margin-bottom:8px}
+.cc-name{font-size:18px;font-weight:700;color:var(--g900);line-height:1.3;margin-bottom:8px}
+.cc-desc{font-size:13px;color:var(--g500);line-height:1.6;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cc-meta{display:flex;gap:16px;flex-wrap:wrap;padding:0 24px 16px}
+.cc-meta-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--g500);font-weight:500}
+.cc-meta-item svg{width:14px;height:14px;color:var(--g400)}
+.cc-bottom{padding:16px 24px;border-top:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+.cc-price{font-size:14px;font-weight:700;color:var(--g900)}
+.cc-btn{color:var(--p500);font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;transition:gap 0.2s}
+.course-card:hover .cc-btn{gap:8px;color:var(--p600)}
 
-        .logo span {
-            color: var(--primary-500);
-        }
+/* COURSE MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:2000;justify-content:center;align-items:flex-start;padding:40px 24px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--w);border-radius:20px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn 0.3s ease}
+.modal-close{position:sticky;top:0;right:0;float:right;background:var(--g100);border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:16px 16px 0 0;z-index:10;transition:all 0.2s}
+.modal-close:hover{background:var(--g200);transform:rotate(90deg)}
+.modal-hero{padding:0 40px 32px;border-bottom:1px solid var(--g100)}
+.modal-hero .cc-cat{margin-top:-8px}
+.modal-hero h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3.5vw,36px);font-weight:800;color:var(--g900);margin-bottom:12px;letter-spacing:-0.5px}
+.modal-hero p{font-size:15px;color:var(--g500);line-height:1.7}
+.modal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:16px;padding:24px 40px;background:var(--g50);border-bottom:1px solid var(--g100)}
+.ms-item{text-align:center}
+.ms-val{font-size:20px;font-weight:800;color:var(--g900)}
+.ms-label{font-size:11px;color:var(--g500);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.modal-body{padding:32px 40px}
+.mb-section{margin-bottom:32px}
+.mb-section h3{font-size:18px;font-weight:700;color:var(--g900);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.mb-section h3 span{font-size:20px}
+.curriculum-mod{background:var(--g50);border-radius:12px;margin-bottom:8px;overflow:hidden;border:1px solid var(--g100)}
+.cm-header{padding:14px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;color:var(--g800);transition:background 0.2s}
+.cm-header:hover{background:var(--g100)}
+.cm-header .arrow{transition:transform 0.3s;font-size:12px;color:var(--g400)}
+.cm-header.open .arrow{transform:rotate(180deg)}
+.cm-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.cm-body.open{max-height:600px}
+.cm-body ul{padding:0 20px 16px 36px;list-style:none}
+.cm-body li{font-size:13px;color:var(--g600);padding:4px 0;position:relative;padding-left:16px}
+.cm-body li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:6px;background:var(--p300);border-radius:50%}
+.tools-grid{display:flex;flex-wrap:wrap;gap:8px}
+.tool-tag{background:var(--p50);color:var(--p700);font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px}
+.career-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.career-item{background:var(--g50);padding:12px 16px;border-radius:10px;font-size:13px;font-weight:500;color:var(--g700);border:1px solid var(--g100)}
+.salary-range{font-size:13px;color:var(--p600);font-weight:600;margin-top:2px}
+.modal-cta{padding:24px 40px 32px;text-align:center;background:linear-gradient(180deg,var(--w),var(--p50))}
+.modal-cta .btn-p{font-size:17px;padding:16px 48px;display:inline-block}
+.highlight-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.highlight-list li{font-size:13px;color:var(--g700);padding:10px 14px;background:var(--g50);border-radius:10px;display:flex;align-items:flex-start;gap:8px;border:1px solid var(--g100)}
+.highlight-list li::before{content:'✓';color:var(--p500);font-weight:800;flex-shrink:0}
+.who-list{list-style:none;display:grid;gap:8px}
+.who-list li{font-size:14px;color:var(--g600);padding:10px 16px;background:var(--g50);border-radius:10px;display:flex;align-items:center;gap:10px;border:1px solid var(--g100)}
+.who-list li::before{content:'→';color:var(--p500);font-weight:700}
 
-        nav a {
-            color: var(--gray-500);
-            text-decoration: none;
-            margin-left: 32px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
+/* WHY UPLIFTEDU */
+.why-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.why-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:36px 32px;transition:all 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.why-card:hover{border-color:var(--p200);box-shadow:0 8px 32px rgba(0,0,0,0.06);transform:translateY(-4px)}
+.why-icon{width:48px;height:48px;background:var(--p50);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;transition:all 0.3s}
+.why-card:hover .why-icon{transform:scale(1.1);background:linear-gradient(135deg,var(--p50),var(--p100))}
+.why-card h3{font-size:17px;font-weight:700;color:var(--g900);margin-bottom:8px}
+.why-card p{font-size:14px;color:var(--g500);line-height:1.6}
 
-        nav a:hover {
-            color: var(--gray-900);
-        }
+/* TESTIMONIALS */
+.test-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.test-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;padding:28px;transition:all 0.3s}
+.test-card:hover{border-color:var(--p200);box-shadow:0 8px 24px rgba(0,0,0,0.06)}
+.test-stars{color:#f59e0b;font-size:14px;margin-bottom:12px;letter-spacing:2px}
+.test-text{font-size:14px;color:var(--g600);line-height:1.7;margin-bottom:16px;font-style:italic}
+.test-author{font-size:13px;font-weight:600;color:var(--g800)}
+.test-role{font-size:12px;color:var(--g400)}
 
-        nav a.active {
-            color: var(--primary-500);
-            font-weight: 600;
-        }
+/* PROCESS */
+.process-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}
+.proc-step{position:relative}
+.proc-num{width:48px;height:48px;background:var(--p500);color:var(--w);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;margin:0 auto 16px}
+.proc-step h4{font-size:15px;font-weight:700;color:var(--g900);margin-bottom:6px}
+.proc-step p{font-size:13px;color:var(--g500);line-height:1.5}
 
-        .cta-btn {
-            background: var(--primary-500);
-            color: var(--white);
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            margin-left: 32px;
-            transition: background 0.2s, transform 0.2s;
-            display: inline-block;
-        }
+/* FAQ */
+.faq-list{max-width:700px;margin:0 auto}
+.faq-item{border-bottom:none;background:var(--w);border-radius:14px;padding:0 24px;margin-bottom:8px;border:1px solid var(--g200);box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all 0.2s}
+.faq-item:hover{background:var(--g50)}
+.faq-q{padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;color:var(--g800);transition:all 0.2s;border-left:3px solid transparent;padding-left:0}
+.faq-q:hover,.faq-q.open{color:var(--p600);border-left:3px solid var(--p500);padding-left:16px}
+.faq-q .arrow{transition:transform 0.3s;font-size:14px;color:var(--g400)}
+.faq-q.open .arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.faq-a.open{max-height:300px}
+.faq-a p{padding:0 0 20px;font-size:14px;color:var(--g500);line-height:1.7}
 
-        .cta-btn:hover {
-            background: var(--primary-600);
-            transform: translateY(-1px);
-        }
+/* CTA SECTION */
+.cta-section{background:var(--g900);padding:80px 24px;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(239,81,121,0.15),transparent);border-radius:50%}
+.cta-section h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:var(--w);margin-bottom:16px;position:relative}
+.cta-section p{font-size:16px;color:var(--g400);margin-bottom:32px;position:relative}
+.cta-section .btn-p{font-size:17px;padding:16px 48px;position:relative}
 
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 80px 40px 60px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+/* FOOTER */
+footer{background:var(--g900);border-top:1px solid rgba(255,255,255,0.08);padding:64px 24px 32px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:48px;margin-bottom:48px}
+.footer-brand .logo-t{font-size:22px;margin-bottom:12px}
+.footer-brand p{font-size:13px;color:var(--g400);line-height:1.7;margin-bottom:16px}
+.footer-contact a{display:block;color:var(--g400);text-decoration:none;font-size:13px;margin-bottom:6px;transition:color 0.2s}
+.footer-contact a:hover{color:var(--p400)}
+.footer-col h4{color:var(--w);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px}
+.footer-col a{display:block;color:var(--g400);text-decoration:none;font-size:13px;margin-bottom:10px;transition:color 0.2s}
+.footer-col a:hover{color:var(--p400)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12px;color:var(--g500)}
 
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 52px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            line-height: 1.1;
-            margin-bottom: 16px;
-            color: var(--gray-900);
-        }
+/* TIMELINE */
+.timeline{max-width:1000px;margin:0 auto;position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.timeline-line{position:absolute;top:36px;left:60px;right:60px;height:3px;background:repeating-linear-gradient(90deg,var(--p300) 0,var(--p300) 8px,transparent 8px,transparent 16px);z-index:0}
+.timeline-step{flex:1;text-align:center;position:relative;z-index:1}
+.timeline-icon{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;background:linear-gradient(135deg,var(--p500),var(--p600));box-shadow:0 8px 24px rgba(239,81,121,0.25);transition:all 0.3s}
+.timeline-icon svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.timeline-step:hover .timeline-icon{transform:scale(1.1);box-shadow:0 12px 32px rgba(239,81,121,0.35)}
+.timeline-num{font-family:'Poppins',sans-serif;font-size:12px;font-weight:800;color:var(--p400);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.timeline-step h4{font-size:16px;font-weight:700;color:var(--g900);margin-bottom:6px}
+.timeline-step p{font-size:13px;color:var(--g500);line-height:1.5;max-width:200px;margin:0 auto}
 
-        .hero h1 span {
-            color: var(--primary-500);
-        }
+/* THEORY-PRACTICAL CHART */
+.theory-practical{display:flex;align-items:center;gap:24px;padding:20px 24px;background:var(--g50);border-radius:14px;margin-bottom:20px}
+.tp-chart{width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--p500) 0deg,var(--p500) calc(var(--pct) * 3.6deg),var(--g200) calc(var(--pct) * 3.6deg));position:relative;flex-shrink:0}
+.tp-chart::after{content:'';position:absolute;inset:16px;border-radius:50%;background:var(--g50)}
+.tp-labels{display:flex;flex-direction:column;gap:8px}
+.tp-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--g700)}
+.tp-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tp-dot.practical{background:var(--p500)}
+.tp-dot.theory{background:var(--g200)}
 
-        .hero p {
-            font-size: 18px;
-            color: var(--gray-500);
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+/* CHART CALLOUTS */
+.chart-callouts{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.callout-badge{padding:10px 20px;border-radius:12px;font-size:14px;font-weight:800;text-align:center;letter-spacing:-0.3px}
+.callout-badge.pink{background:var(--p50);color:var(--p600);border:1.5px solid var(--p200)}
+.callout-badge.purple{background:#f3f0ff;color:#7c3aed;border:1.5px solid #ddd6fe}
+.callout-badge.green{background:#ecfdf5;color:#059669;border:1.5px solid #a7f3d0}
 
-        /* Courses Section */
-        .courses-section {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 40px 100px;
-        }
+/* ========== SOCIAL PROOF: SUCCESS STORIES ========== */
+.success-stories{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+.ss-card{background:var(--w);border:1px solid var(--g200);border-radius:20px;padding:28px;position:relative;overflow:hidden;transition:all 0.4s;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ss-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(0,0,0,0.1);border-color:var(--p200)}
+.ss-hike{position:absolute;top:20px;right:20px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);color:#059669;font-size:13px;font-weight:800;padding:6px 14px;border-radius:10px;letter-spacing:-0.3px}
+.ss-hike svg{width:14px;height:14px;vertical-align:-2px;margin-right:2px}
+.ss-profile{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.ss-avatar{width:56px;height:56px;border-radius:50%;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);overflow:hidden;background:var(--g100)}
+.ss-avatar img{width:100%;height:100%;object-fit:cover}
+.ss-name{font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--g900)}
+.ss-course{font-size:12px;color:var(--p500);font-weight:600}
+.ss-journey{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:16px;background:var(--g50);border-radius:14px;border:1px solid var(--g100)}
+.ss-before,.ss-after{flex:1}
+.ss-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.ss-before .ss-label{color:var(--g400)}
+.ss-after .ss-label{color:#059669}
+.ss-role{font-size:13px;font-weight:600;color:var(--g800)}
+.ss-company{font-size:11px;color:var(--g500);display:flex;align-items:center;gap:4px;margin-top:2px}
+.ss-company img{width:14px;height:14px;border-radius:3px}
+.ss-arrow{color:var(--p400);font-size:18px;flex-shrink:0;font-weight:700}
+.ss-quote{font-size:13px;color:var(--g600);line-height:1.7;font-style:italic;position:relative;padding-left:16px;border-left:3px solid var(--p200)}
 
-        .category {
-            margin-bottom: 64px;
-        }
+/* ========== SOCIAL PROOF: PLACEMENT STATS BANNER ========== */
+.placement-banner{background:linear-gradient(135deg,#1e1b4b,#312e81);padding:64px 24px;position:relative;overflow:hidden}
+.placement-banner::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(239,81,121,0.2),transparent);border-radius:50%}
+.placement-banner::after{content:'';position:absolute;bottom:-60px;left:-60px;width:250px;height:250px;background:radial-gradient(circle,rgba(99,102,241,0.15),transparent);border-radius:50%}
+.pb-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.pb-title{text-align:center;margin-bottom:48px}
+.pb-title h2{font-family:'Poppins',sans-serif;font-size:clamp(24px,4vw,36px);font-weight:800;color:var(--w);margin-bottom:8px}
+.pb-title p{font-size:15px;color:rgba(255,255,255,0.6)}
+.pb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.pb-stat{text-align:center;padding:24px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:16px;backdrop-filter:blur(10px);transition:all 0.3s}
+.pb-stat:hover{background:rgba(255,255,255,0.1);transform:translateY(-4px)}
+.pb-stat-icon{font-size:28px;margin-bottom:8px}
+.pb-stat-num{font-family:'Poppins',sans-serif;font-size:clamp(28px,4vw,40px);font-weight:900;background:linear-gradient(135deg,var(--p400),#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.pb-stat-label{font-size:13px;color:rgba(255,255,255,0.7);font-weight:500}
 
-        .category-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 28px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--gray-200);
-        }
+/* ========== SOCIAL PROOF: TOAST NOTIFICATIONS ========== */
+.sp-toast{position:fixed;bottom:90px;left:24px;z-index:800;background:var(--w);border:1px solid var(--g200);border-radius:14px;padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,0.12);display:flex;align-items:center;gap:12px;max-width:340px;transform:translateX(-120%);opacity:0;transition:all 0.5s cubic-bezier(0.16,1,0.3,1)}
+.sp-toast.show{transform:translateX(0);opacity:1}
+.sp-toast-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--w);flex-shrink:0}
+.sp-toast-text{font-size:12px;color:var(--g600);line-height:1.5}
+.sp-toast-text strong{color:var(--g900);font-weight:700}
+.sp-toast-text .sp-time{color:var(--g400);font-size:11px;display:block;margin-top:2px}
+.sp-toast-close{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--g400);font-size:14px;cursor:pointer;padding:2px}
+.sp-toast-badge{position:absolute;top:-6px;left:-4px;background:var(--p500);color:var(--w);font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px;text-transform:uppercase;letter-spacing:0.5px}
 
-        .category-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-        }
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(24px);transition:all 0.6s cubic-bezier(0.25,0.46,0.45,0.94)}
+.fade-in.visible{opacity:1;transform:translateY(0)}
 
-        .category-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: var(--gray-900);
-        }
+/* COLORED CARD TOPS */
+.cc-gradient{height:4px;border-radius:16px 16px 0 0}
+.cc-gradient.coding{background:linear-gradient(90deg,#6366f1,#8b5cf6)}
+.cc-gradient.commerce{background:linear-gradient(90deg,#f59e0b,#f97316)}
+.cc-gradient.technical{background:linear-gradient(90deg,#10b981,#14b8a6)}
+.cc-gradient.marketing{background:linear-gradient(90deg,var(--p500),#f472b6)}
+.cc-gradient.finance{background:linear-gradient(90deg,#3b82f6,#6366f1)}
+.cc-gradient.teaching{background:linear-gradient(90deg,#ec4899,#f472b6)}
+.cc-gradient.language{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.cc-gradient.healthcare{background:linear-gradient(90deg,#10b981,#34d399)}
+.cc-gradient.others{background:linear-gradient(90deg,var(--g400),var(--g500))}
 
-        .category-header .count {
-            font-size: 13px;
-            color: var(--gray-400);
-            font-weight: 500;
-            margin-left: auto;
-        }
+/* FLOATING WHATSAPP */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:900;width:56px;height:56px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:all 0.3s;text-decoration:none}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,0.5)}
+.wa-float svg{width:28px;height:28px;fill:#fff}
 
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
+/* RESPONSIVE */
+@media(max-width:1024px){
+.footer-grid{grid-template-columns:repeat(2,1fr)}
+.process-grid{grid-template-columns:repeat(2,1fr)}
+.timeline{flex-wrap:wrap;gap:24px}
+.timeline-line{display:none}
+.timeline-step{flex:1 1 45%;min-width:200px}
+}
+@media(max-width:768px){
+.nav-links,.h-cta-wrap{display:none}
+.hamburger{display:flex}
+.h-inner{height:56px;padding:0 16px}
+.logo img{height:32px}
+.logo-t{font-size:17px}
+.hero{padding:80px 16px 48px}
+.hero-badge{font-size:11px;padding:5px 12px;margin-bottom:16px}
+.hero h1{font-size:clamp(28px,8vw,40px);letter-spacing:-1px;margin-bottom:14px}
+.hero-sub{font-size:14px;margin-bottom:24px;max-width:340px}
+.hero-btns{gap:10px}
+.btn-p,.btn-o{padding:12px 24px;font-size:14px;border-radius:10px}
+.stats{padding:32px 16px}
+.stats-inner{grid-template-columns:repeat(4,1fr);gap:12px}
+.stat-n{font-size:22px}
+.stat-l{font-size:10px;letter-spacing:0.5px}
+section{padding:56px 16px}
+.sec-head{margin-bottom:32px}
+.sec-title{font-size:clamp(24px,6vw,32px);margin-bottom:8px}
+.sec-sub{font-size:14px;max-width:360px}
+.cat-filter{gap:6px;margin-bottom:28px;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.cat-filter::-webkit-scrollbar{display:none}
+.cat-btn{padding:7px 16px;font-size:12px;white-space:nowrap;flex-shrink:0}
+.courses-grid{grid-template-columns:1fr;gap:16px}
+.cc-top{padding:20px 18px 0}
+.cc-name{font-size:16px}
+.cc-desc{font-size:12px;margin-bottom:12px;-webkit-line-clamp:1}
+.cc-meta{padding:0 18px 12px;gap:12px}
+.cc-bottom{padding:12px 18px}
+.why-grid{gap:14px}
+.why-card{padding:22px;border-radius:14px}
+.why-icon{width:40px;height:40px;font-size:18px;margin-bottom:12px}
+.why-card h3{font-size:15px;margin-bottom:4px}
+.why-card p{font-size:13px}
+.test-grid{gap:14px}
+.test-card{padding:22px}
+.test-text{font-size:13px;margin-bottom:12px}
+.process-grid{grid-template-columns:1fr 1fr;gap:20px}
+.proc-num{width:40px;height:40px;font-size:16px;margin-bottom:10px}
+.proc-step h4{font-size:14px}
+.proc-step p{font-size:12px}
+.timeline{flex-direction:column;align-items:center;gap:20px}
+.timeline-line{display:none}
+.timeline-step{flex:1 1 100%;width:100%;max-width:300px}
+.timeline-icon{width:56px;height:56px}
+.timeline-icon svg{width:24px;height:24px}
+.timeline-step h4{font-size:14px}
+.timeline-step p{font-size:12px}
+.theory-practical{flex-direction:column;text-align:center}
+.chart-callouts{flex-direction:column;align-items:center;gap:10px}
+.callout-badge{font-size:13px;padding:8px 16px}
+.faq-q{font-size:14px;padding:16px 0}
+.faq-a p{font-size:13px}
+.cta-section{padding:56px 16px}
+.cta-section .btn-p{font-size:15px;padding:14px 36px}
+.footer-grid{grid-template-columns:1fr;gap:32px}
+.footer-bottom{flex-direction:column;text-align:center}
+.modal-overlay{padding:0}
+.modal{border-radius:16px 16px 0 0;max-height:95vh;margin-top:auto}
+.modal-hero,.modal-body,.modal-cta{padding-left:18px;padding-right:18px}
+.modal-stats{padding:16px 18px;grid-template-columns:repeat(3,1fr);gap:10px}
+.ms-val{font-size:16px}
+.ms-label{font-size:9px}
+.modal-hero h2{font-size:22px}
+.modal-hero p{font-size:13px}
+.modal-body{padding:20px 18px}
+.mb-section{margin-bottom:24px}
+.mb-section h3{font-size:16px;margin-bottom:12px}
+.highlight-list{grid-template-columns:1fr;gap:6px}
+.highlight-list li{font-size:12px;padding:8px 12px}
+.career-grid{grid-template-columns:1fr 1fr;gap:8px}
+.career-item{padding:10px 12px;font-size:12px}
+.who-list li{font-size:13px;padding:8px 12px}
+.modal-cta{padding:20px 18px 28px}
+.modal-cta .btn-p{font-size:15px;padding:14px 32px;width:100%}
+.wa-float{bottom:16px;right:16px;width:50px;height:50px}
+.wa-float svg{width:24px;height:24px}
+.success-stories{grid-template-columns:1fr;gap:16px}
+.ss-card{padding:22px}
+.ss-profile{gap:10px}
+.ss-avatar{width:44px;height:44px}
+.ss-name{font-size:14px}
+.ss-journey{flex-direction:column;gap:8px;padding:12px}
+.ss-arrow{transform:rotate(90deg)}
+.ss-quote{font-size:12px;padding-left:12px}
+.ss-hike{font-size:11px;padding:4px 10px}
+.placement-banner{padding:48px 16px}
+.pb-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+.pb-stat{padding:18px 12px;border-radius:12px}
+.pb-stat-icon{font-size:22px}
+.pb-stat-num{font-size:28px}
+.pb-stat-label{font-size:11px}
+.sp-toast{left:12px;right:12px;max-width:none;bottom:76px}
+}
+@media(max-width:380px){
+.hero h1{font-size:26px}
+.stats-inner{grid-template-columns:repeat(2,1fr)}
+.modal-stats{grid-template-columns:repeat(2,1fr)}
+}
 
-        .course-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 14px;
-            padding: 24px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
+/* ========== V4: LEAD GEN POPUP ========== */
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:3000;justify-content:center;align-items:center;padding:24px;animation:fadeIn 0.3s}
+.popup-overlay.open{display:flex}
+.popup{background:var(--w);border-radius:20px;max-width:440px;width:100%;overflow:hidden;animation:modalIn 0.4s cubic-bezier(0.16,1,0.3,1)}
+.popup-top{background:linear-gradient(135deg,var(--g900),#1e293b);padding:28px;text-align:center;position:relative;overflow:hidden}
+.popup-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(239,81,121,0.25),transparent);border-radius:50%}
+.popup-top h3{font-size:20px;font-weight:800;color:var(--w);margin-bottom:4px;position:relative}
+.popup-top p{font-size:13px;color:var(--g400);position:relative}
+.popup-close{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;color:var(--g400);width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.popup-close:hover{background:rgba(255,255,255,0.2);color:var(--w)}
+.popup-body{padding:24px}
+.popup-group{margin-bottom:16px}
+.popup-group label{display:block;font-size:12px;font-weight:600;color:var(--g700);margin-bottom:5px}
+.popup-group input,.popup-group select{width:100%;padding:11px 14px;border:1.5px solid var(--g200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--g800);outline:none;transition:border-color 0.2s;background:var(--w);-webkit-appearance:none}
+.popup-group input:focus,.popup-group select:focus{border-color:var(--p500)}
+.popup-group select{cursor:pointer;background:var(--w) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center}
+.phone-row{display:flex;gap:8px}
+.phone-code{width:80px;flex-shrink:0}
+.popup-submit{width:100%;padding:12px;border:none;border-radius:10px;background:var(--p500);color:var(--w);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;margin-top:4px}
+.popup-submit:hover{background:var(--p600);transform:translateY(-1px)}
+.popup-submit:disabled{opacity:0.6;cursor:not-allowed}
+.popup-success{display:none;text-align:center;padding:32px 24px}
+.popup-success.show{display:block}
+.popup-success .check{width:56px;height:56px;background:#ecfdf5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+.popup-success h4{font-size:18px;font-weight:700;color:var(--g900);margin-bottom:6px}
+.popup-success p{font-size:13px;color:var(--g500)}
+.popup-note{font-size:11px;color:var(--g400);text-align:center;margin-top:12px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary-500);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+/* ========== V4: SALARY CHART ========== */
+.salary-section{background:var(--w);padding:100px 24px}
+.chart-wrap{max-width:800px;margin:0 auto;background:var(--w);border:1px solid var(--g200);border-radius:20px;padding:32px;position:relative}
+.chart-container{position:relative;height:360px}
+.chart-legend{display:flex;gap:24px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.chart-legend-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--g600);font-weight:500}
+.chart-legend-dot{width:10px;height:10px;border-radius:50%}
+@media(max-width:768px){
+.chart-container{height:260px}
+.chart-wrap{padding:20px 16px}
+}
 
-        .course-card:hover {
-            border-color: var(--primary-200);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(239, 81, 121, 0.1);
-        }
+/* ========== V4: MARQUEE ========== */
+.marquee-section{background:var(--g50);overflow:hidden;padding:100px 24px}
+.marquee-track{display:flex;width:max-content;animation:marqueeScroll 40s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:60px;flex-shrink:0;opacity:0.5;transition:opacity 0.3s}
+.marquee-item:hover{opacity:1}
+.marquee-item img.brand-icon{height:28px;width:28px;object-fit:contain;border-radius:6px}
+.marquee-item img.brand-logo{height:30px;width:auto;max-width:130px;object-fit:contain}
+.marquee-item span{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;letter-spacing:-0.3px}
+@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@media(max-width:768px){
+.marquee-item{padding:0 20px;height:48px}
+.marquee-item img{height:24px}
+.marquee-item span{font-size:13px}
+}
 
-        .course-card:hover::before {
-            opacity: 1;
-        }
-
-        .course-card h3 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            color: var(--gray-800);
-        }
-
-        .course-card p {
-            font-size: 13px;
-            color: var(--gray-500);
-            line-height: 1.5;
-        }
-
-        .course-card .arrow {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            color: var(--gray-300);
-            font-size: 18px;
-            transition: all 0.3s;
-        }
-
-        .course-card:hover .arrow {
-            color: var(--primary-500);
-            transform: translateX(3px);
-        }
-
-        /* Category Colors */
-        .cat-teaching .category-icon { background: #ecfdf5; color: #059669; }
-        .cat-coding .category-icon { background: #eef2ff; color: #4f46e5; }
-        .cat-commerce .category-icon { background: #fffbeb; color: #d97706; }
-        .cat-technical .category-icon { background: #fef2f2; color: #dc2626; }
-        .cat-finacademy .category-icon { background: #f0fdfa; color: #0d9488; }
-        .cat-digital .category-icon { background: #faf5ff; color: #9333ea; }
-        .cat-language .category-icon { background: #eff6ff; color: #2563eb; }
-        .cat-health .category-icon { background: var(--primary-50); color: var(--primary-500); }
-        .cat-others .category-icon { background: #fff7ed; color: #ea580c; }
-
-        /* Footer */
-        footer {
-            background: var(--gray-900);
-            padding: 40px;
-            text-align: center;
-            color: var(--gray-400);
-            font-size: 14px;
-        }
-
-        footer a {
-            color: var(--primary-400);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        footer a:hover {
-            color: var(--primary-300);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-inner {
-                padding: 14px 20px;
-            }
-
-            nav a {
-                display: none;
-            }
-
-            .hero {
-                padding: 50px 20px 40px;
-            }
-
-            .hero h1 {
-                font-size: 34px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .courses-section {
-                padding: 0 20px 60px;
-            }
-
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .category-header h2 {
-                font-size: 20px;
-            }
-        }
-    </style>
+/* ========== V4: GOOGLE REVIEWS ========== */
+.greviews-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.greview-card{background:var(--w);border:1px solid var(--g200);border-radius:20px;padding:24px;transition:all 0.3s;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.greview-card:hover{border-color:var(--p200);box-shadow:0 8px 32px rgba(0,0,0,0.06);transform:translateY(-4px);border-left:3px solid var(--p500)}
+.gr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.gr-stars{color:#f59e0b;font-size:16px;letter-spacing:1px}
+.gr-google{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--g400);font-weight:600}
+.gr-google svg{width:16px;height:16px}
+.gr-text{font-size:14px;color:var(--g600);line-height:1.7;margin-bottom:16px}
+.gr-author{display:flex;align-items:center;gap:10px}
+.gr-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--w);flex-shrink:0}
+.gr-avatar.a1{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+.gr-avatar.a2{background:linear-gradient(135deg,var(--p500),#f472b6)}
+.gr-avatar.a3{background:linear-gradient(135deg,#f59e0b,#f97316)}
+.gr-avatar.a4{background:linear-gradient(135deg,#10b981,#14b8a6)}
+.gr-name{font-size:14px;font-weight:700;color:var(--g900)}
+.gr-verified{font-size:11px;color:var(--g400)}
+@media(max-width:768px){
+.greviews-grid{gap:14px}
+.greview-card{padding:20px}
+.gr-text{font-size:13px}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
-    <header>
-        <div class="header-inner">
-            <div class="logo"><span>Uplift</span>Edu</div>
-            <div>
-                <nav style="display:inline;">
-                    <a href="#">Home</a>
-                    <a href="#" class="active">Courses</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                </nav>
-                <a href="#" class="cta-btn">Enroll Now</a>
-            </div>
-        </div>
-    </header>
+<!-- LEAD GEN POPUP -->
+<div class="popup-overlay" id="leadPopup">
+<div class="popup">
+<div class="popup-top">
+<button class="popup-close" onclick="closePopup()">✕</button>
+<h3>Get Free Career Counselling</h3>
+<p>Tell us your interest — we'll help you pick the perfect course</p>
+</div>
+<div class="popup-body" id="popupForm">
+<div class="popup-group">
+<label>Full Name</label>
+<input type="text" id="leadName" placeholder="Enter your full name" required>
+</div>
+<div class="popup-group">
+<label>Phone Number</label>
+<div class="phone-row">
+<select class="phone-code" id="leadCode"><option value="+91">+91</option><option value="+1">+1</option><option value="+44">+44</option><option value="+971">+971</option><option value="+65">+65</option></select>
+<input type="tel" id="leadPhone" placeholder="Enter phone number" required>
+</div>
+</div>
+<div class="popup-group">
+<label>What course are you planning to study?</label>
+<select id="leadCourse"><option value="">Select a course...</option><option>Full Stack Development</option><option>Data Science</option><option>Digital Marketing</option><option>Software Testing</option><option>SAP FICO</option><option>Python Programming</option><option>UI/UX Design</option><option>Architecting on AWS</option><option>Data Analytics</option><option>Practical Accounting</option><option>AI Tools Mastery</option><option>Cybersecurity</option><option>Stock Market</option><option>Spoken English</option><option>IELTS Coaching</option><option>Other</option></select>
+</div>
+<button class="popup-submit" id="leadSubmit" onclick="submitLead()">Get Free Counselling</button>
+<p class="popup-note">We'll call you within 24 hours. No spam, ever.</p>
+</div>
+<div class="popup-success" id="popupSuccess">
+<div class="check">✓</div>
+<h4>Thank You!</h4>
+<p>Our counselor will contact you shortly.<br>We're excited to help you start your journey!</p>
+</div>
+</div>
+</div>
 
-    <section class="hero">
-        <h1>Explore Our <span>Courses</span></h1>
-        <p>Industry-relevant programs designed to uplift your career. Choose from 35+ courses across 9 disciplines.</p>
-    </section>
+<!-- FIXED HEADER -->
+<header id="header">
+<div class="h-inner">
+<a href="#" class="logo"><img src="logo.png" alt="UpliftEdu Logo"><div class="logo-t">Uplift<span>Edu</span></div></a>
+<div class="nav-links">
+<a href="#courses" class="active">Courses</a>
+<a href="#why">Why Us</a>
+<a href="#success-stories">Success Stories</a>
+<a href="#process">How It Works</a>
+<a href="#faq">FAQ</a>
+<a href="#contact">Contact</a>
+</div>
+<div class="h-cta-wrap"><a href="login.html" class="h-cta" style="background:var(--g800);margin-right:8px">Student Portal</a><a href="tel:+919380058580" class="h-cta">Talk to Us</a></div>
+<button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+</header>
+<div class="mob-menu" id="mobMenu">
+<a href="#courses" onclick="closeMenu()">Courses</a>
+<a href="#why" onclick="closeMenu()">Why UpliftEdu</a>
+<a href="#success-stories" onclick="closeMenu()">Success Stories</a>
+<a href="#process" onclick="closeMenu()">How It Works</a>
+<a href="#faq" onclick="closeMenu()">FAQ</a>
+<a href="#contact" onclick="closeMenu()">Contact</a>
+<a href="login.html" onclick="closeMenu()" style="color:var(--g900);font-weight:700;background:var(--g100);border-radius:10px">🎓 Student Portal</a>
+<a href="tel:+919380058580" onclick="closeMenu()" style="color:var(--p500);font-weight:600">📞 9380058580</a>
+</div>
 
-    <section class="courses-section">
+<!-- HERO -->
+<section class="hero">
+<div class="hero-badge">Now Enrolling — March 2026 Batch</div>
+<h1>Learn Skills That<br>Actually <em>Get You Hired</em></h1>
+<p class="hero-sub">35+ industry-ready courses. Real projects. Expert mentors. Placement support that actually works.</p>
+<div class="hero-btns">
+<a href="#courses" class="btn-p">Explore Courses</a>
+<a href="tel:+919380058580" class="btn-o">Book Free Counselling</a>
+</div>
+</section>
 
-        <!-- Teaching -->
-        <div class="category cat-teaching">
-            <div class="category-header">
-                <div class="category-icon">&#x1F3EB;</div>
-                <h2>Teaching</h2>
-                <span class="count">2 Courses</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Montessori Teacher Training</h3>
-                    <p>Master the Montessori methodology and create engaging learning environments for young learners.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Yoga Teacher Training</h3>
-                    <p>Become a certified yoga instructor with in-depth training in asanas, philosophy, and teaching techniques.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<!-- STATS -->
+<div class="stats">
+<div class="stats-inner">
+<div class="fade-in"><div class="stat-n">35+</div><div class="stat-l">Courses</div></div>
+<div class="fade-in"><div class="stat-n">15,000+</div><div class="stat-l">Learners</div></div>
+<div class="fade-in"><div class="stat-n">4.8★</div><div class="stat-l">Avg Rating</div></div>
+<div class="fade-in"><div class="stat-n">500+</div><div class="stat-l">Hiring Partners</div></div>
+</div>
+</div>
 
-        <!-- Coding -->
-        <div class="category cat-coding">
-            <div class="category-header">
-                <div class="category-icon">&#x1F4BB;</div>
-                <h2>Coding</h2>
-                <span class="count">9 Courses</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Full Stack Development</h3>
-                    <p>Build complete web applications from front-end to back-end with modern frameworks and tools.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Data Science</h3>
-                    <p>Learn data analysis, machine learning, and statistical modeling to drive data-driven decisions.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>AI Tools Mastery</h3>
-                    <p>Master cutting-edge AI tools and learn to integrate them into your professional workflow.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Python Programming</h3>
-                    <p>From basics to advanced concepts — build real-world applications with Python.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Software Testing</h3>
-                    <p>Learn manual and automation testing methodologies to ensure software quality and reliability.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Architecting on AWS</h3>
-                    <p>Design scalable, resilient cloud architectures using Amazon Web Services best practices.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Data Analytics Course</h3>
-                    <p>Transform raw data into actionable insights using modern analytics tools and techniques.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>UI/UX Design</h3>
-                    <p>Create user-centered digital experiences with industry-standard design tools and principles.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>AI Powered Cybersecurity Course</h3>
-                    <p>Defend digital systems using AI-driven threat detection and security strategies.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<!-- COURSES -->
+<section id="courses">
+<div class="sec-head fade-in">
+<div class="sec-tag">Our Courses</div>
+<div class="sec-title">Find Your Perfect Career Path</div>
+<div class="sec-sub">Industry-designed curriculum. Certified by Illinois Tech & NSDC. Real-world projects and guaranteed placement assistance.</div>
+</div>
+<div class="cat-filter fade-in">
+<button class="cat-btn active" onclick="filterCourses('all')">All Courses</button>
+<button class="cat-btn" onclick="filterCourses('coding')">Coding</button>
+<button class="cat-btn" onclick="filterCourses('commerce')">Commerce</button>
+<button class="cat-btn" onclick="filterCourses('technical')">Technical</button>
+<button class="cat-btn" onclick="filterCourses('marketing')">Marketing</button>
+<button class="cat-btn" onclick="filterCourses('finance')">Finacademy</button>
+<button class="cat-btn" onclick="filterCourses('teaching')">Teaching</button>
+<button class="cat-btn" onclick="filterCourses('language')">Language</button>
+<button class="cat-btn" onclick="filterCourses('healthcare')">Health Care</button>
+<button class="cat-btn" onclick="filterCourses('others')">Others</button>
+</div>
+<div class="courses-grid" id="coursesGrid"></div>
+</section>
 
-        <!-- Commerce -->
-        <div class="category cat-commerce">
-            <div class="category-header">
-                <div class="category-icon">&#x1F4CA;</div>
-                <h2>Commerce</h2>
-                <span class="count">10 Courses</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>SAP FICO</h3>
-                    <p>Master SAP Financial Accounting and Controlling modules for enterprise resource planning.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Practical Accounting</h3>
-                    <p>Hands-on training in real-world accounting practices, GST, TDS, and financial reporting.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>SAP MM</h3>
-                    <p>Learn SAP Materials Management for procurement, inventory, and supply chain processes.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>SAP SD</h3>
-                    <p>Master SAP Sales and Distribution for order processing, billing, and shipping workflows.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>ACCA</h3>
-                    <p>Prepare for the globally recognized Association of Chartered Certified Accountants qualification.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>HR Management Course</h3>
-                    <p>Learn strategic HR practices including recruitment, payroll, compliance, and employee engagement.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>PwC Edge: Strategic Accounting &amp; Finance Programme</h3>
-                    <p>Industry-partnered programme for advanced skills in strategic accounting and financial management.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Enrolled Agent Course</h3>
-                    <p>Prepare for the IRS Enrolled Agent exam and become a federally authorized tax practitioner.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>CMA USA Course</h3>
-                    <p>Earn the Certified Management Accountant credential recognized across the globe.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Certified Tax Professional Course</h3>
-                    <p>Comprehensive training in taxation laws, filing, and compliance for aspiring tax professionals.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<!-- WHY UPLIFTEDU -->
+<section id="why" style="background:var(--g50)">
+<div class="sec-head fade-in">
+<div class="sec-tag">Why UpliftEdu</div>
+<div class="sec-title">Built Different. Built Better.</div>
+<div class="sec-sub">We don't just teach. We engineer career transformations with a system designed for real outcomes.</div>
+</div>
+<div class="why-grid">
+<div class="why-card fade-in"><div class="why-icon">🎯</div><h3>Industry-Led Curriculum</h3><p>Designed by pros from Samsung, Tesla & Deloitte. Updated quarterly.</p></div>
+<div class="why-card fade-in"><div class="why-icon">💻</div><h3>Live + Recorded</h3><p>80+ sessions per course. Live Q&A + recordings for revision anytime.</p></div>
+<div class="why-card fade-in"><div class="why-icon">🏗️</div><h3>Real Projects</h3><p>Portfolio-ready capstones. Apps, dashboards, campaigns — not toy exercises.</p></div>
+<div class="why-card fade-in"><div class="why-icon">📜</div><h3>Global Certifications</h3><p>Illinois Tech + NSDC credentials that stand out on LinkedIn.</p></div>
+<div class="why-card fade-in"><div class="why-icon">🤝</div><h3>Placement Support</h3><p>Resume prep, mock interviews & connections to 500+ hiring partners.</p></div>
+<div class="why-card fade-in"><div class="why-icon">💰</div><h3>Zero-Cost EMI</h3><p>Flexible payment plans. No-interest EMI so finances never block growth.</p></div>
+</div>
+</section>
 
-        <!-- Technical -->
-        <div class="category cat-technical">
-            <div class="category-header">
-                <div class="category-icon">&#x2699;&#xFE0F;</div>
-                <h2>Technical</h2>
-                <span class="count">6 Courses</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Quantity Survey</h3>
-                    <p>Learn cost estimation, project management, and contract administration for construction projects.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>MEP</h3>
-                    <p>Master Mechanical, Electrical, and Plumbing engineering for modern building systems.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Robotics &amp; AI Course</h3>
-                    <p>Explore robotics systems, automation, and artificial intelligence integration for industry applications.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Structural Design</h3>
-                    <p>Design safe, efficient structures using modern engineering principles and analysis software.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>BIM Course</h3>
-                    <p>Master Building Information Modeling for collaborative design, construction, and facility management.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Embedded System Software Engineering</h3>
-                    <p>Develop firmware and software for embedded systems used in IoT, automotive, and electronics.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<!-- PLACEMENT SUCCESS STORIES -->
+<section id="success-stories">
+<div class="sec-head fade-in">
+<div class="sec-tag">Success Stories</div>
+<div class="sec-title">Real Students. Real Transformations.</div>
+<div class="sec-sub">Our graduates don't just learn — they land dream jobs. Here's proof.</div>
+</div>
+<div class="success-stories">
+<div class="ss-card fade-in">
+<div class="ss-hike"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 280% Hike</div>
+<div class="ss-profile">
+<div class="ss-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=Arjun&backgroundColor=b6e3f4" alt="Arjun K."></div>
+<div><div class="ss-name">Arjun K.</div><div class="ss-course">Full Stack Development</div></div>
+</div>
+<div class="ss-journey">
+<div class="ss-before">
+<div class="ss-label">Before</div>
+<div class="ss-role">BPO Associate</div>
+<div class="ss-company">₹2.4 LPA</div>
+</div>
+<div class="ss-arrow">→</div>
+<div class="ss-after">
+<div class="ss-label">After</div>
+<div class="ss-role">Frontend Developer</div>
+<div class="ss-company"><img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=128" alt="">Flipkart · ₹9.2 LPA</div>
+</div>
+</div>
+<div class="ss-quote">"I was stuck in a dead-end BPO job. UpliftEdu's project-based learning gave me a portfolio that actually got recruiters calling me."</div>
+</div>
 
-        <!-- Finacademy -->
-        <div class="category cat-finacademy">
-            <div class="category-header">
-                <div class="category-icon">&#x1F4B9;</div>
-                <h2>Finacademy</h2>
-                <span class="count">3 Courses</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Stock Market</h3>
-                    <p>Understand equity markets, technical analysis, and trading strategies for smart investing.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Forex Trading</h3>
-                    <p>Learn currency trading fundamentals, risk management, and global forex market dynamics.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Mutual Funds Course</h3>
-                    <p>Master mutual fund analysis, portfolio construction, and wealth management strategies.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<div class="ss-card fade-in">
+<div class="ss-hike"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 320% Hike</div>
+<div class="ss-profile">
+<div class="ss-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=Divya&backgroundColor=ffd5dc" alt="Divya M."></div>
+<div><div class="ss-name">Divya M.</div><div class="ss-course">Data Science</div></div>
+</div>
+<div class="ss-journey">
+<div class="ss-before">
+<div class="ss-label">Before</div>
+<div class="ss-role">Excel Analyst</div>
+<div class="ss-company">₹2.8 LPA</div>
+</div>
+<div class="ss-arrow">→</div>
+<div class="ss-after">
+<div class="ss-label">After</div>
+<div class="ss-role">Data Scientist</div>
+<div class="ss-company"><img src="https://www.google.com/s2/favicons?domain=accenture.com&sz=128" alt="">Accenture · ₹11.8 LPA</div>
+</div>
+</div>
+<div class="ss-quote">"The Python + ML curriculum was exactly what the industry expects. My mentor helped me crack the Accenture interview in my first attempt."</div>
+</div>
 
-        <!-- Digital Marketing -->
-        <div class="category cat-digital">
-            <div class="category-header">
-                <div class="category-icon">&#x1F4F1;</div>
-                <h2>Digital Marketing</h2>
-                <span class="count">2 Courses</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Digital Marketing</h3>
-                    <p>Learn SEO, social media, content marketing, and paid advertising to grow brands online.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>Performance Marketing</h3>
-                    <p>Master data-driven ad campaigns, conversion optimization, and ROI-focused marketing strategies.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<div class="ss-card fade-in">
+<div class="ss-hike"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 200% Hike</div>
+<div class="ss-profile">
+<div class="ss-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=Rohit&backgroundColor=c0aede" alt="Rohit V."></div>
+<div><div class="ss-name">Rohit V.</div><div class="ss-course">Digital Marketing</div></div>
+</div>
+<div class="ss-journey">
+<div class="ss-before">
+<div class="ss-label">Before</div>
+<div class="ss-role">Store Manager</div>
+<div class="ss-company">₹3.2 LPA</div>
+</div>
+<div class="ss-arrow">→</div>
+<div class="ss-after">
+<div class="ss-label">After</div>
+<div class="ss-role">Performance Marketer</div>
+<div class="ss-company"><img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=128" alt="">Zomato · ₹9.6 LPA</div>
+</div>
+</div>
+<div class="ss-quote">"I went from managing a retail store to running ₹20L/month ad campaigns. The hands-on Google Ads and Meta Ads training made the difference."</div>
+</div>
 
-        <!-- Language Learning -->
-        <div class="category cat-language">
-            <div class="category-header">
-                <div class="category-icon">&#x1F310;</div>
-                <h2>Language Learning</h2>
-                <span class="count">4 Courses</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Spoken English</h3>
-                    <p>Build confidence in English communication with fluency, pronunciation, and grammar training.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>German Language</h3>
-                    <p>Learn German from beginner to advanced levels for career, travel, or academic purposes.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>PTE</h3>
-                    <p>Prepare for the Pearson Test of English with focused practice on all four test modules.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-                <div class="course-card">
-                    <h3>IELTS Exam Coaching</h3>
-                    <p>Expert coaching for IELTS Academic and General with mock tests and band score improvement strategies.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<div class="ss-card fade-in">
+<div class="ss-hike"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 250% Hike</div>
+<div class="ss-profile">
+<div class="ss-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=Swetha&backgroundColor=ffdfbf" alt="Swetha N."></div>
+<div><div class="ss-name">Swetha N.</div><div class="ss-course">Software Testing</div></div>
+</div>
+<div class="ss-journey">
+<div class="ss-before">
+<div class="ss-label">Before</div>
+<div class="ss-role">Fresher (B.Sc)</div>
+<div class="ss-company">₹0 LPA</div>
+</div>
+<div class="ss-arrow">→</div>
+<div class="ss-after">
+<div class="ss-label">After</div>
+<div class="ss-role">QA Engineer</div>
+<div class="ss-company"><img src="https://www.google.com/s2/favicons?domain=techmahindra.com&sz=128" alt="">Tech Mahindra · ₹5.5 LPA</div>
+</div>
+</div>
+<div class="ss-quote">"As a non-CS fresher, I was scared I wouldn't fit in. But the Selenium + API testing modules were so practical, I got placed within 2 months of finishing!"</div>
+</div>
 
-        <!-- Health Care -->
-        <div class="category cat-health">
-            <div class="category-header">
-                <div class="category-icon">&#x1F3E5;</div>
-                <h2>Health Care</h2>
-                <span class="count">1 Course</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Hospital Administration</h3>
-                    <p>Learn healthcare management, hospital operations, and medical facility administration.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<div class="ss-card fade-in">
+<div class="ss-hike"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 180% Hike</div>
+<div class="ss-profile">
+<div class="ss-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=Karthik&backgroundColor=d1d4f9" alt="Karthik P."></div>
+<div><div class="ss-name">Karthik P.</div><div class="ss-course">SAP FICO</div></div>
+</div>
+<div class="ss-journey">
+<div class="ss-before">
+<div class="ss-label">Before</div>
+<div class="ss-role">Accounts Executive</div>
+<div class="ss-company">₹3.6 LPA</div>
+</div>
+<div class="ss-arrow">→</div>
+<div class="ss-after">
+<div class="ss-label">After</div>
+<div class="ss-role">SAP FICO Consultant</div>
+<div class="ss-company"><img src="https://www.google.com/s2/favicons?domain=citigroup.com&sz=128" alt="">Citibank · ₹10.0 LPA</div>
+</div>
+</div>
+<div class="ss-quote">"The SAP certification combined with real-world scenarios made me job-ready. I got 3 offers and chose Citibank!"</div>
+</div>
 
-        <!-- Others -->
-        <div class="category cat-others">
-            <div class="category-header">
-                <div class="category-icon">&#x2728;</div>
-                <h2>Others</h2>
-                <span class="count">1 Course</span>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <h3>Fashion Designing and Boutique Management</h3>
-                    <p>Learn fashion design, garment creation, and boutique business management from industry experts.</p>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-        </div>
+<div class="ss-card fade-in">
+<div class="ss-hike"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 300% Hike</div>
+<div class="ss-profile">
+<div class="ss-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=Nisha&backgroundColor=ffd5dc" alt="Nisha R."></div>
+<div><div class="ss-name">Nisha R.</div><div class="ss-course">Data Analytics</div></div>
+</div>
+<div class="ss-journey">
+<div class="ss-before">
+<div class="ss-label">Before</div>
+<div class="ss-role">Teaching Assistant</div>
+<div class="ss-company">₹1.8 LPA</div>
+</div>
+<div class="ss-arrow">→</div>
+<div class="ss-after">
+<div class="ss-label">After</div>
+<div class="ss-role">Business Analyst</div>
+<div class="ss-company"><img src="https://www.google.com/s2/favicons?domain=latentview.com&sz=128" alt="">LatentView · ₹7.2 LPA</div>
+</div>
+</div>
+<div class="ss-quote">"From a ₹15,000/month teaching gig to a corporate analyst role — UpliftEdu made it possible. The Power BI + SQL combo was a game-changer."</div>
+</div>
+</div>
+</section>
 
-    </section>
+<!-- PLACEMENT STATS BANNER -->
+<div class="placement-banner">
+<div class="pb-inner">
+<div class="pb-title fade-in">
+<h2>Our Placement Track Record Speaks</h2>
+<p>Numbers that showcase real career transformations</p>
+</div>
+<div class="pb-grid">
+<div class="pb-stat fade-in">
+<div class="pb-stat-icon">🎓</div>
+<div class="pb-stat-num">15,000+</div>
+<div class="pb-stat-label">Students Trained</div>
+</div>
+<div class="pb-stat fade-in">
+<div class="pb-stat-icon">💰</div>
+<div class="pb-stat-num">₹14 LPA</div>
+<div class="pb-stat-label">Highest Package</div>
+</div>
+<div class="pb-stat fade-in">
+<div class="pb-stat-icon">📈</div>
+<div class="pb-stat-num">300%</div>
+<div class="pb-stat-label">Highest Salary Hike</div>
+</div>
+<div class="pb-stat fade-in">
+<div class="pb-stat-icon">🏆</div>
+<div class="pb-stat-num">93%</div>
+<div class="pb-stat-label">Placement Rate</div>
+</div>
+</div>
+</div>
+</div>
 
-    <footer>
-        <p>&copy; 2026 UpliftEdu. All rights reserved. | <a href="https://upliftedu.in">upliftedu.in</a></p>
-    </footer>
+<!-- SALARY PROGRESSION CHART -->
+<section class="salary-section">
+<div class="sec-head fade-in">
+<div class="sec-tag">Career Outcomes</div>
+<div class="sec-title">See Your Salary Grow</div>
+<div class="sec-sub">Average salary progression of our graduates across tech, marketing & finance roles.</div>
+</div>
+<div class="chart-wrap fade-in">
+<div class="chart-container"><canvas id="salaryChart"></canvas></div>
+<div class="chart-legend">
+<div class="chart-legend-item"><div class="chart-legend-dot" style="background:#ef5179"></div>Tech Roles (Coding)</div>
+<div class="chart-legend-item"><div class="chart-legend-dot" style="background:#8b5cf6"></div>Marketing Roles</div>
+<div class="chart-legend-item"><div class="chart-legend-dot" style="background:#f59e0b"></div>Finance/Commerce</div>
+</div>
+<div class="chart-callouts">
+<div class="callout-badge pink">3x Average Salary Hike!</div>
+<div class="callout-badge purple">&#8377;14 LPA Peak Tech Salary</div>
+<div class="callout-badge green">93% Students Placed</div>
+</div>
+</div>
+</section>
 
+<!-- HIRING PARTNERS MARQUEE -->
+<section class="marquee-section">
+<div class="sec-head fade-in">
+<div class="sec-tag">Hiring Partners</div>
+<div class="sec-title">Our Alumni Work At Top Companies</div>
+<div class="sec-sub">500+ hiring partners across MNCs, startups, and Fortune 500 companies.</div>
+</div>
+<div class="marquee-track" id="marquee1">
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=amazon.com&sz=128" alt="Amazon"><span style="color:#232F3E">Amazon</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=128" alt="Microsoft"><span style="color:#737373">Microsoft</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=oracle.com&sz=128" alt="Oracle"><span style="color:#C74634">Oracle</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=accenture.com&sz=128" alt="Accenture"><span style="color:#A100FF">Accenture</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=citigroup.com&sz=128" alt="Citibank"><span style="color:#003A70">Citibank</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=hsbc.com&sz=128" alt="HSBC"><span style="color:#DB0011">HSBC</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=novartis.com&sz=128" alt="Novartis"><span style="color:#0460A9">Novartis</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=128" alt="Flipkart"><span style="color:#2874F0">Flipkart</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=paytm.com&sz=128" alt="Paytm"><span style="color:#00BAF2">Paytm</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=zomato.com&sz=128" alt="Zomato"><span style="color:#E23744">Zomato</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=128" alt="Swiggy"><span style="color:#FC8019">Swiggy</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=olacabs.com&sz=128" alt="Ola"><span style="color:#222">Ola</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=uber.com&sz=128" alt="Uber"><span style="color:#000">Uber</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=delhivery.com&sz=128" alt="Delhivery"><span style="color:#D42B25">Delhivery</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=myntra.com&sz=128" alt="Myntra"><span style="color:#FF3F6C">Myntra</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=groww.in&sz=128" alt="Groww"><span style="color:#5367FF">Groww</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=payu.com&sz=128" alt="PayU"><span style="color:#54B848">PayU</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=zinghr.com&sz=128" alt="ZingHR"><span style="color:#1A73E8">ZingHR</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=latentview.com&sz=128" alt="LatentView"><span style="color:#1B3C6E">LatentView</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=techmahindra.com&sz=128" alt="Tech Mahindra"><span style="color:#1D3461">Tech Mahindra</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=tatasteel.com&sz=128" alt="Tata Steel"><span style="color:#005BAC">Tata Steel</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=cloudthat.com&sz=128" alt="CloudThat"><span style="color:#FF6B00">CloudThat</span></div>
+<!-- Duplicate for infinite scroll -->
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=amazon.com&sz=128" alt="Amazon"><span style="color:#232F3E">Amazon</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=128" alt="Microsoft"><span style="color:#737373">Microsoft</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=oracle.com&sz=128" alt="Oracle"><span style="color:#C74634">Oracle</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=accenture.com&sz=128" alt="Accenture"><span style="color:#A100FF">Accenture</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=citigroup.com&sz=128" alt="Citibank"><span style="color:#003A70">Citibank</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=hsbc.com&sz=128" alt="HSBC"><span style="color:#DB0011">HSBC</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=novartis.com&sz=128" alt="Novartis"><span style="color:#0460A9">Novartis</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=128" alt="Flipkart"><span style="color:#2874F0">Flipkart</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=paytm.com&sz=128" alt="Paytm"><span style="color:#00BAF2">Paytm</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=zomato.com&sz=128" alt="Zomato"><span style="color:#E23744">Zomato</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=128" alt="Swiggy"><span style="color:#FC8019">Swiggy</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=olacabs.com&sz=128" alt="Ola"><span style="color:#222">Ola</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=uber.com&sz=128" alt="Uber"><span style="color:#000">Uber</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=delhivery.com&sz=128" alt="Delhivery"><span style="color:#D42B25">Delhivery</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=myntra.com&sz=128" alt="Myntra"><span style="color:#FF3F6C">Myntra</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=groww.in&sz=128" alt="Groww"><span style="color:#5367FF">Groww</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=payu.com&sz=128" alt="PayU"><span style="color:#54B848">PayU</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=zinghr.com&sz=128" alt="ZingHR"><span style="color:#1A73E8">ZingHR</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=latentview.com&sz=128" alt="LatentView"><span style="color:#1B3C6E">LatentView</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=techmahindra.com&sz=128" alt="Tech Mahindra"><span style="color:#1D3461">Tech Mahindra</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=tatasteel.com&sz=128" alt="Tata Steel"><span style="color:#005BAC">Tata Steel</span></div>
+<div class="marquee-item"><img class="brand-icon" src="https://www.google.com/s2/favicons?domain=cloudthat.com&sz=128" alt="CloudThat"><span style="color:#FF6B00">CloudThat</span></div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="process">
+<div class="sec-head fade-in">
+<div class="sec-tag">How It Works</div>
+<div class="sec-title">Your Journey to a New Career</div>
+<div class="sec-sub">Four simple steps from enrollment to employment.</div>
+</div>
+<div class="timeline fade-in">
+<div class="timeline-line"></div>
+<div class="timeline-step">
+<div class="timeline-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+<div class="timeline-num">Step 1</div>
+<h4>Choose a Course</h4>
+<p>35+ programs. Free counselling to help you pick.</p>
+</div>
+<div class="timeline-step">
+<div class="timeline-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+<div class="timeline-num">Step 2</div>
+<h4>Learn by Doing</h4>
+<p>Live sessions, real projects, expert mentors.</p>
+</div>
+<div class="timeline-step">
+<div class="timeline-icon"><svg viewBox="0 0 24 24"><path d="M4 7V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/><polyline points="14 2 14 8 20 8"/><path d="M9 14l2 2 4-4"/></svg></div>
+<div class="timeline-num">Step 3</div>
+<h4>Get Certified</h4>
+<p>Illinois Tech & NSDC recognized credentials.</p>
+</div>
+<div class="timeline-step">
+<div class="timeline-icon"><svg viewBox="0 0 24 24"><path d="M22 2L15 22l-4-9-9-4z"/></svg></div>
+<div class="timeline-num">Step 4</div>
+<h4>Get Placed</h4>
+<p>500+ hiring partners. We prep you & connect you.</p>
+</div>
+</div>
+</section>
+
+<!-- GOOGLE REVIEWS -->
+<section style="background:var(--g50)">
+<div class="sec-head fade-in">
+<div class="sec-tag">Verified Reviews</div>
+<div class="sec-title">What Our Students Say</div>
+<div class="sec-sub">Real reviews from verified students on Google.</div>
+</div>
+<div class="greviews-grid">
+<div class="greview-card fade-in">
+<div class="gr-top">
+<div class="gr-stars">★★★★★</div>
+<div class="gr-google"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google</div>
+</div>
+<p class="gr-text">"The structured learning path and hands-on projects at UpliftEdu completely changed my career trajectory. I transitioned from a non-tech background to a Data Analyst role within 6 months! The mentors are incredibly supportive."</p>
+<div class="gr-author"><div class="gr-avatar a1">RS</div><div><div class="gr-name">Rahul S.</div><div class="gr-verified">Verified Student</div></div></div>
+</div>
+<div class="greview-card fade-in">
+<div class="gr-top">
+<div class="gr-stars">★★★★★</div>
+<div class="gr-google"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google</div>
+</div>
+<p class="gr-text">"Best decision I made for my career. The live classes are engaging, and the placement support is unmatched. They helped me rebuild my resume from scratch and I landed multiple offers."</p>
+<div class="gr-author"><div class="gr-avatar a2">PM</div><div><div class="gr-name">Priya M.</div><div class="gr-verified">Verified Student</div></div></div>
+</div>
+<div class="greview-card fade-in">
+<div class="gr-top">
+<div class="gr-stars">★★★★★</div>
+<div class="gr-google"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google</div>
+</div>
+<p class="gr-text">"The curriculum is completely reverse-engineered from what the industry actually needs. You aren't just learning theory; you are building real-world projects. Highly recommend it to anyone looking to upskill."</p>
+<div class="gr-author"><div class="gr-avatar a3">AK</div><div><div class="gr-name">Amit K.</div><div class="gr-verified">Verified Student</div></div></div>
+</div>
+<div class="greview-card fade-in">
+<div class="gr-top">
+<div class="gr-stars">★★★★★</div>
+<div class="gr-google"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google</div>
+</div>
+<p class="gr-text">"I loved the mentor-assigned dashboard. Whenever I was stuck on a coding problem, my mentor was just a message away. The interview prep sessions gave me the confidence to crack my dream job at an MNC."</p>
+<div class="gr-author"><div class="gr-avatar a4">SV</div><div><div class="gr-name">Sneha V.</div><div class="gr-verified">Verified Student</div></div></div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+<div class="sec-head fade-in">
+<div class="sec-tag">FAQ</div>
+<div class="sec-title">Got Questions?</div>
+<div class="sec-sub">Everything you need to know about learning with UpliftEdu.</div>
+</div>
+<div class="faq-list fade-in">
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do I need prior experience to enroll?<span class="arrow">▼</span></div><div class="faq-a"><p>No! Most of our courses are beginner-friendly and start from the fundamentals. Whether you're a fresh graduate, a working professional looking to switch careers, or someone re-entering the workforce — our structured curriculum meets you where you are.</p></div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How are classes conducted?<span class="arrow">▼</span></div><div class="faq-a"><p>We use a hybrid model combining live interactive sessions (1-2 per week, 1-1.5 hours each, max 30 students per batch) with recorded content you can access anytime. Live sessions allow real-time Q&A with instructors, while recordings give you flexibility to learn at your own pace.</p></div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What certifications will I receive?<span class="arrow">▼</span></div><div class="faq-a"><p>Upon completion, you receive an Illinois Tech Professional Certificate and NSDC-recognized credentials. Select courses also include additional certifications (e.g., PwC Tax Professional Certificate for Accounting, AWS certification for cloud courses). You also get an internship certificate upon capstone project completion.</p></div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does placement assistance work?<span class="arrow">▼</span></div><div class="faq-a"><p>Our dedicated career support team provides: resume building & review, LinkedIn profile optimization, mock interview sessions, soft skills training, and direct connections to our 500+ hiring partner network including companies like Infosys, TCS, Wipro, Deloitte, Accenture, and EY. While we don't guarantee placement, our structured support significantly boosts your chances.</p></div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is the refund policy?<span class="arrow">▼</span></div><div class="faq-a"><p>We offer a 30-day refund window. Before batch commencement, a 20% processing fee is deducted. After commencement, 40% is deducted. You can also defer to another batch once at no extra charge within 30 days of starting. We want you to feel confident about your investment.</p></div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Are EMI options available?<span class="arrow">▼</span></div><div class="faq-a"><p>Yes! We offer zero-interest EMI options to make education accessible. Pay in easy monthly installments without any additional charges. Contact our counselling team at 9380058580 for personalized payment plans.</p></div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long do I have access to course materials?<span class="arrow">▼</span></div><div class="faq-a"><p>You get 1 year of access to all recorded sessions and course materials from the date of purchase. This gives you plenty of time to complete the course, revise, and reference materials even after you've landed your new role.</p></div></div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+<h2>Ready to Transform Your Career?</h2>
+<p>Join 15,000+ learners who chose to uplift their future. Your next chapter starts with one call.</p>
+<a href="tel:+919380058580" class="btn-p">Call Us — 9380 058 580</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="footer-inner">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="logo-t" style="color:var(--w)">Uplift<span>Edu</span></div>
+<p>India's premier career-focused learning platform. We offer 35+ industry-relevant courses with certified credentials, expert mentorship, and guaranteed placement assistance. Empowering learners since 2024.</p>
+<div class="footer-contact">
+<a href="tel:+919380058580">📞 +91 93800 58580</a>
+<a href="mailto:info@upliftedu.in">✉️ info@upliftedu.in</a>
+<a>📍 Chennai, Tamil Nadu, India</a>
+</div>
+</div>
+<div class="footer-col">
+<h4>Coding</h4>
+<a href="#" onclick="openCourseByName('Full Stack Development')">Full Stack Development</a>
+<a href="#" onclick="openCourseByName('Data Science')">Data Science</a>
+<a href="#" onclick="openCourseByName('AI Tools Mastery')">AI Tools Mastery</a>
+<a href="#" onclick="openCourseByName('Python Programming')">Python Programming</a>
+<a href="#" onclick="openCourseByName('Software Testing')">Software Testing</a>
+<a href="#" onclick="openCourseByName('Architecting on AWS')">Architecting on AWS</a>
+<a href="#" onclick="openCourseByName('Data Analytics')">Data Analytics</a>
+<a href="#" onclick="openCourseByName('UI/UX Design')">UI/UX Design</a>
+<a href="#" onclick="openCourseByName('AI Powered Cybersecurity')">Cybersecurity</a>
+<h4 style="margin-top:20px">Commerce</h4>
+<a href="#" onclick="openCourseByName('SAP FICO')">SAP FICO</a>
+<a href="#" onclick="openCourseByName('Practical Accounting')">Practical Accounting</a>
+<a href="#" onclick="openCourseByName('SAP MM')">SAP MM</a>
+<a href="#" onclick="openCourseByName('SAP SD')">SAP SD</a>
+<a href="#" onclick="openCourseByName('ACCA')">ACCA</a>
+<a href="#" onclick="openCourseByName('HR Management')">HR Management</a>
+</div>
+<div class="footer-col">
+<h4>Commerce (cont.)</h4>
+<a href="#" onclick="openCourseByName('PwC Edge')">PwC Edge Programme</a>
+<a href="#" onclick="openCourseByName('Enrolled Agent')">Enrolled Agent</a>
+<a href="#" onclick="openCourseByName('CMA USA')">CMA USA</a>
+<a href="#" onclick="openCourseByName('Certified Tax Professional')">Tax Professional</a>
+<h4 style="margin-top:20px">Technical</h4>
+<a href="#" onclick="openCourseByName('Quantity Survey')">Quantity Survey</a>
+<a href="#" onclick="openCourseByName('MEP')">MEP</a>
+<a href="#" onclick="openCourseByName('Robotics & AI')">Robotics & AI</a>
+<a href="#" onclick="openCourseByName('Structural Design')">Structural Design</a>
+<a href="#" onclick="openCourseByName('BIM')">BIM Course</a>
+<a href="#" onclick="openCourseByName('Embedded System')">Embedded Systems</a>
+<h4 style="margin-top:20px">Finacademy</h4>
+<a href="#" onclick="openCourseByName('Stock Market')">Stock Market</a>
+<a href="#" onclick="openCourseByName('Forex Trading')">Forex Trading</a>
+<a href="#" onclick="openCourseByName('Mutual Funds')">Mutual Funds</a>
+</div>
+<div class="footer-col">
+<h4>Digital Marketing</h4>
+<a href="#" onclick="openCourseByName('Digital Marketing')">Digital Marketing</a>
+<a href="#" onclick="openCourseByName('Performance Marketing')">Performance Marketing</a>
+<h4 style="margin-top:20px">Language</h4>
+<a href="#" onclick="openCourseByName('Spoken English')">Spoken English</a>
+<a href="#" onclick="openCourseByName('German Language')">German Language</a>
+<a href="#" onclick="openCourseByName('PTE')">PTE</a>
+<a href="#" onclick="openCourseByName('IELTS')">IELTS Coaching</a>
+<h4 style="margin-top:20px">Health Care</h4>
+<a href="#" onclick="openCourseByName('Hospital Administration')">Hospital Administration</a>
+<h4 style="margin-top:20px">Others</h4>
+<a href="#" onclick="openCourseByName('Fashion Designing')">Fashion Designing</a>
+<h4 style="margin-top:20px">Quick Links</h4>
+<a href="#courses">All Courses</a>
+<a href="#why">Why UpliftEdu</a>
+<a href="#faq">FAQ</a>
+<a href="tel:+919380058580">Contact Us</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024–2026 UpliftEdu. All rights reserved. | Chennai, India</p>
+<p>Empowering careers through quality education.</p>
+</div>
+</div>
+</footer>
+
+<!-- SOCIAL PROOF TOAST -->
+<div class="sp-toast" id="spToast">
+<div class="sp-toast-badge">New</div>
+<div class="sp-toast-avatar" id="spToastAvatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">AK</div>
+<div class="sp-toast-text" id="spToastText"><strong>Arjun from Chennai</strong> just enrolled in Full Stack Development<span class="sp-time">2 minutes ago</span></div>
+<button class="sp-toast-close" onclick="document.getElementById('spToast').classList.remove('show')">✕</button>
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/919380058580?text=Hi%20UpliftEdu!%20I'm%20interested%20in%20learning%20more%20about%20your%20courses." class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+<div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+// HELPERS
+const catLabels={coding:'Coding',commerce:'Commerce',technical:'Technical',marketing:'Digital Marketing',finance:'Finacademy',teaching:'Teaching',language:'Language',healthcare:'Health Care',others:'Others'};
+function catLabel(c){return catLabels[c]||c}
+
+// COURSE DATA
+const courses=[
+// CODING
+{id:1,name:"Full Stack Development",cat:"coding",badge:"Bestseller",duration:"7 Months",sessions:"80+",students:"1000+",rating:"4.8",level:"Beginner to Advanced",price:"EMI Available",
+desc:"Master front-end & back-end development. Build dynamic, scalable web applications with React, Node.js, MongoDB & AWS.",
+highlights:["80+ Live & Recorded Sessions","Illinois Tech & NSDC Certification","Practice on HackerEarth Platform","Real-World Capstone Projects","Soft Skills Training","Placement Assistance","Industry Expert Mentorship","Internship Certificate"],
+curriculum:[
+{title:"Fundamentals & Git",topics:["OS concepts & networking basics","Command-line operations & file systems","Git version control, branching, pull requests","Environment variables & setup"]},
+{title:"HTML5, CSS3 & Bootstrap",topics:["HTML5 elements, forms, semantic structure","CSS3 selectors, box model, typography","Bootstrap framework & responsive components","Building static websites"]},
+{title:"Responsive Web Design",topics:["Media queries & responsive layouts","Bootstrap Grid System (containers, rows, columns)","CSS Flexbox & responsive utilities","Project: Food Munch & E-commerce websites"]},
+{title:"JavaScript Fundamentals",topics:["Variables, operators, loops, functions","DOM manipulation & events","Form handling & validation","Array methods: map, filter, reduce, splice"]},
+{title:"ES6+ & Advanced JavaScript",topics:["Destructuring & spread syntax","Constructor functions & prototypes","Classes & inheritance","Async/Await & Promises"]},
+{title:"React.js",topics:["Components, Props, State & Lifecycle","JSX syntax & conditional rendering","Styled Components & CSS-in-JS","React Router & navigation"]},
+{title:"React Hooks & Advanced Patterns",topics:["useState, useEffect, useContext","Custom hooks development","Local storage integration","Project: Full E-commerce App"]},
+{title:"Databases (SQL & MongoDB)",topics:["SQL queries, joins, normalization","ACID properties & transactions","MongoDB CRUD & aggregations","Data modeling & complex queries"]},
+{title:"Node.js & Express Backend",topics:["Node.js fundamentals & NPM","Express.js routing & middleware","RESTful API development","Database integration & CRUD APIs"]},
+{title:"Capstone Projects",topics:["Slot Booking App (HTML/CSS/JS + AWS + Express)","Social Networking App with post/comment features","AWS deployment: S3, Route53, CloudFront","Full production deployment pipeline"]}
+],
+tools:["HTML5","CSS3","Bootstrap","JavaScript","React.js","Node.js","Express.js","MongoDB","SQL","AWS","Git","NPM","jQuery"],
+careers:[{role:"Full Stack Developer",salary:"5-15 LPA"},{role:"Frontend Developer",salary:"4-12 LPA"},{role:"Backend Developer",salary:"5-14 LPA"},{role:"DevOps Engineer",salary:"6-18 LPA"},{role:"Software Engineer",salary:"4-16 LPA"},{role:"Technical Lead",salary:"12-25 LPA"}],
+who:["Fresh graduates seeking tech careers","Working professionals switching to IT","Entrepreneurs wanting to build products","Anyone passionate about web development"],
+placements:["Deloitte","Accenture","Infosys","TCS","Wipro","Cognizant","EY","HCL Tech","Capgemini","GitHub"]},
+
+{id:2,name:"Data Science",cat:"coding",badge:"Trending",duration:"6 Months",sessions:"80+",students:"15,000+",rating:"4.8",level:"Beginner to Advanced",price:"EMI Available",
+desc:"Master data science fundamentals, Python, SQL, machine learning, Power BI & advanced analytics with real-world projects.",
+highlights:["80+ Live & Recorded Sessions","Illinois Tech Certification","NSDC Recognition","Industry Expert Mentorship","Practice with Real Datasets","Internship Certificate","Soft Skills Training","Placement Assistance"],
+curriculum:[
+{title:"Preparatory Session",topics:["Introduction to programming (compilers, interpreters)","Algorithms & editors setup","Data science roles & terminologies","Workflows & real-world applications"]},
+{title:"Python Programming",topics:["Language basics & installation","Data types, variables, operators","Conditional & looping statements","Data structures: lists, dicts, tuples, sets"]},
+{title:"Advanced Python",topics:["Functions, lambda, recursion, decorators","File handling & exception management","Object-oriented programming","Modules & regular expressions"]},
+{title:"Data Analysis Libraries",topics:["Pandas for data manipulation","NumPy for numerical computing","Data cleaning & transformation","Exploratory data analysis"]},
+{title:"Data Visualization",topics:["Matplotlib fundamentals","Seaborn statistical plots","Plotly interactive visualizations","Dashboard creation best practices"]},
+{title:"MySQL Database",topics:["Database fundamentals & MySQL workbench","DDL & DML commands","Joins, subqueries & views","Stored procedures & triggers"]},
+{title:"Power BI",topics:["Introduction & configuration","Data modeling & relationships","Interactive reports & dashboards","DAX language & formulas"]},
+{title:"Machine Learning",topics:["Supervised & unsupervised learning","Classification & regression models","Model evaluation & optimization","Scikit-learn implementation"]},
+{title:"Capstone Projects",topics:["Sports complex booking database (SQL)","Financial performance dashboard (Power BI)","End-to-end ML pipeline project","Real-world business problem solving"]}
+],
+tools:["Python","Pandas","NumPy","Matplotlib","Seaborn","Scikit-learn","SQL","MySQL","Power BI","DAX","OpenCV","Plotly"],
+careers:[{role:"Data Scientist",salary:"6-20 LPA"},{role:"Data Analyst",salary:"3-10 LPA"},{role:"BI Analyst",salary:"4-12 LPA"},{role:"ML Engineer",salary:"8-25 LPA"},{role:"Financial Analyst",salary:"4-12 LPA"}],
+who:["Software engineers transitioning to data science","Recent graduates seeking data roles","Marketing/finance professionals upskilling","Non-technical analysts wanting data skills"],
+placements:["IBM","Infosys","Cognizant","Deloitte","TCS","Wipro","Accenture"]},
+
+{id:3,name:"AI Tools Mastery",cat:"coding",duration:"3 Months",sessions:"40+",students:"2,000+",rating:"4.7",level:"Beginner",price:"EMI Available",
+desc:"Master the latest AI tools including ChatGPT, Gemini, Midjourney & more. Boost productivity across any profession.",
+highlights:["Hands-on AI Tool Training","Real-world Use Cases","Productivity Frameworks","Certificate Included"],
+curriculum:[
+{title:"AI Fundamentals",topics:["Introduction to AI & machine learning","Understanding large language models","Prompt engineering basics","AI ethics & best practices"]},
+{title:"ChatGPT & Text AI",topics:["Advanced prompt engineering","Content creation workflows","Code generation & debugging","Business automation with AI"]},
+{title:"Visual & Creative AI",topics:["Image generation tools","Video creation with AI","Design automation","AI for presentations"]}
+],
+tools:["ChatGPT","Gemini","Midjourney","Canva AI","Copilot","NotebookLM"],
+careers:[{role:"AI Prompt Engineer",salary:"4-12 LPA"},{role:"AI Content Specialist",salary:"3-8 LPA"},{role:"Productivity Consultant",salary:"5-15 LPA"}],
+who:["Professionals wanting AI productivity boost","Content creators & marketers","Business owners & entrepreneurs","Students exploring AI careers"],
+placements:[]},
+
+{id:4,name:"Python Programming",cat:"coding",duration:"3 Months",sessions:"50+",students:"5,000+",rating:"4.8",level:"Beginner",price:"EMI Available",
+desc:"Comprehensive Python programming from basics to advanced — data structures, OOP, file handling, web scraping & automation.",
+highlights:["50+ Live & Recorded Sessions","Hands-on Coding Projects","Practice on HackerEarth","Certificate Included","Beginner Friendly"],
+curriculum:[
+{title:"Python Basics",topics:["Installation & IDE setup","Variables, data types, operators","Conditional statements & loops","String manipulation & formatting"]},
+{title:"Data Structures",topics:["Lists, tuples, sets, dictionaries","List comprehensions","Nested data structures","Sorting & searching algorithms"]},
+{title:"Functions & OOP",topics:["Functions, lambda, recursion","Decorators & generators","Classes, objects, inheritance","Polymorphism & encapsulation"]},
+{title:"Advanced Python",topics:["File handling & exception management","Regular expressions & modules","Web scraping with BeautifulSoup","API integration & automation"]}
+],
+tools:["Python 3","PyCharm","VS Code","Jupyter Notebook","Git"],
+careers:[{role:"Python Developer",salary:"4-12 LPA"},{role:"Automation Engineer",salary:"5-14 LPA"},{role:"Backend Developer",salary:"5-15 LPA"}],
+who:["Complete beginners to programming","Students & job seekers","Professionals wanting automation skills","Anyone interested in tech careers"],
+placements:[]},
+
+{id:5,name:"Software Testing",cat:"coding",badge:"Hot",duration:"6 Months",sessions:"80+",students:"550+",rating:"4.8",level:"Beginner to Advanced",price:"EMI Available",
+desc:"Master manual & automation testing with Selenium, Java, API testing, CI/CD pipelines & AI-powered testing tools.",
+highlights:["Illinois Tech & NSDC Certification","Manual + Automation Testing","Real Project Experience","Jira & Agile Methodology","AI-Powered Testing Tools","Placement Assistance","Mock Interviews","Industry Expert Mentors"],
+curriculum:[
+{title:"Testing Fundamentals",topics:["QA vs QC concepts","SDLC phases: Waterfall, Agile, V-Model","STLC: requirement analysis, test planning","Test case design & defect lifecycle"]},
+{title:"Manual Testing & Jira",topics:["Functional & non-functional testing types","Test documentation & reporting","Jira installation & test management","7-day manual testing project"]},
+{title:"MySQL Database",topics:["Installation & data types","CRUD operations & queries","Aggregate functions & constraints","Joins & complex queries"]},
+{title:"Java Programming",topics:["Core Java: classes, objects, methods","OOP: inheritance, polymorphism, encapsulation","Exception handling & collections","Data structures for testers"]},
+{title:"Selenium Automation",topics:["Selenium IDE & WebDriver setup","Element locating strategies","Cross-browser testing","TestNG framework & assertions"]},
+{title:"Advanced Frameworks & CI/CD",topics:["Page Object Model (POM)","Cucumber BDD framework","Maven & Jenkins CI/CD","API testing with Postman"]},
+{title:"AI in Testing",topics:["AI-powered testing tools overview","Katalon Studio codeless automation","BrowserStack cross-browser testing","JMeter performance testing"]}
+],
+tools:["Selenium","Java","TestNG","Cucumber","Jira","Jenkins","Maven","Postman","JMeter","Git","BrowserStack","Katalon"],
+careers:[{role:"QA Engineer",salary:"3-10 LPA"},{role:"Automation Test Engineer",salary:"5-15 LPA"},{role:"Performance Tester",salary:"6-16 LPA"},{role:"Test Lead",salary:"8-20 LPA"},{role:"API Tester",salary:"4-12 LPA"}],
+who:["Fresh graduates seeking QA careers","Manual testers wanting automation skills","IT professionals switching to testing","Anyone with analytical aptitude"],
+placements:["Wipro","TCS","Infosys","Cognizant","Deloitte","EY","Accenture"]},
+
+{id:6,name:"Architecting on AWS",cat:"coding",duration:"48 Days",sessions:"40+",students:"800+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"Intensive AWS Solutions Architect program covering cloud computing, VPC, EC2, S3, Lambda, databases & edge services.",
+highlights:["AWS Certification Prep","Hands-on Labs","Illinois Tech Certificate","NSDC Recognition","Real-world Cloud Projects","Placement Assistance"],
+curriculum:[
+{title:"Cloud Fundamentals & Security",topics:["Cloud computing concepts & AWS architecture","IAM, security best practices, MFA","Account security & compliance","AWS Well-Architected Framework"]},
+{title:"Networking & Compute",topics:["VPC configuration & IP addressing","Security groups & VPNs","EC2 instances & load balancing","Lambda serverless computing"]},
+{title:"Storage & Databases",topics:["S3 buckets & EFS","RDS, Aurora & DynamoDB","Backup strategies & disaster recovery","Data migration services"]},
+{title:"Monitoring, Automation & Edge",topics:["CloudWatch & CloudTrail monitoring","Auto-scaling & CloudFormation","ECS & Kubernetes containers","Route 53, CloudFront & WAF"]}
+],
+tools:["AWS EC2","S3","Lambda","RDS","Aurora","DynamoDB","CloudWatch","CloudFront","Route 53","VPC","IAM","CloudFormation"],
+careers:[{role:"AWS Solutions Architect",salary:"8-25 LPA"},{role:"Cloud Engineer",salary:"6-20 LPA"},{role:"DevOps Engineer",salary:"7-22 LPA"},{role:"Cloud Consultant",salary:"10-30 LPA"}],
+who:["IT professionals moving to cloud","Developers wanting AWS skills","System administrators upskilling","Anyone targeting AWS certification"],
+placements:[]},
+
+{id:7,name:"Data Analytics",cat:"coding",duration:"4 Months",sessions:"60+",students:"3,000+",rating:"4.7",level:"Beginner",price:"EMI Available",
+desc:"Learn data analytics with Excel, SQL, Python, Power BI & Tableau. Transform raw data into actionable business insights.",
+highlights:["Hands-on Analytics Projects","Power BI & Tableau Dashboards","SQL Mastery","Certificate Included","Placement Assistance"],
+curriculum:[
+{title:"Excel & Data Fundamentals",topics:["Advanced Excel formulas & pivot tables","Data cleaning & transformation","Statistical analysis basics","Dashboard creation in Excel"]},
+{title:"SQL for Analytics",topics:["Database querying & joins","Aggregations & window functions","Subqueries & CTEs","Real-world data analysis with SQL"]},
+{title:"Python for Data Analysis",topics:["Pandas & NumPy essentials","Data wrangling & cleaning","Exploratory data analysis","Visualization with Matplotlib & Seaborn"]},
+{title:"BI Tools & Reporting",topics:["Power BI dashboards & DAX","Tableau visualization","Storytelling with data","Capstone analytics project"]}
+],
+tools:["Excel","SQL","Python","Pandas","Power BI","Tableau","Matplotlib"],
+careers:[{role:"Data Analyst",salary:"3-10 LPA"},{role:"Business Analyst",salary:"4-12 LPA"},{role:"BI Analyst",salary:"5-14 LPA"}],
+who:["Graduates seeking analytics careers","Business professionals wanting data skills","Anyone interested in data-driven decisions"],
+placements:[]},
+
+{id:8,name:"UI/UX Design",cat:"coding",badge:"New",duration:"6 Months",sessions:"80+",students:"1,200+",rating:"4.8",level:"Beginner",price:"EMI Available",
+desc:"Master UI/UX design with Figma — research, wireframing, prototyping, design systems, accessibility & front-end basics.",
+highlights:["1 Month Guaranteed Internship","16 Comprehensive Modules","Figma Mastery","Portfolio Building Support","NSDC Certification","Design System Creation","Placement Assistance","Mentors from Tesla, Google, Samsung"],
+curriculum:[
+{title:"Introduction to UI/UX & Figma",topics:["Design thinking methodology","Industry tools overview","Figma basics & interface","Setting up design projects"]},
+{title:"UX Research & Information Architecture",topics:["User research methods & interviews","Personas & empathy mapping","Content structure & sitemaps","Low-fidelity wireframing"]},
+{title:"Visual Design & UI Principles",topics:["Color theory & typography","Visual hierarchy & layout","Design consistency principles","Brand identity in UI"]},
+{title:"Advanced Figma & Design Systems",topics:["Auto Layout & constraints","Variables & design tokens","Component libraries & documentation","Dark mode implementation"]},
+{title:"Prototyping & Testing",topics:["Interactive prototypes & micro-interactions","Animation & motion design","Usability testing & A/B testing","User testing metrics & iteration"]},
+{title:"Multi-Platform & Career",topics:["Android & iOS design patterns","Material Design & HIG guidelines","UX copywriting with AI tools","Portfolio building & job prep"]}
+],
+tools:["Figma","FigJam","Adobe XD","Illustrator","Miro","Hotjar","ChatGPT","Visily"],
+careers:[{role:"UI/UX Designer",salary:"5-10 LPA"},{role:"Product Designer",salary:"8-15 LPA"},{role:"UX Researcher",salary:"6-12 LPA"},{role:"Interaction Designer",salary:"6-12 LPA"},{role:"Design Consultant",salary:"5-15 LPA"}],
+who:["Complete beginners — no design background needed","Students exploring creative careers","Developers wanting design skills","Freelancers & career switchers"],
+placements:[]},
+
+{id:9,name:"AI Powered Cybersecurity",cat:"coding",duration:"5 Months",sessions:"60+",students:"600+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"Learn cybersecurity fundamentals, ethical hacking, network security, penetration testing & AI-powered threat detection.",
+highlights:["Ethical Hacking Training","AI Security Tools","Hands-on Labs","Industry Certification","Placement Assistance"],
+curriculum:[
+{title:"Security Fundamentals",topics:["Cybersecurity landscape & threats","Network security basics","Cryptography fundamentals","Security protocols & standards"]},
+{title:"Ethical Hacking & Pen Testing",topics:["Reconnaissance & scanning","Vulnerability assessment","Exploitation techniques","Reporting & documentation"]},
+{title:"AI in Cybersecurity",topics:["AI-powered threat detection","Machine learning for security","Automated incident response","Security analytics & monitoring"]}
+],
+tools:["Kali Linux","Wireshark","Metasploit","Nmap","Burp Suite","SIEM Tools"],
+careers:[{role:"Security Analyst",salary:"5-15 LPA"},{role:"Ethical Hacker",salary:"6-18 LPA"},{role:"Security Engineer",salary:"8-22 LPA"}],
+who:["IT professionals moving to cybersecurity","Graduates interested in security","Network administrators upskilling"],
+placements:[]},
+
+// COMMERCE
+{id:10,name:"SAP FICO",cat:"commerce",badge:"Popular",duration:"3 Months",sessions:"50+",students:"1,000+",rating:"4.8",level:"Beginner to Advanced",price:"₹20K–1L",
+desc:"Comprehensive SAP Financial Accounting & Controlling training with hands-on S/4HANA experience & SAP certification.",
+highlights:["SAP S/4HANA Hands-on Training","Live Interactive Classes","Expert Mentors (7+ yrs SAP experience)","SAP Certification","Regular Assessments","Placement Assistance","Multi-language Support","Free Demo Available"],
+curriculum:[
+{title:"Financial Accounting Basics",topics:["Enterprise structure in SAP","Financial accounting basic settings","Chart of accounts configuration","Fiscal year & posting periods"]},
+{title:"General Ledger & Taxes",topics:["General ledger accounting setup","Taxes on sales & purchases","Input & output tax configuration","Tax reporting & compliance"]},
+{title:"Accounts Payable & Receivable",topics:["AP master data & invoices","Payment processing & dunning","AR customer master data","Credit management & collections"]},
+{title:"Asset Accounting & Controlling",topics:["Asset master data & depreciation","Asset transactions & reporting","Cost element & cost center accounting","Internal orders & profit center accounting"]}
+],
+tools:["SAP S/4HANA","SAP FICO Module","SAP GUI","Excel"],
+careers:[{role:"SAP FICO Consultant",salary:"5-18 LPA"},{role:"Financial Analyst",salary:"4-12 LPA"},{role:"Accounts Manager",salary:"4-10 LPA"},{role:"Senior Finance Manager",salary:"10-25 LPA"}],
+who:["Commerce & finance graduates","MBA/CA professionals","Working accountants upskilling","Career changers interested in SAP"],
+placements:["SBI Life","Accenture","Deloitte","TCS","Wipro"]},
+
+{id:11,name:"Practical Accounting",cat:"commerce",duration:"6 Months",sessions:"60+",students:"2,500+",rating:"4.7",level:"Beginner",price:"EMI Available",
+desc:"PwC-certified accounting program covering taxation, Tally Prime, Zoho Books, Excel, Power BI & real government portal simulations.",
+highlights:["PwC Tax Professional Certificate","TallyPrime & Zoho Books Training","Real Government Portal Simulations","Excel & Power BI Analytics","CA-Qualified Instructors","60 Hours Video Content","Live Doubt Clearing","Placement Assistance"],
+curriculum:[
+{title:"Accounting Fundamentals",topics:["Principles of accounting","Journal entries & ledger maintenance","Financial statements preparation","Bank reconciliation"]},
+{title:"Business Structure & Law",topics:["Company types: sole proprietorship, partnership, LLP","Companies Act essentials","Labour law: ESI, PF compliance","Corporate governance basics"]},
+{title:"Taxation (PwC Certified)",topics:["Direct tax: Income tax, TDS, TCS","Indirect tax: GST fundamentals","Tax filing & compliance","Real government portal practice"]},
+{title:"Computerized Accounting & Analytics",topics:["TallyPrime ERP software mastery","Zoho Books cloud accounting","Advanced Excel formulas & analysis","Power BI dashboards & reporting"]}
+],
+tools:["TallyPrime","Zoho Books","Microsoft Excel","Power BI","GST Portal","ITR Portal"],
+careers:[{role:"Accountant",salary:"3-8 LPA"},{role:"Financial Analyst",salary:"4-12 LPA"},{role:"Tax Consultant",salary:"4-10 LPA"},{role:"Finance Manager",salary:"8-20 LPA"}],
+who:["Commerce graduates & B.Com holders","Aspiring accountants","Small business owners","Finance professionals upskilling"],
+placements:[]},
+
+{id:12,name:"SAP MM",cat:"commerce",duration:"3 Months",sessions:"40+",students:"800+",rating:"4.7",level:"Beginner to Advanced",price:"EMI Available",
+desc:"Master SAP Materials Management — procurement, inventory management, invoice verification & vendor management in S/4HANA.",
+highlights:["SAP S/4HANA Training","Hands-on Configuration","Expert SAP Mentors","Certification Included","Placement Assistance"],
+curriculum:[{title:"SAP MM Modules",topics:["Procurement process & purchase orders","Inventory management & goods receipt","Invoice verification & payment","Vendor master data & evaluation","Material master data management","Reporting & analytics"]}],
+tools:["SAP S/4HANA","SAP MM Module","Excel"],
+careers:[{role:"SAP MM Consultant",salary:"5-16 LPA"},{role:"Procurement Analyst",salary:"4-10 LPA"},{role:"Supply Chain Manager",salary:"8-20 LPA"}],
+who:["Supply chain professionals","Commerce graduates","SAP career aspirants"],placements:[]},
+
+{id:13,name:"SAP SD",cat:"commerce",duration:"3 Months",sessions:"40+",students:"700+",rating:"4.7",level:"Beginner to Advanced",price:"EMI Available",
+desc:"SAP Sales & Distribution training — order management, pricing, billing, shipping & CRM integration in S/4HANA.",
+highlights:["SAP S/4HANA Hands-on","Real Business Scenarios","Expert Mentors","Certification","Placement Support"],
+curriculum:[{title:"SAP SD Modules",topics:["Sales order processing & management","Pricing procedures & conditions","Billing & invoicing","Shipping & delivery processing","Credit management","Integration with other SAP modules"]}],
+tools:["SAP S/4HANA","SAP SD Module","Excel"],
+careers:[{role:"SAP SD Consultant",salary:"5-16 LPA"},{role:"Sales Operations Analyst",salary:"4-10 LPA"},{role:"Business Process Consultant",salary:"6-18 LPA"}],
+who:["Sales & distribution professionals","Commerce graduates","SAP career aspirants"],placements:[]},
+
+{id:14,name:"ACCA",cat:"commerce",duration:"12+ Months",sessions:"100+",students:"500+",rating:"4.8",level:"Intermediate",price:"EMI Available",
+desc:"Association of Chartered Certified Accountants — globally recognised accounting qualification covering audit, tax, financial reporting & management.",
+highlights:["Globally Recognised Qualification","Expert ACCA Tutors","Exam-Focused Preparation","Study Materials Included","Career Guidance"],
+curriculum:[{title:"ACCA Papers",topics:["Business & Technology (BT)","Management Accounting (MA)","Financial Accounting (FA)","Corporate & Business Law (LW)","Performance Management (PM)","Taxation (TX)","Financial Reporting (FR)","Audit & Assurance (AA)","Strategic Business Reporting (SBR)"]}],
+tools:["ACCA Study Portal","Excel","Accounting Software"],
+careers:[{role:"Chartered Accountant",salary:"6-20 LPA"},{role:"Audit Manager",salary:"8-25 LPA"},{role:"CFO",salary:"20-50+ LPA"}],
+who:["Commerce graduates aiming for global certification","CA aspirants wanting international recognition","Finance professionals"],placements:[]},
+
+{id:15,name:"HR Management",cat:"commerce",duration:"4 Months",sessions:"50+",students:"600+",rating:"4.6",level:"Beginner",price:"EMI Available",
+desc:"Comprehensive HR management covering recruitment, payroll, compliance, performance management & HR analytics.",
+highlights:["Practical HR Training","Payroll & Compliance","HR Analytics","Certificate Included","Placement Assistance"],
+curriculum:[{title:"HR Management Modules",topics:["Recruitment & talent acquisition","Onboarding & employee engagement","Payroll processing & statutory compliance","Performance management systems","HR analytics & reporting","Labour laws: PF, ESI, Gratuity","Training & development","HR technology & HRIS"]}],
+tools:["Excel","HRIS Software","Payroll Systems"],
+careers:[{role:"HR Executive",salary:"3-6 LPA"},{role:"HR Manager",salary:"6-15 LPA"},{role:"Talent Acquisition Lead",salary:"5-12 LPA"}],
+who:["MBA HR graduates","HR professionals upskilling","Career switchers to HR"],placements:[]},
+
+{id:16,name:"PwC Edge: Strategic Accounting & Finance Programme",cat:"commerce",duration:"6 Months",sessions:"60+",students:"400+",rating:"4.8",level:"Intermediate",price:"EMI Available",
+desc:"PwC-designed programme covering strategic financial planning, advanced accounting, taxation & business advisory skills.",
+highlights:["PwC Certification","Strategic Finance Focus","Industry Expert Mentors","Real Case Studies","Placement Assistance"],
+curriculum:[{title:"Programme Modules",topics:["Strategic financial planning","Advanced management accounting","Corporate taxation & GST","Business advisory & consulting","Financial modelling & analysis","Risk management & compliance"]}],
+tools:["Excel","Power BI","Financial Modelling Tools"],
+careers:[{role:"Financial Advisor",salary:"5-15 LPA"},{role:"Management Consultant",salary:"8-25 LPA"},{role:"Finance Manager",salary:"8-20 LPA"}],
+who:["Finance professionals seeking PwC credentials","CA/CMA aspirants","Commerce graduates"],placements:[]},
+
+{id:17,name:"Enrolled Agent Course",cat:"commerce",duration:"4 Months",sessions:"50+",students:"300+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"Prepare for the IRS Enrolled Agent exam — US taxation, representation rights & federal tax practice.",
+highlights:["US Tax Expertise","EA Exam Preparation","Expert Tax Mentors","Study Materials","Career in US Taxation"],
+curriculum:[{title:"EA Exam Parts",topics:["Individual taxation","Business taxation","Representation, practices & procedures","Tax planning & advisory"]}],
+tools:["IRS Study Materials","Tax Software","Excel"],
+careers:[{role:"Enrolled Agent",salary:"5-15 LPA"},{role:"US Tax Consultant",salary:"6-18 LPA"},{role:"International Tax Advisor",salary:"8-25 LPA"}],
+who:["Tax professionals targeting US market","Commerce graduates","CA/CPA aspirants"],placements:[]},
+
+{id:18,name:"CMA USA Course",cat:"commerce",duration:"6 Months",sessions:"60+",students:"400+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"Certified Management Accountant (USA) — financial planning, analysis, control, decision support & professional ethics.",
+highlights:["Globally Recognised CMA Credential","Exam-Focused Training","Expert Mentors","Study Materials","Career Guidance"],
+curriculum:[{title:"CMA Parts",topics:["Financial planning, performance & analytics","Strategic financial management","Cost management","Internal controls","Decision analysis","Investment decisions","Professional ethics"]}],
+tools:["CMA Study Portal","Excel","Financial Modelling"],
+careers:[{role:"Management Accountant",salary:"6-18 LPA"},{role:"Financial Controller",salary:"10-30 LPA"},{role:"CFO",salary:"20-50+ LPA"}],
+who:["Finance professionals seeking global credentials","MBA Finance graduates","CA/CS professionals"],placements:[]},
+
+{id:19,name:"Certified Tax Professional Course",cat:"commerce",duration:"3 Months",sessions:"40+",students:"500+",rating:"4.6",level:"Beginner",price:"EMI Available",
+desc:"Master Indian taxation — income tax, GST, TDS/TCS, tax planning, filing & compliance with real portal practice.",
+highlights:["PwC Curriculum","Government Portal Practice","Expert CA Mentors","Practical Tax Filing","Certificate Included"],
+curriculum:[{title:"Tax Modules",topics:["Income tax fundamentals & computation","GST registration, returns & compliance","TDS/TCS provisions & filing","Tax planning strategies","ITR filing on government portals","Tax audit basics"]}],
+tools:["Income Tax Portal","GST Portal","TallyPrime","Excel"],
+careers:[{role:"Tax Consultant",salary:"3-10 LPA"},{role:"GST Practitioner",salary:"3-8 LPA"},{role:"Tax Manager",salary:"6-18 LPA"}],
+who:["Commerce graduates","Practicing accountants","Business owners","Anyone interested in taxation"],placements:[]},
+
+// TECHNICAL
+{id:20,name:"Quantity Survey",cat:"technical",duration:"4 Months",sessions:"50+",students:"400+",rating:"4.6",level:"Beginner to Intermediate",price:"EMI Available",
+desc:"Master quantity surveying — estimation, costing, tendering, billing & contract management for construction projects.",
+highlights:["Practical Project Training","Industry Expert Mentors","Software Training","Certificate Included","Placement Support"],
+curriculum:[{title:"QS Modules",topics:["Estimation & costing fundamentals","Measurement techniques","Tendering & contract management","Billing of quantities","Rate analysis","Project cost control","AutoCAD for QS","MS Project scheduling"]}],
+tools:["AutoCAD","MS Project","Excel","Estimation Software"],
+careers:[{role:"Quantity Surveyor",salary:"3-10 LPA"},{role:"Cost Engineer",salary:"4-12 LPA"},{role:"Project Manager",salary:"6-18 LPA"}],
+who:["Civil engineering graduates","Construction professionals","Architecture students"],placements:[]},
+
+{id:21,name:"MEP",cat:"technical",duration:"4 Months",sessions:"50+",students:"350+",rating:"4.6",level:"Intermediate",price:"EMI Available",
+desc:"Mechanical, Electrical & Plumbing engineering — HVAC design, electrical systems, plumbing layout & fire protection.",
+highlights:["Software-Based Training","Industry Projects","Expert Mentors","Certificate","Placement Support"],
+curriculum:[{title:"MEP Modules",topics:["HVAC system design & load calculation","Electrical system design & layout","Plumbing & drainage systems","Fire protection systems","MEP coordination & clash detection","Revit MEP software","Energy efficiency & green building"]}],
+tools:["Revit MEP","AutoCAD MEP","HAP Software","Excel"],
+careers:[{role:"MEP Engineer",salary:"3-10 LPA"},{role:"HVAC Designer",salary:"4-12 LPA"},{role:"MEP Coordinator",salary:"5-15 LPA"}],
+who:["Mechanical/electrical engineering graduates","Construction professionals","Building services engineers"],placements:[]},
+
+{id:22,name:"Robotics & AI Course",cat:"technical",duration:"5 Months",sessions:"60+",students:"500+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"Learn robotics fundamentals, embedded systems, IoT, computer vision & AI integration for autonomous systems.",
+highlights:["Hands-on Robot Projects","AI & ML Integration","IoT Training","Certificate","Industry Mentors"],
+curriculum:[{title:"Robotics & AI Modules",topics:["Robotics fundamentals & kinematics","Embedded systems & microcontrollers","Sensor integration & actuators","Computer vision with OpenCV","Machine learning for robotics","IoT protocols & platforms","Autonomous navigation","Capstone robot project"]}],
+tools:["Arduino","Raspberry Pi","Python","OpenCV","ROS","TensorFlow"],
+careers:[{role:"Robotics Engineer",salary:"5-15 LPA"},{role:"AI/ML Engineer",salary:"8-25 LPA"},{role:"IoT Developer",salary:"4-12 LPA"}],
+who:["Engineering graduates","Electronics enthusiasts","AI/ML professionals expanding to robotics"],placements:[]},
+
+{id:23,name:"Structural Design",cat:"technical",duration:"4 Months",sessions:"50+",students:"400+",rating:"4.6",level:"Intermediate",price:"EMI Available",
+desc:"Master structural analysis & design — RCC, steel structures, foundation design using ETABS, STAAD Pro & AutoCAD.",
+highlights:["Software-Based Design Training","Real Project Experience","Expert Structural Engineers","Certificate","Placement Support"],
+curriculum:[{title:"Structural Design Modules",topics:["Structural analysis fundamentals","RCC design: beams, columns, slabs","Steel structure design","Foundation design","ETABS modelling & analysis","STAAD Pro analysis","AutoCAD structural drawings","Seismic design principles"]}],
+tools:["ETABS","STAAD Pro","AutoCAD","Excel"],
+careers:[{role:"Structural Engineer",salary:"4-12 LPA"},{role:"Design Engineer",salary:"3-10 LPA"},{role:"Structural Consultant",salary:"6-20 LPA"}],
+who:["Civil engineering graduates","Practicing engineers upskilling","Construction professionals"],placements:[]},
+
+{id:24,name:"BIM Course",cat:"technical",duration:"4 Months",sessions:"50+",students:"450+",rating:"4.7",level:"Beginner to Intermediate",price:"EMI Available",
+desc:"Building Information Modelling with Revit — architectural, structural & MEP modelling, clash detection & project coordination.",
+highlights:["Revit Software Training","Real BIM Projects","Industry Standards","Certificate","Placement Assistance"],
+curriculum:[{title:"BIM Modules",topics:["BIM fundamentals & workflows","Revit Architecture modelling","Revit Structure modelling","Revit MEP modelling","Clash detection & coordination","4D & 5D BIM concepts","BIM execution planning","Navisworks & collaboration"]}],
+tools:["Revit","Navisworks","AutoCAD","BIM 360"],
+careers:[{role:"BIM Modeller",salary:"3-10 LPA"},{role:"BIM Coordinator",salary:"5-15 LPA"},{role:"BIM Manager",salary:"8-22 LPA"}],
+who:["Architecture & engineering graduates","Construction professionals","CAD technicians upskilling"],placements:[]},
+
+{id:25,name:"Embedded System Software Engineering",cat:"technical",duration:"5 Months",sessions:"60+",students:"350+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"Master embedded C/C++, microcontroller programming, RTOS, device drivers & IoT for embedded system development.",
+highlights:["Hands-on Hardware Projects","C/C++ Programming","RTOS Training","Industry Mentors","Certificate","Placement Support"],
+curriculum:[{title:"Embedded Systems Modules",topics:["Embedded C programming","Microcontroller architecture (ARM, AVR)","Peripheral interfacing (GPIO, UART, SPI, I2C)","RTOS concepts & FreeRTOS","Device driver development","Linux kernel basics","IoT integration","Capstone embedded project"]}],
+tools:["Keil","Arduino IDE","STM32","FreeRTOS","Linux","Git"],
+careers:[{role:"Embedded Engineer",salary:"4-14 LPA"},{role:"Firmware Developer",salary:"5-16 LPA"},{role:"IoT Engineer",salary:"4-12 LPA"}],
+who:["ECE/EEE/CSE graduates","Electronics enthusiasts","Professionals entering embedded domain"],placements:[]},
+
+// DIGITAL MARKETING
+{id:26,name:"Digital Marketing",cat:"marketing",badge:"Bestseller",duration:"6 Months",sessions:"80+",students:"700+",rating:"4.7",level:"Beginner to Advanced",price:"EMI Available",
+desc:"Next-gen AI-powered digital marketing — SEO, Google Ads, Meta Ads, analytics, content marketing, e-commerce & 35+ tools.",
+highlights:["18 Comprehensive Modules","35+ Tools & Platforms","Illinois Tech & NSDC Certification","AI-Integrated Marketing","Google Ads & Meta Ads Mastery","GA4 & Analytics Training","Shopify & E-commerce","Placement Assistance"],
+curriculum:[
+{title:"Marketing Fundamentals & SEO Basics",topics:["Buyer personas & marketing psychology","Keyword research & hosting basics","On-page SEO: meta tags, schema markup","Core Web Vitals optimization"]},
+{title:"Social Media & Content",topics:["Instagram, Facebook, YouTube, LinkedIn strategies","AI content creation tools","WordPress installation & design","SEO content strategy & topical clusters"]},
+{title:"Technical SEO & Analytics",topics:["Google Search Console mastery","Backlinks & competitor analysis","GA4 implementation & event tracking","Google Tag Manager & Microsoft Clarity"]},
+{title:"Advanced Analytics & SEO",topics:["Semantic SEO & topical authority","BigQuery & Looker Studio dashboards","Chrome DevTools for marketers","NLP concepts for SEO"]},
+{title:"Paid Advertising",topics:["Google Ads & YouTube Ads","Conversion tracking setup","Meta Ads: Facebook & Instagram","LinkedIn Ads & Snapchat Ads"]},
+{title:"Growth & E-commerce",topics:["Influencer & affiliate marketing","Email marketing automation","Shopify store setup & optimization","WhatsApp business automation"]}
+],
+tools:["Google Ads","Meta Ads","GA4","Mailchimp","WordPress","ChatGPT","Ahrefs","SEMrush","Moz","Shopify","Hootsuite","Canva","Google Tag Manager","Looker Studio","Microsoft Clarity"],
+careers:[{role:"Digital Marketing Manager",salary:"4-12 LPA"},{role:"SEO Specialist",salary:"3-10 LPA"},{role:"PPC Specialist",salary:"4-12 LPA"},{role:"Social Media Manager",salary:"3-8 LPA"},{role:"Content Strategist",salary:"4-10 LPA"},{role:"E-commerce Specialist",salary:"4-12 LPA"}],
+who:["Complete beginners & career switchers","IT freshers seeking marketing roles","Small business owners","Social media managers upskilling","Students exploring digital careers"],
+placements:["Accenture","Growth.CX","Webdura Technologies"]},
+
+{id:27,name:"Performance Marketing",cat:"marketing",duration:"4 Months",sessions:"50+",students:"400+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"Master paid advertising — Google Ads, Meta Ads, LinkedIn Ads, campaign optimization, ROAS tracking & attribution modelling.",
+highlights:["Advanced Ads Training","Campaign Optimization","Attribution Modelling","Real Ad Spend Practice","Certificate","Placement Support"],
+curriculum:[{title:"Performance Marketing Modules",topics:["Google Search & Display Ads","YouTube advertising","Meta (Facebook/Instagram) Ads","LinkedIn & programmatic ads","Campaign structure & optimization","Conversion tracking & pixels","Attribution modelling","Budget optimization & ROAS","A/B testing frameworks","Reporting & dashboards"]}],
+tools:["Google Ads","Meta Business Manager","LinkedIn Ads","GA4","Google Tag Manager","Looker Studio"],
+careers:[{role:"Performance Marketer",salary:"4-14 LPA"},{role:"PPC Manager",salary:"5-15 LPA"},{role:"Growth Marketer",salary:"6-18 LPA"}],
+who:["Digital marketers specializing in ads","Marketing managers","Business owners running paid campaigns"],placements:[]},
+
+// FINACADEMY
+{id:28,name:"Stock Market",cat:"finance",duration:"3 Months",sessions:"40+",students:"2,000+",rating:"4.7",level:"Beginner",price:"EMI Available",
+desc:"Learn stock market investing & trading — technical analysis, fundamental analysis, options, risk management & portfolio building.",
+highlights:["Live Market Analysis","Technical & Fundamental Analysis","Options Trading","Risk Management","Expert Traders as Mentors","Certificate"],
+curriculum:[{title:"Stock Market Modules",topics:["Stock market basics & terminology","How exchanges work (NSE, BSE)","Fundamental analysis: reading financials","Technical analysis: charts & indicators","Candlestick patterns & price action","Moving averages, RSI, MACD","Options trading strategies","Risk management & position sizing","Portfolio construction & diversification","Trading psychology & discipline"]}],
+tools:["Trading Platforms","Charting Software","Screeners","Excel"],
+careers:[{role:"Equity Research Analyst",salary:"4-12 LPA"},{role:"Trader",salary:"Variable"},{role:"Financial Advisor",salary:"4-15 LPA"}],
+who:["Anyone interested in investing","Working professionals building wealth","Students exploring finance","Aspiring full-time traders"],placements:[]},
+
+{id:29,name:"Forex Trading",cat:"finance",duration:"2 Months",sessions:"30+",students:"800+",rating:"4.6",level:"Beginner to Intermediate",price:"EMI Available",
+desc:"Master forex markets — currency pairs, technical analysis, trading strategies, risk management & live market practice.",
+highlights:["Live Forex Analysis","Technical Strategies","Risk Management","Demo Trading Practice","Expert Mentors"],
+curriculum:[{title:"Forex Modules",topics:["Forex market structure & participants","Currency pairs & pip calculations","Technical analysis for forex","Trading strategies: scalping, swing, position","Risk management & lot sizing","Fundamental analysis: economic indicators","Trading platforms & order types","Live market analysis sessions"]}],
+tools:["MT4/MT5","TradingView","Economic Calendars"],
+careers:[{role:"Forex Trader",salary:"Variable"},{role:"Currency Analyst",salary:"4-12 LPA"},{role:"Treasury Analyst",salary:"5-15 LPA"}],
+who:["Aspiring forex traders","Stock market traders expanding to forex","Finance professionals"],placements:[]},
+
+{id:30,name:"Mutual Funds Course",cat:"finance",duration:"2 Months",sessions:"25+",students:"1,200+",rating:"4.6",level:"Beginner",price:"EMI Available",
+desc:"Comprehensive mutual fund education — fund types, SIP strategies, portfolio allocation, NAV analysis & wealth planning.",
+highlights:["Fund Analysis Training","SIP Strategies","Portfolio Building","Wealth Planning","Certificate"],
+curriculum:[{title:"Mutual Funds Modules",topics:["Mutual fund basics & structure","Types: equity, debt, hybrid, index funds","NAV calculation & expense ratios","SIP vs lumpsum strategies","Portfolio allocation & rebalancing","Tax implications of mutual funds","AMFI certification preparation","Goal-based investment planning"]}],
+tools:["Fund Analysis Platforms","Excel","Financial Calculators"],
+careers:[{role:"Mutual Fund Advisor",salary:"3-10 LPA"},{role:"Wealth Manager",salary:"5-18 LPA"},{role:"Financial Planner",salary:"4-15 LPA"}],
+who:["Anyone interested in investing","Financial advisors","Banking professionals","Students exploring finance careers"],placements:[]},
+
+// TEACHING
+{id:31,name:"Montessori Teacher Training",cat:"teaching",duration:"6 Months",sessions:"60+",students:"1,500+",rating:"4.8",level:"Beginner",price:"EMI Available",
+desc:"Comprehensive Montessori TTC — lesson planning, curriculum development, classroom management, child psychology & practical activities.",
+highlights:["Internationally Recognised","Practical Training","Child Psychology","Curriculum Development","Certificate","Teaching Practicum"],
+curriculum:[{title:"Montessori TTC Modules",topics:["Montessori philosophy & history","Child development stages (0-6 years)","Classroom environment setup","Practical life exercises","Sensorial education materials","Language development activities","Mathematics with Montessori materials","Cultural studies & science","Art, music & movement","Lesson planning & curriculum design","Classroom management techniques","Parent communication"]}],
+tools:["Montessori Materials","Teaching Aids","Assessment Tools"],
+careers:[{role:"Montessori Teacher",salary:"2.5-6 LPA"},{role:"Preschool Director",salary:"4-10 LPA"},{role:"Child Development Consultant",salary:"3-8 LPA"}],
+who:["Aspiring early childhood educators","Parents homeschooling children","Career changers to education","Daycare center operators"],placements:[]},
+
+{id:32,name:"Yoga Teacher Training",cat:"teaching",duration:"3 Months",sessions:"50+",students:"800+",rating:"4.7",level:"Beginner",price:"EMI Available",
+desc:"Certified yoga teacher training — asanas, pranayama, anatomy, philosophy, teaching methodology & class sequencing.",
+highlights:["Certified YTT Programme","Practical Asana Training","Anatomy & Physiology","Philosophy & Meditation","Teaching Practicum"],
+curriculum:[{title:"YTT Modules",topics:["Yoga philosophy & history","Asana practice & alignment","Pranayama (breathing techniques)","Meditation & mindfulness","Anatomy & physiology for yoga","Teaching methodology","Class sequencing & planning","Adjustments & modifications","Yoga therapy basics","Business of yoga teaching"]}],
+tools:["Yoga Props","Anatomy Charts","Sequencing Tools"],
+careers:[{role:"Yoga Instructor",salary:"2.5-8 LPA"},{role:"Wellness Consultant",salary:"3-10 LPA"},{role:"Studio Owner",salary:"Variable"}],
+who:["Yoga enthusiasts wanting to teach","Fitness professionals","Wellness industry aspirants","Anyone seeking a yoga career"],placements:[]},
+
+// LANGUAGE
+{id:33,name:"Spoken English",cat:"language",duration:"3 Months",sessions:"40+",students:"5,000+",rating:"4.7",level:"Beginner",price:"EMI Available",
+desc:"Fluency-focused spoken English — pronunciation, grammar, vocabulary, conversation practice & public speaking confidence.",
+highlights:["Live Conversation Practice","Grammar & Pronunciation","Vocabulary Building","Public Speaking","Certificate"],
+curriculum:[{title:"Spoken English Modules",topics:["Pronunciation & phonetics","Grammar fundamentals & tenses","Vocabulary expansion techniques","Conversation practice & role-plays","Public speaking & presentations","Email & business writing","Interview English preparation","Group discussions & debates"]}],
+tools:["Language Apps","Audio Resources","Practice Platforms"],
+careers:[{role:"Enhanced Communication",salary:"Career Boost"},{role:"BPO/KPO Roles",salary:"2.5-6 LPA"},{role:"Content Writer",salary:"3-8 LPA"}],
+who:["Non-native English speakers","Job seekers improving communication","Students preparing for interviews","Professionals in customer-facing roles"],placements:[]},
+
+{id:34,name:"German Language",cat:"language",duration:"4 Months",sessions:"50+",students:"1,000+",rating:"4.7",level:"Beginner (A1-B1)",price:"EMI Available",
+desc:"Learn German from scratch — A1 to B1 levels, grammar, vocabulary, conversation, reading & writing for work/study abroad.",
+highlights:["A1 to B1 Levels","Native Speaker Practice","Goethe Exam Prep","Cultural Immersion","Certificate"],
+curriculum:[{title:"German Language Levels",topics:["A1: Self-introduction, basic phrases, numbers","A1: Simple conversations, present tense","A2: Daily life topics, past tense","A2: Travel, shopping, directions","B1: Opinions & arguments, subjunctive","B1: Work & education topics","Grammar: cases, articles, verb conjugation","Reading & writing practice","Listening comprehension","Goethe exam preparation"]}],
+tools:["Language Learning Platform","Audio Resources","Practice Apps"],
+careers:[{role:"German Translator",salary:"3-10 LPA"},{role:"Work in Germany",salary:"Higher Earning Potential"},{role:"International Business",salary:"Career Enhancement"}],
+who:["Students planning to study in Germany","Professionals targeting German companies","Language enthusiasts","Immigration aspirants"],placements:[]},
+
+{id:35,name:"PTE",cat:"language",duration:"2 Months",sessions:"30+",students:"2,000+",rating:"4.7",level:"Intermediate",price:"EMI Available",
+desc:"PTE Academic exam preparation — speaking, writing, reading & listening with practice tests, strategies & score optimization.",
+highlights:["Full-Length Practice Tests","Section-wise Strategies","Score Optimization","Expert PTE Trainers","Certificate"],
+curriculum:[{title:"PTE Modules",topics:["PTE exam format & scoring","Speaking: Read Aloud, Repeat Sentence, Describe Image","Writing: Summarize Written Text, Essay","Reading: Fill in Blanks, Multiple Choice, Re-order","Listening: Summarize Spoken Text, Fill in Blanks","Time management strategies","Mock tests & score analysis","Weak area identification & improvement"]}],
+tools:["PTE Practice Platform","Mock Test Software"],
+careers:[{role:"Study Abroad Qualification",salary:"Enabler"},{role:"Immigration Requirement",salary:"Enabler"}],
+who:["Students planning to study abroad","PR/immigration applicants","Professionals for overseas opportunities"],placements:[]},
+
+{id:36,name:"IELTS Exam Coaching",cat:"language",duration:"2 Months",sessions:"30+",students:"3,000+",rating:"4.8",level:"Intermediate",price:"EMI Available",
+desc:"IELTS Academic & General Training prep — all four modules with practice tests, band score strategies & personal feedback.",
+highlights:["Academic & General Training","Full Practice Tests","Band Score Strategies","Personal Feedback","Expert IELTS Trainers"],
+curriculum:[{title:"IELTS Modules",topics:["IELTS format & band score system","Listening: note completion, matching, MCQ","Reading: skimming, scanning, T/F/NG","Writing Task 1: graphs, charts, diagrams","Writing Task 2: essay structures & arguments","Speaking: all three parts with practice","Vocabulary for common IELTS topics","Grammar accuracy improvement","Time management techniques","Mock tests with detailed feedback"]}],
+tools:["IELTS Practice Materials","Cambridge Books","Mock Test Platform"],
+careers:[{role:"Study Abroad Qualification",salary:"Enabler"},{role:"Immigration (PR)",salary:"Enabler"},{role:"Global Career Opportunities",salary:"Career Enhancement"}],
+who:["Students targeting universities abroad","PR/immigration applicants","Professionals for international careers"],placements:[]},
+
+// HEALTHCARE
+{id:37,name:"Hospital Administration",cat:"healthcare",duration:"6 Months",sessions:"60+",students:"400+",rating:"4.6",level:"Beginner",price:"EMI Available",
+desc:"Comprehensive hospital administration — healthcare management, operations, quality, finance, HR & regulatory compliance.",
+highlights:["Healthcare Management Training","Hospital Operations","Quality & Accreditation","Regulatory Compliance","Certificate","Placement Support"],
+curriculum:[{title:"Hospital Admin Modules",topics:["Healthcare system overview","Hospital organizational structure","Patient care management","Hospital operations & logistics","Healthcare finance & budgeting","Human resource management in hospitals","Quality assurance & NABH accreditation","Medical records management","Healthcare IT & EHR systems","Regulatory compliance & legal aspects","Disaster management in healthcare","Marketing & public relations"]}],
+tools:["Hospital Management Software","EHR Systems","Excel","Quality Tools"],
+careers:[{role:"Hospital Administrator",salary:"4-12 LPA"},{role:"Healthcare Manager",salary:"5-15 LPA"},{role:"Quality Manager",salary:"4-10 LPA"}],
+who:["Healthcare professionals","Management graduates","Nursing professionals moving to admin","Anyone interested in healthcare management"],placements:[]},
+
+// OTHERS
+{id:38,name:"Fashion Designing and Boutique Management",cat:"others",duration:"6 Months",sessions:"60+",students:"500+",rating:"4.6",level:"Beginner",price:"EMI Available",
+desc:"Learn fashion design, garment construction, textile science, pattern making, boutique operations & fashion business management.",
+highlights:["Design Portfolio Building","Pattern Making & Draping","Boutique Business Training","Fashion Illustration","Certificate","Industry Exposure"],
+curriculum:[{title:"Fashion Design Modules",topics:["Fashion illustration & sketching","Textile science & fabric knowledge","Pattern making & cutting","Garment construction & sewing","Draping techniques","Color theory & trend forecasting","Fashion merchandising","Boutique setup & management","Inventory & supply chain","Digital fashion tools","Fashion marketing & branding","Portfolio development"]}],
+tools:["Fashion Design Software","Sewing Equipment","Illustration Tools","Adobe Illustrator"],
+careers:[{role:"Fashion Designer",salary:"3-10 LPA"},{role:"Boutique Owner",salary:"Variable"},{role:"Fashion Merchandiser",salary:"3-8 LPA"},{role:"Stylist",salary:"3-12 LPA"}],
+who:["Creative individuals passionate about fashion","Aspiring boutique owners","Fashion enthusiasts","Designers wanting business skills"],placements:[]}
+];
+
+// TOOL LOGO MAPPING (Google Favicons for reliability)
+const G='https://www.google.com/s2/favicons?domain=';
+const toolLogos={
+// Coding
+1:[G+'reactjs.org&sz=128',G+'nodejs.org&sz=128',G+'mongodb.com&sz=128',G+'aws.amazon.com&sz=128'],
+2:[G+'python.org&sz=128',G+'mysql.com&sz=128',G+'powerbi.microsoft.com&sz=128',G+'scikit-learn.org&sz=128'],
+3:[G+'chat.openai.com&sz=128',G+'gemini.google.com&sz=128',G+'canva.com&sz=128'],
+4:[G+'python.org&sz=128',G+'jupyter.org&sz=128',G+'code.visualstudio.com&sz=128'],
+5:[G+'selenium.dev&sz=128',G+'java.com&sz=128',G+'jenkins.io&sz=128',G+'postman.com&sz=128'],
+6:[G+'aws.amazon.com&sz=128',G+'docker.com&sz=128',G+'kubernetes.io&sz=128'],
+7:[G+'powerbi.microsoft.com&sz=128',G+'tableau.com&sz=128',G+'python.org&sz=128',G+'mysql.com&sz=128'],
+8:[G+'figma.com&sz=128',G+'miro.com&sz=128',G+'adobe.com&sz=128'],
+9:[G+'kali.org&sz=128',G+'wireshark.org&sz=128',G+'nmap.org&sz=128'],
+// Commerce
+10:[G+'sap.com&sz=128',G+'microsoft.com&sz=128'],
+11:[G+'tallysolutions.com&sz=128',G+'zoho.com&sz=128',G+'powerbi.microsoft.com&sz=128'],
+12:[G+'sap.com&sz=128'],
+13:[G+'sap.com&sz=128'],
+14:[G+'accaglobal.com&sz=128',G+'microsoft.com&sz=128'],
+15:[G+'microsoft.com&sz=128',G+'zoho.com&sz=128'],
+16:[G+'pwc.com&sz=128',G+'powerbi.microsoft.com&sz=128'],
+17:[G+'irs.gov&sz=128',G+'microsoft.com&sz=128'],
+18:[G+'imanet.org&sz=128',G+'microsoft.com&sz=128'],
+19:[G+'incometax.gov.in&sz=128',G+'gst.gov.in&sz=128',G+'tallysolutions.com&sz=128'],
+// Technical
+20:[G+'autodesk.com&sz=128',G+'microsoft.com&sz=128'],
+21:[G+'autodesk.com&sz=128'],
+22:[G+'arduino.cc&sz=128',G+'raspberrypi.com&sz=128',G+'python.org&sz=128',G+'tensorflow.org&sz=128'],
+23:[G+'autodesk.com&sz=128',G+'bentley.com&sz=128'],
+24:[G+'autodesk.com&sz=128'],
+25:[G+'arduino.cc&sz=128',G+'github.com&sz=128'],
+// Marketing
+26:[G+'ads.google.com&sz=128',G+'business.facebook.com&sz=128',G+'analytics.google.com&sz=128',G+'mailchimp.com&sz=128'],
+27:[G+'ads.google.com&sz=128',G+'business.facebook.com&sz=128',G+'linkedin.com&sz=128'],
+// Finance
+28:[G+'nseindia.com&sz=128',G+'tradingview.com&sz=128'],
+29:[G+'tradingview.com&sz=128'],
+30:[G+'amfiindia.com&sz=128',G+'microsoft.com&sz=128'],
+// Teaching
+31:[],32:[],
+// Language
+33:[],34:[],35:[],36:[],
+// Healthcare
+37:[G+'microsoft.com&sz=128'],
+// Others
+38:[G+'adobe.com&sz=128']
+};
+// Category SVG icons
+const catIcons={
+coding:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+commerce:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
+technical:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+marketing:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
+finance:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+teaching:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+language:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+healthcare:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+others:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+};
+
+// RENDER COURSES
+function renderCourses(filter='all'){
+const grid=document.getElementById('coursesGrid');
+const filtered=filter==='all'?courses:courses.filter(c=>c.cat===filter);
+grid.innerHTML=filtered.map(c=>{
+const logos=toolLogos[c.id]||[];
+const showLogos=logos.slice(0,4);
+const extraCount=logos.length>4?logos.length-4:0;
+return `
+<div class="course-card fade-in visible" data-cat="${c.cat}" onclick="openModal(${c.id})">
+<div class="cc-gradient ${c.cat}"></div>
+${c.badge?`<div class="cc-badge">${c.badge}</div>`:''}
+<div class="cc-top">
+<div class="cc-visual">
+<div class="cc-cat-icon ${c.cat}">${catIcons[c.cat]||''}</div>
+<div>
+<div class="cc-cat">${catLabel(c.cat)}</div>
+<div class="cc-name" style="margin-bottom:0">${c.name}</div>
+</div>
+</div>
+${showLogos.length?`<div class="cc-tools">${showLogos.map(l=>`<img src="${l}" alt="tool" loading="lazy">`).join('')}${extraCount?`<div class="cc-tools-more">+${extraCount}</div>`:''}</div>`:''}
+<div class="cc-desc">${c.desc}</div>
+</div>
+<div class="cc-meta">
+<div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${c.duration}</div>
+<div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${c.rating} ★</div>
+<div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>${c.sessions} sessions</div>
+</div>
+<div class="cc-bottom">
+<div class="cc-price">${c.price}</div>
+<div class="cc-btn">View Details <span style="transition:transform 0.2s;display:inline-block">→</span></div>
+</div>
+</div>`}).join('');
+}
+
+// FILTER
+function filterCourses(cat){
+document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+event.target.classList.add('active');
+renderCourses(cat);
+}
+
+// MODAL
+function openModal(id){
+const c=courses.find(x=>x.id===id);if(!c)return;
+const m=document.getElementById('modalContent');
+m.innerHTML=`
+<button class="modal-close" onclick="closeModal()">✕</button>
+<div class="modal-hero">
+<div class="cc-cat">${c.cat.toUpperCase()}</div>
+<h2>${c.name}</h2>
+<p>${c.desc}</p>
+</div>
+<div class="modal-stats">
+<div class="ms-item"><div class="ms-val">${c.duration}</div><div class="ms-label">Duration</div></div>
+<div class="ms-item"><div class="ms-val">${c.sessions}</div><div class="ms-label">Sessions</div></div>
+<div class="ms-item"><div class="ms-val">${c.students}</div><div class="ms-label">Learners</div></div>
+<div class="ms-item"><div class="ms-val">${c.rating}★</div><div class="ms-label">Rating</div></div>
+<div class="ms-item"><div class="ms-val">${c.level}</div><div class="ms-label">Level</div></div>
+</div>
+<div class="modal-body">
+<div class="mb-section">
+<h3><span>✓</span> Course Highlights</h3>
+<ul class="highlight-list">${c.highlights.map(h=>`<li>${h}</li>`).join('')}</ul>
+</div>
+<div class="mb-section">
+<h3><span>📚</span> Complete Curriculum</h3>
+<div class="theory-practical">
+<div class="tp-chart"><div class="tp-fill" style="--pct:60"></div></div>
+<div class="tp-labels">
+<div class="tp-item"><span class="tp-dot practical"></span>60% Hands-on Projects</div>
+<div class="tp-item"><span class="tp-dot theory"></span>40% Expert-Led Theory</div>
+</div>
+</div>
+${c.curriculum.map((mod,i)=>`
+<div class="curriculum-mod">
+<div class="cm-header" onclick="toggleCurriculum(this)">
+<span>Module ${i+1}: ${mod.title}</span><span class="arrow">▼</span>
+</div>
+<div class="cm-body"><ul>${mod.topics.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+</div>`).join('')}
+</div>
+<div class="mb-section">
+<h3><span>🛠️</span> Tools & Technologies</h3>
+<div class="tools-grid">${c.tools.map(t=>`<div class="tool-tag">${t}</div>`).join('')}</div>
+</div>
+<div class="mb-section">
+<h3><span>🚀</span> Career Paths & Salary</h3>
+<div class="career-grid">${c.careers.map(cr=>`<div class="career-item">${cr.role}<div class="salary-range">${cr.salary}</div></div>`).join('')}</div>
+</div>
+<div class="mb-section">
+<h3><span>👤</span> Who Should Join</h3>
+<ul class="who-list">${c.who.map(w=>`<li>${w}</li>`).join('')}</ul>
+</div>
+${c.placements&&c.placements.length?`<div class="mb-section"><h3><span>🏢</span> Where Our Learners Work</h3><div class="tools-grid">${c.placements.map(p=>`<div class="tool-tag">${p}</div>`).join('')}</div></div>`:''}
+</div>
+<div class="modal-cta">
+<p style="font-size:14px;color:var(--g500);margin-bottom:16px">Ready to start your journey in <strong>${c.name}</strong>?</p>
+<a href="tel:+919380058580" class="btn-p">Enroll Now — Call 9380 058 580</a>
+</div>`;
+document.getElementById('modalOverlay').classList.add('open');
+document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow=''}
+function openCourseByName(name){const c=courses.find(x=>x.name.includes(name));if(c)openModal(c.id);}
+
+// CURRICULUM TOGGLE
+function toggleCurriculum(el){
+el.classList.toggle('open');
+el.nextElementSibling.classList.toggle('open');
+}
+
+// FAQ TOGGLE
+function toggleFaq(el){
+el.classList.toggle('open');
+el.nextElementSibling.classList.toggle('open');
+}
+
+// MOBILE MENU
+function toggleMenu(){document.getElementById('mobMenu').classList.toggle('open')}
+function closeMenu(){document.getElementById('mobMenu').classList.remove('open')}
+
+// HEADER SCROLL
+window.addEventListener('scroll',()=>{
+document.getElementById('header').classList.toggle('scrolled',window.scrollY>20);
+});
+
+// SCROLL ANIMATIONS
+const obs=new IntersectionObserver((entries)=>{
+entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:0.1});
+function initAnimations(){document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el))}
+
+// ESCAPE KEY
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+// ========== V4: LEAD GEN POPUP ==========
+function closePopup(){
+document.getElementById('leadPopup').classList.remove('open');
+document.body.style.overflow='';
+}
+function submitLead(){
+const name=document.getElementById('leadName').value.trim();
+const code=document.getElementById('leadCode').value;
+const phone=document.getElementById('leadPhone').value.trim();
+const course=document.getElementById('leadCourse').value;
+if(!name||!phone){alert('Please fill in your name and phone number.');return;}
+if(phone.length<10){alert('Please enter a valid phone number.');return;}
+const btn=document.getElementById('leadSubmit');
+btn.disabled=true;btn.textContent='Submitting...';
+// Simulate API call (replace with actual endpoint later)
+setTimeout(()=>{
+document.getElementById('popupForm').style.display='none';
+document.getElementById('popupSuccess').classList.add('show');
+sessionStorage.setItem('uplift_lead_submitted','true');
+console.log('Lead captured:',{name,phone:code+phone,course});
+setTimeout(()=>closePopup(),3000);
+},1200);
+}
+// Auto-trigger popup 3s after load, once per session
+window.addEventListener('load',()=>{
+if(!sessionStorage.getItem('uplift_lead_shown')&&!sessionStorage.getItem('uplift_lead_submitted')){
+setTimeout(()=>{
+document.getElementById('leadPopup').classList.add('open');
+sessionStorage.setItem('uplift_lead_shown','true');
+},3000);
+}
+});
+// Close popup on overlay click
+document.getElementById('leadPopup').addEventListener('click',function(e){
+if(e.target===this)closePopup();
+});
+
+// ========== V4: SALARY CHART ==========
+window.addEventListener('load',()=>{
+const ctx=document.getElementById('salaryChart');
+if(!ctx||typeof Chart==='undefined')return;
+new Chart(ctx,{
+type:'line',
+data:{
+labels:['Pre-Course','Graduation','Year 1','Year 3'],
+datasets:[
+{label:'Tech Roles',data:[2.5,4.5,7,14],borderColor:'#ef5179',backgroundColor:'rgba(239,81,121,0.08)',fill:true,tension:0.4,pointRadius:5,pointHoverRadius:8,pointBackgroundColor:'#ef5179',borderWidth:2.5},
+{label:'Marketing Roles',data:[2,3.5,5.5,10],borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.08)',fill:true,tension:0.4,pointRadius:5,pointHoverRadius:8,pointBackgroundColor:'#8b5cf6',borderWidth:2.5},
+{label:'Finance/Commerce',data:[2.2,4,6,11],borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.08)',fill:true,tension:0.4,pointRadius:5,pointHoverRadius:8,pointBackgroundColor:'#f59e0b',borderWidth:2.5}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+interaction:{mode:'index',intersect:false},
+plugins:{
+legend:{display:false},
+tooltip:{
+backgroundColor:'#1f2937',titleColor:'#fff',bodyColor:'#d1d5db',
+padding:12,cornerRadius:10,titleFont:{size:13,weight:'700'},bodyFont:{size:12},
+callbacks:{label:function(c){return c.dataset.label+': ₹'+c.parsed.y+' LPA'}}
+}
+},
+scales:{
+x:{grid:{display:false},ticks:{font:{family:'Inter',size:12,weight:'500'},color:'#6b7280'}},
+y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{family:'Inter',size:12},color:'#6b7280',callback:function(v){return '₹'+v+' LPA'}},beginAtZero:true}
+}
+}
+});
+});
+
+// ========== SOCIAL PROOF TOAST NOTIFICATIONS ==========
+(function(){
+const toastData=[
+{initials:'AK',name:'Arjun from Chennai',action:'just enrolled in Full Stack Development',time:'2 min ago',bg:'linear-gradient(135deg,#6366f1,#8b5cf6)'},
+{initials:'PM',name:'Priya from Bangalore',action:'just got placed at Accenture',time:'5 min ago',bg:'linear-gradient(135deg,#ef5179,#f472b6)'},
+{initials:'RS',name:'Rahul from Hyderabad',action:'completed Data Science course',time:'8 min ago',bg:'linear-gradient(135deg,#f59e0b,#f97316)'},
+{initials:'SN',name:'Swetha from Coimbatore',action:'just enrolled in Software Testing',time:'12 min ago',bg:'linear-gradient(135deg,#10b981,#14b8a6)'},
+{initials:'VK',name:'Vijay from Mumbai',action:'just got placed at Flipkart',time:'15 min ago',bg:'linear-gradient(135deg,#3b82f6,#6366f1)'},
+{initials:'DM',name:'Divya from Pune',action:'completed Digital Marketing course',time:'18 min ago',bg:'linear-gradient(135deg,#ec4899,#f43f5e)'},
+{initials:'KP',name:'Karthik from Delhi',action:'just enrolled in SAP FICO',time:'22 min ago',bg:'linear-gradient(135deg,#6366f1,#8b5cf6)'},
+{initials:'NR',name:'Nisha from Chennai',action:'just got placed at Tech Mahindra',time:'25 min ago',bg:'linear-gradient(135deg,#f59e0b,#f97316)'},
+{initials:'MG',name:'Mohan from Trichy',action:'completed Python Programming course',time:'28 min ago',bg:'linear-gradient(135deg,#10b981,#14b8a6)'},
+{initials:'AP',name:'Anitha from Madurai',action:'just enrolled in Data Analytics',time:'32 min ago',bg:'linear-gradient(135deg,#ef5179,#f472b6)'}
+];
+let idx=0;
+const toast=document.getElementById('spToast');
+const avatar=document.getElementById('spToastAvatar');
+const text=document.getElementById('spToastText');
+if(!toast)return;
+function showToast(){
+const d=toastData[idx%toastData.length];
+avatar.textContent=d.initials;
+avatar.style.background=d.bg;
+text.innerHTML='<strong>'+d.name+'</strong> '+d.action+'<span class="sp-time">'+d.time+'</span>';
+toast.classList.add('show');
+setTimeout(()=>{toast.classList.remove('show');idx++;},5000);
+}
+// First toast after 8s, then every 15s
+setTimeout(()=>{showToast();setInterval(showToast,15000);},8000);
+})();
+
+// INIT
+renderCourses();
+initAnimations();
+</script>
 </body>
 </html>
