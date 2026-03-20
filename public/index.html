@@ -96,13 +96,15 @@ section{padding:100px 24px}
 .cat-btn:hover,.cat-btn.active{background:var(--p500);color:var(--w);transform:translateY(-1px)}
 
 /* COURSE GRID */
-.courses-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px}
-.course-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;overflow:hidden;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);cursor:pointer;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
-.course-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.12),0 -3px 0 0 var(--p500) inset;border-color:var(--p200)}
-.cc-badge{position:absolute;top:16px;right:16px;background:var(--p500);color:var(--w);font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:0.5px;z-index:2}
-.cc-top{padding:24px 24px 0;position:relative}
-.cc-visual{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.cc-cat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* COURSE GRID — minimal card design */
+.courses-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.course-card{background:var(--w);border:1px solid var(--g200);border-radius:16px;overflow:hidden;transition:all 0.35s ease;cursor:pointer;position:relative}
+.course-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.1);border-color:var(--p200)}
+.cc-badge{position:absolute;top:14px;right:14px;background:var(--g900);color:var(--w);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:0.5px;z-index:2}
+.cc-badge.hot{background:#ef4444}.cc-badge.new{background:#10b981}.cc-badge.trending{background:#8b5cf6}
+.cc-top{padding:24px 24px 20px;position:relative}
+.cc-visual{display:flex;align-items:center;gap:14px;margin-bottom:0}
+.cc-cat-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .cc-cat-icon svg{width:22px;height:22px;stroke-width:1.8}
 .cc-cat-icon.coding{background:linear-gradient(135deg,#eef2ff,#e0e7ff);color:#6366f1}
 .cc-cat-icon.commerce{background:linear-gradient(135deg,#fff7ed,#ffedd5);color:#f97316}
@@ -113,19 +115,17 @@ section{padding:100px 24px}
 .cc-cat-icon.language{background:linear-gradient(135deg,#f5f3ff,#ede9fe);color:#8b5cf6}
 .cc-cat-icon.healthcare{background:linear-gradient(135deg,#ecfdf5,#d1fae5);color:#10b981}
 .cc-cat-icon.others{background:linear-gradient(135deg,var(--g50),var(--g100));color:var(--g500)}
-.cc-tools{display:flex;align-items:center;gap:0;margin-bottom:12px}
-.cc-tools img{width:22px;height:22px;border-radius:5px;border:2px solid var(--w);margin-left:-4px;background:var(--w);object-fit:contain;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
-.cc-tools img:first-child{margin-left:0}
-.cc-tools .cc-tools-more{width:22px;height:22px;border-radius:5px;border:2px solid var(--w);margin-left:-4px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--g500)}
-.cc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
-.cc-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--p500);margin-bottom:8px}
-.cc-name{font-size:18px;font-weight:700;color:var(--g900);line-height:1.3;margin-bottom:8px}
-.cc-desc{font-size:13px;color:var(--g500);line-height:1.6;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.cc-meta{display:flex;gap:16px;flex-wrap:wrap;padding:0 24px 16px}
-.cc-meta-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--g500);font-weight:500}
-.cc-meta-item svg{width:14px;height:14px;color:var(--g400)}
-.cc-bottom{padding:16px 24px;border-top:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
-.cc-price{font-size:14px;font-weight:700;color:var(--g900)}
+.cc-tools{display:none}
+.cc-tools img,.cc-tools .cc-tools-more{display:none}
+.cc-icon{display:none}
+.cc-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p500);margin-bottom:4px}
+.cc-name{font-size:17px;font-weight:700;color:var(--g900);line-height:1.3;margin-bottom:0}
+.cc-desc{display:none}
+.cc-meta{display:flex;gap:12px;flex-wrap:wrap;padding:0 24px 18px;margin-top:-2px}
+.cc-meta-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--g400);font-weight:500}
+.cc-meta-item svg{width:13px;height:13px;color:var(--g300)}
+.cc-bottom{padding:14px 24px;border-top:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+.cc-price{font-size:13px;font-weight:700;color:var(--g800)}
 .cc-btn{color:var(--p500);font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;transition:gap 0.2s}
 .course-card:hover .cc-btn{gap:8px;color:var(--p600)}
 
@@ -313,13 +313,7 @@ footer{background:var(--g900);border-top:1px solid rgba(255,255,255,0.08);paddin
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
 /* COLORED CARD TOPS */
-.cc-gradient{height:4px;border-radius:16px 16px 0 0}
-.cc-gradient.coding{background:linear-gradient(90deg,#6366f1,#8b5cf6)}
-.cc-gradient.commerce{background:linear-gradient(90deg,#f59e0b,#f97316)}
-.cc-gradient.technical{background:linear-gradient(90deg,#10b981,#14b8a6)}
-.cc-gradient.marketing{background:linear-gradient(90deg,var(--p500),#f472b6)}
-.cc-gradient.finance{background:linear-gradient(90deg,#3b82f6,#6366f1)}
-.cc-gradient.teaching{background:linear-gradient(90deg,#ec4899,#f472b6)}
+.cc-gradient{display:none}
 .cc-gradient.language{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
 .cc-gradient.healthcare{background:linear-gradient(90deg,#10b981,#34d399)}
 .cc-gradient.others{background:linear-gradient(90deg,var(--g400),var(--g500))}
@@ -360,11 +354,11 @@ section{padding:56px 16px}
 .cat-filter{gap:6px;margin-bottom:28px;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .cat-filter::-webkit-scrollbar{display:none}
 .cat-btn{padding:7px 16px;font-size:12px;white-space:nowrap;flex-shrink:0}
-.courses-grid{grid-template-columns:1fr;gap:16px}
-.cc-top{padding:20px 18px 0}
-.cc-name{font-size:16px}
-.cc-desc{font-size:12px;margin-bottom:12px;-webkit-line-clamp:1}
-.cc-meta{padding:0 18px 12px;gap:12px}
+.courses-grid{grid-template-columns:1fr;gap:12px}
+.cc-top{padding:18px 18px 14px}
+.cc-cat-icon{width:42px;height:42px}
+.cc-name{font-size:15px}
+.cc-meta{padding:0 18px 14px;gap:10px}
 .cc-bottom{padding:12px 18px}
 .why-grid{gap:14px}
 .why-card{padding:22px;border-radius:14px}
@@ -1586,29 +1580,27 @@ grid.innerHTML=filtered.map(c=>{
 const logos=toolLogos[c.id]||[];
 const showLogos=logos.slice(0,4);
 const extraCount=logos.length>4?logos.length-4:0;
+const badgeClass=c.badge?(c.badge.toLowerCase().includes('hot')?' hot':c.badge.toLowerCase().includes('new')?' new':c.badge.toLowerCase().includes('trend')?' trending':''):'';
 return `
 <div class="course-card fade-in visible" data-cat="${c.cat}" onclick="openModal(${c.id})">
-<div class="cc-gradient ${c.cat}"></div>
-${c.badge?`<div class="cc-badge">${c.badge}</div>`:''}
+${c.badge?`<div class="cc-badge${badgeClass}">${c.badge}</div>`:''}
 <div class="cc-top">
 <div class="cc-visual">
 <div class="cc-cat-icon ${c.cat}">${catIcons[c.cat]||''}</div>
 <div>
 <div class="cc-cat">${catLabel(c.cat)}</div>
-<div class="cc-name" style="margin-bottom:0">${c.name}</div>
+<div class="cc-name">${c.name}</div>
 </div>
 </div>
-${showLogos.length?`<div class="cc-tools">${showLogos.map(l=>`<img src="${l}" alt="tool" loading="lazy">`).join('')}${extraCount?`<div class="cc-tools-more">+${extraCount}</div>`:''}</div>`:''}
-<div class="cc-desc">${c.desc}</div>
 </div>
 <div class="cc-meta">
 <div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${c.duration}</div>
-<div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${c.rating} ★</div>
-<div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>${c.sessions} sessions</div>
+<div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${c.rating}</div>
+<div class="cc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>${c.sessions}</div>
 </div>
 <div class="cc-bottom">
 <div class="cc-price">${c.price}</div>
-<div class="cc-btn">View Details <span style="transition:transform 0.2s;display:inline-block">→</span></div>
+<div class="cc-btn">Details →</div>
 </div>
 </div>`}).join('');
 }
