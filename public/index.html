@@ -314,6 +314,7 @@ footer{background:var(--g900);border-top:1px solid rgba(255,255,255,0.08);paddin
 
 /* COLORED CARD TOPS */
 .cc-gradient{display:none}
+.course-card.mobile-hidden{display:none}
 .cc-gradient.language{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
 .cc-gradient.healthcare{background:linear-gradient(90deg,#10b981,#34d399)}
 .cc-gradient.others{background:linear-gradient(90deg,var(--g400),var(--g500))}
@@ -337,29 +338,39 @@ footer{background:var(--g900);border-top:1px solid rgba(255,255,255,0.08);paddin
 .h-inner{height:56px;padding:0 16px}
 .logo img{height:32px}
 .logo-t{font-size:17px}
-.hero{padding:80px 16px 48px}
-.hero-badge{font-size:11px;padding:5px 12px;margin-bottom:16px}
-.hero h1{font-size:clamp(28px,8vw,40px);letter-spacing:-1px;margin-bottom:14px}
-.hero-sub{font-size:14px;margin-bottom:24px;max-width:340px}
-.hero-btns{gap:10px}
-.btn-p,.btn-o{padding:12px 24px;font-size:14px;border-radius:10px}
-.stats{padding:32px 16px}
-.stats-inner{grid-template-columns:repeat(4,1fr);gap:12px}
+.hero{padding:72px 16px 36px}
+.hero-badge{font-size:10px;padding:4px 10px;margin-bottom:12px}
+.hero h1{font-size:clamp(26px,7vw,36px);letter-spacing:-1px;margin-bottom:10px}
+.hero-sub{font-size:13px;margin-bottom:20px;max-width:320px}
+.hero-btns{gap:8px}
+.btn-p,.btn-o{padding:11px 22px;font-size:14px;border-radius:10px}
+.hero-trust{margin-top:20px !important;gap:16px !important;font-size:11px !important}
+.stats{padding:24px 16px}
+.stats-inner{grid-template-columns:repeat(2,1fr);gap:10px}
 .stat-n{font-size:22px}
-.stat-l{font-size:10px;letter-spacing:0.5px}
-section{padding:56px 16px}
-.sec-head{margin-bottom:32px}
-.sec-title{font-size:clamp(24px,6vw,32px);margin-bottom:8px}
-.sec-sub{font-size:14px;max-width:360px}
+.stat-l{font-size:9px;letter-spacing:0.5px}
+section{padding:40px 16px}
+.sec-head{margin-bottom:24px}
+.sec-title{font-size:clamp(22px,5.5vw,28px);margin-bottom:6px}
+.sec-sub{font-size:13px;max-width:340px}
 .cat-filter{gap:6px;margin-bottom:28px;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .cat-filter::-webkit-scrollbar{display:none}
 .cat-btn{padding:7px 16px;font-size:12px;white-space:nowrap;flex-shrink:0}
-.courses-grid{grid-template-columns:1fr;gap:12px}
-.cc-top{padding:18px 18px 14px}
-.cc-cat-icon{width:42px;height:42px}
-.cc-name{font-size:15px}
-.cc-meta{padding:0 18px 14px;gap:10px}
-.cc-bottom{padding:12px 18px}
+.courses-grid{grid-template-columns:1fr 1fr;gap:10px}
+.course-card{border-radius:12px}
+.cc-top{padding:14px 12px 10px}
+.cc-visual{gap:0;flex-direction:column;align-items:flex-start}
+.cc-cat-icon{width:36px;height:36px;border-radius:10px;margin-bottom:8px}
+.cc-cat-icon svg{width:18px;height:18px}
+.cc-cat{font-size:9px;letter-spacing:0.8px;margin-bottom:2px}
+.cc-name{font-size:13px;line-height:1.25}
+.cc-badge{top:8px;right:8px;font-size:8px;padding:2px 6px;border-radius:4px}
+.cc-meta{padding:0 12px 10px;gap:8px}
+.cc-meta-item{font-size:10px;gap:2px}
+.cc-meta-item svg{width:11px;height:11px}
+.cc-bottom{padding:10px 12px}
+.cc-price{font-size:11px}
+.cc-btn{font-size:11px}
 .why-grid{gap:14px}
 .why-card{padding:22px;border-radius:14px}
 .why-icon{width:40px;height:40px;font-size:18px;margin-bottom:12px}
@@ -630,6 +641,9 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 <button class="cat-btn" onclick="filterCourses('others')">Others</button>
 </div>
 <div class="courses-grid" id="coursesGrid"></div>
+<div id="showMoreWrap" style="text-align:center;margin-top:24px;display:none">
+<button id="showMoreBtn" onclick="showAllCourses()" style="background:var(--w);border:1.5px solid var(--g300);color:var(--g700);padding:12px 32px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s">Show All Courses</button>
+</div>
 </section>
 
 <!-- WHY UPLIFTEDU -->
@@ -1573,16 +1587,22 @@ others:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon poin
 };
 
 // RENDER COURSES
+let coursesExpanded=false;
+function showAllCourses(){
+coursesExpanded=true;
+document.querySelectorAll('.course-card.mobile-hidden').forEach(c=>c.classList.remove('mobile-hidden'));
+document.getElementById('showMoreWrap').style.display='none';
+}
 function renderCourses(filter='all'){
 const grid=document.getElementById('coursesGrid');
 const filtered=filter==='all'?courses:courses.filter(c=>c.cat===filter);
-grid.innerHTML=filtered.map(c=>{
-const logos=toolLogos[c.id]||[];
-const showLogos=logos.slice(0,4);
-const extraCount=logos.length>4?logos.length-4:0;
+const isMobile=window.innerWidth<=768;
+const limit=(!coursesExpanded&&isMobile&&filter==='all')?6:9999;
+grid.innerHTML=filtered.map((c,idx)=>{
 const badgeClass=c.badge?(c.badge.toLowerCase().includes('hot')?' hot':c.badge.toLowerCase().includes('new')?' new':c.badge.toLowerCase().includes('trend')?' trending':''):'';
+const hidden=idx>=limit?' mobile-hidden':'';
 return `
-<div class="course-card fade-in visible" data-cat="${c.cat}" onclick="openModal(${c.id})">
+<div class="course-card fade-in visible${hidden}" data-cat="${c.cat}" onclick="openModal(${c.id})">
 ${c.badge?`<div class="cc-badge${badgeClass}">${c.badge}</div>`:''}
 <div class="cc-top">
 <div class="cc-visual">
@@ -1603,6 +1623,14 @@ ${c.badge?`<div class="cc-badge${badgeClass}">${c.badge}</div>`:''}
 <div class="cc-btn">Details →</div>
 </div>
 </div>`}).join('');
+// Show/hide "Show More" button
+const showMoreWrap=document.getElementById('showMoreWrap');
+if(isMobile&&filtered.length>limit&&filter==='all'&&!coursesExpanded){
+showMoreWrap.style.display='block';
+showMoreWrap.querySelector('button').textContent='Show All '+filtered.length+' Courses';
+}else{
+showMoreWrap.style.display='none';
+}
 }
 
 // FILTER
