@@ -272,13 +272,25 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--g50);color:var(--
 </div>
 
 <!-- ACCOUNT SETUP STATE -->
-<div id="setupState" style="display:none;min-height:100vh;display:none;align-items:center;justify-content:center;padding:24px">
-<div class="no-data">
-<div class="icon">🎓</div>
-<h3>Your Account is Being Set Up</h3>
-<p>Welcome to UpliftEdu! Our team is currently setting up your student profile. This usually takes a few hours after enrollment. Please check back soon!</p>
-<br>
-<button class="btn-primary" onclick="logout()" style="margin-top:12px">Sign Out</button>
+<div id="setupState" style="display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px">
+<div style="max-width:480px;text-align:center;margin:0 auto">
+<div style="width:80px;height:80px;background:linear-gradient(135deg,#fdf2f5,#fce7ec);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 24px">🎓</div>
+<h2 style="font-family:'Poppins',sans-serif;font-size:24px;font-weight:800;color:#111827;margin-bottom:8px">Welcome to UpliftEdu!</h2>
+<p id="setupEmail" style="font-size:14px;color:#6b7280;margin-bottom:24px">Your student profile is being set up by our team.</p>
+<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:20px;text-align:left;margin-bottom:24px">
+<p style="font-size:14px;font-weight:600;color:#1e40af;margin-bottom:8px">What happens next?</p>
+<ul style="font-size:13px;color:#374151;line-height:2;padding-left:20px;margin:0">
+<li>Our counselor will assign you a course & batch</li>
+<li>You'll get access to your course materials</li>
+<li>Your dashboard will show progress, classes & more</li>
+</ul>
+<p style="font-size:12px;color:#6b7280;margin-top:12px">This usually takes a few hours after enrollment.</p>
+</div>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a href="https://wa.me/919363807080?text=Hi%2C%20I%20just%20signed%20up%20on%20UpliftEdu%20and%20need%20help%20with%20my%20account" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#25D366;color:#fff;border-radius:12px;text-decoration:none;font-size:14px;font-weight:600;transition:all 0.2s">💬 Chat with us on WhatsApp</a>
+<a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#f3f4f6;color:#374151;border-radius:12px;text-decoration:none;font-size:14px;font-weight:600;transition:all 0.2s">📚 Browse Courses</a>
+</div>
+<button onclick="logout()" style="margin-top:24px;padding:10px 20px;border:1.5px solid #e5e7eb;border-radius:10px;background:none;color:#6b7280;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Sign Out</button>
 </div>
 </div>
 
@@ -674,6 +686,8 @@ async function initDashboard(){
   if(!student){
     document.getElementById('loadingState').style.display='none';
     document.getElementById('setupState').style.display='flex';
+    const setupEmail=document.getElementById('setupEmail');
+    if(setupEmail)setupEmail.textContent='Signed in as '+currentUser.email+'. Your student profile is being set up by our team.';
     return;
   }
   studentData=student;
