@@ -55,7 +55,7 @@ header.scrolled{background:rgba(255,255,255,0.95);box-shadow:0 1px 12px rgba(0,0
 .h-cta:hover{background:var(--p600);transform:scale(1.04)}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
 .hamburger span{width:22px;height:2px;background:var(--g800);border-radius:2px;transition:all 0.3s}
-.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--w);padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.1);border-bottom:1px solid var(--g200);z-index:999}
+.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--w);padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.1);border-bottom:1px solid var(--g200);z-index:999;overflow-y:auto}
 .mob-menu.open{display:flex;flex-direction:column;gap:4px;animation:slideDown 0.3s ease}
 .mob-menu a{color:var(--g700);text-decoration:none;font-size:15px;font-weight:500;padding:12px 16px;border-radius:10px;transition:all 0.2s}
 .mob-menu a:hover{background:var(--p50);color:var(--p600)}
@@ -130,7 +130,7 @@ section{padding:100px 24px}
 .course-card:hover .cc-btn{gap:8px;color:var(--p600)}
 
 /* COURSE MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:2000;justify-content:center;align-items:flex-start;padding:40px 24px;overflow-y:auto}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:2000;justify-content:center;align-items:flex-start;padding:40px 24px;overflow-y:auto}
 .modal-overlay.open{display:flex}
 .modal{background:var(--w);border-radius:20px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn 0.3s ease}
 .modal-close{position:sticky;top:0;right:0;float:right;background:var(--g100);border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:16px 16px 0 0;z-index:10;transition:all 0.2s}
@@ -596,7 +596,7 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 <p class="hero-sub">35+ industry-ready courses. Real projects. Expert mentors. Placement support that actually works.</p>
 <div class="hero-btns">
 <a href="#courses" class="btn-p">Explore Courses</a>
-<a href="tel:+919380058580" class="btn-o">Book Free Counselling</a>
+<a href="#" onclick="openLeadPopup();return false;" class="btn-o">Book Free Counselling</a>
 </div>
 </section>
 
@@ -1707,6 +1707,10 @@ function initAnimations(){document.querySelectorAll('.fade-in').forEach(el=>obs.
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 
 // ========== V4: LEAD GEN POPUP ==========
+function openLeadPopup(){
+document.getElementById('leadPopup').classList.add('open');
+document.body.style.overflow='hidden';
+}
 function closePopup(){
 document.getElementById('leadPopup').classList.remove('open');
 document.body.style.overflow='';
