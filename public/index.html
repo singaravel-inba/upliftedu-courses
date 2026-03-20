@@ -438,8 +438,9 @@ section{padding:56px 16px}
 }
 
 /* ========== V4: LEAD GEN POPUP ========== */
-.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:3000;justify-content:center;align-items:center;padding:24px;animation:fadeIn 0.3s}
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:3000;justify-content:center;align-items:center;padding:24px;animation:fadeIn 0.3s;-webkit-overflow-scrolling:touch;overflow-y:auto}
 .popup-overlay.open{display:flex}
+body.no-scroll{overflow:hidden;position:fixed;width:100%;height:100%}
 .popup{background:var(--w);border-radius:20px;max-width:440px;width:100%;overflow:hidden;animation:modalIn 0.4s cubic-bezier(0.16,1,0.3,1)}
 .popup-top{background:linear-gradient(135deg,var(--g900),#1e293b);padding:28px;text-align:center;position:relative;overflow:hidden}
 .popup-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(239,81,121,0.25),transparent);border-radius:50%}
@@ -591,31 +592,36 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
 <!-- HERO -->
 <section class="hero">
-<div class="hero-badge">Now Enrolling — March 2026 Batch</div>
-<h1>Learn Skills That<br>Actually <em>Get You Hired</em></h1>
-<p class="hero-sub">35+ industry-ready courses. Real projects. Expert mentors. Placement support that actually works.</p>
+<div class="hero-badge">AI-First Learning Platform — April 2026 Batch Open</div>
+<h1>Your Career Breakthrough<br>Starts <em>Right Here</em></h1>
+<p class="hero-sub">India's AI-first edtech platform. 35+ career-ready programs with real projects, expert mentors, and 93% placement success.</p>
 <div class="hero-btns">
-<a href="#courses" class="btn-p">Explore Courses</a>
-<a href="#" onclick="openLeadPopup();return false;" class="btn-o">Book Free Counselling</a>
+<a href="#courses" class="btn-p">Explore Programs</a>
+<a href="#" onclick="openLeadPopup();return false;" class="btn-o">Get Free Career Guidance</a>
+</div>
+<div class="hero-trust" style="display:flex;align-items:center;justify-content:center;gap:24px;margin-top:32px;font-size:12px;color:var(--g400);flex-wrap:wrap">
+<span style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 93% Placement Rate</span>
+<span style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 500+ Hiring Partners</span>
+<span style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 4.8/5 Student Rating</span>
 </div>
 </section>
 
 <!-- STATS -->
 <div class="stats">
 <div class="stats-inner">
-<div class="fade-in"><div class="stat-n">35+</div><div class="stat-l">Courses</div></div>
-<div class="fade-in"><div class="stat-n">15,000+</div><div class="stat-l">Learners</div></div>
-<div class="fade-in"><div class="stat-n">4.8★</div><div class="stat-l">Avg Rating</div></div>
-<div class="fade-in"><div class="stat-n">500+</div><div class="stat-l">Hiring Partners</div></div>
+<div class="fade-in"><div class="stat-n">35+</div><div class="stat-l">AI-Powered Courses</div></div>
+<div class="fade-in"><div class="stat-n">15,000+</div><div class="stat-l">Career Transformations</div></div>
+<div class="fade-in"><div class="stat-n">₹14 LPA</div><div class="stat-l">Highest Package</div></div>
+<div class="fade-in"><div class="stat-n">93%</div><div class="stat-l">Placement Rate</div></div>
 </div>
 </div>
 
 <!-- COURSES -->
 <section id="courses">
 <div class="sec-head fade-in">
-<div class="sec-tag">Our Courses</div>
-<div class="sec-title">Find Your Perfect Career Path</div>
-<div class="sec-sub">Industry-designed curriculum. Certified by Illinois Tech & NSDC. Real-world projects and guaranteed placement assistance.</div>
+<div class="sec-tag">AI-Powered Programs</div>
+<div class="sec-title">Choose Your Career Path</div>
+<div class="sec-sub">Every course integrates AI tools and real-world projects. Illinois Tech & NSDC certified. 93% of graduates land jobs within 90 days.</div>
 </div>
 <div class="cat-filter fade-in">
 <button class="cat-btn active" onclick="filterCourses('all')">All Courses</button>
@@ -636,16 +642,16 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 <section id="why" style="background:var(--g50)">
 <div class="sec-head fade-in">
 <div class="sec-tag">Why UpliftEdu</div>
-<div class="sec-title">Built Different. Built Better.</div>
-<div class="sec-sub">We don't just teach. We engineer career transformations with a system designed for real outcomes.</div>
+<div class="sec-title">An AI-First Approach to Career Education</div>
+<div class="sec-sub">We don't just teach skills — we engineer career outcomes using AI-enhanced learning, real projects, and a placement system that delivers.</div>
 </div>
 <div class="why-grid">
-<div class="why-card fade-in"><div class="why-icon">🎯</div><h3>Industry-Led Curriculum</h3><p>Designed by pros from Samsung, Tesla & Deloitte. Updated quarterly.</p></div>
-<div class="why-card fade-in"><div class="why-icon">💻</div><h3>Live + Recorded</h3><p>80+ sessions per course. Live Q&A + recordings for revision anytime.</p></div>
-<div class="why-card fade-in"><div class="why-icon">🏗️</div><h3>Real Projects</h3><p>Portfolio-ready capstones. Apps, dashboards, campaigns — not toy exercises.</p></div>
-<div class="why-card fade-in"><div class="why-icon">📜</div><h3>Global Certifications</h3><p>Illinois Tech + NSDC credentials that stand out on LinkedIn.</p></div>
-<div class="why-card fade-in"><div class="why-icon">🤝</div><h3>Placement Support</h3><p>Resume prep, mock interviews & connections to 500+ hiring partners.</p></div>
-<div class="why-card fade-in"><div class="why-icon">💰</div><h3>Zero-Cost EMI</h3><p>Flexible payment plans. No-interest EMI so finances never block growth.</p></div>
+<div class="why-card fade-in"><div class="why-icon">🤖</div><h3>AI-Integrated Learning</h3><p>Every course embeds AI tools — ChatGPT, Copilot, Midjourney — so you graduate future-ready, not outdated.</p></div>
+<div class="why-card fade-in"><div class="why-icon">🏗️</div><h3>Portfolio-Ready Projects</h3><p>Build real apps, dashboards & campaigns — not toy exercises. Walk into interviews with proof of work.</p></div>
+<div class="why-card fade-in"><div class="why-icon">🎯</div><h3>93% Placement Rate</h3><p>Resume optimization, mock interviews, and direct connections to 500+ hiring partners who trust our graduates.</p></div>
+<div class="why-card fade-in"><div class="why-icon">📜</div><h3>Global Certifications</h3><p>Illinois Tech + NSDC credentials that set your LinkedIn profile apart from the crowd.</p></div>
+<div class="why-card fade-in"><div class="why-icon">💻</div><h3>Live + Self-Paced</h3><p>80+ sessions per course. Live Q&A with experts + recordings for flexible revision anytime.</p></div>
+<div class="why-card fade-in"><div class="why-icon">💰</div><h3>Zero-Cost EMI</h3><p>Invest in your career with no-interest EMI plans. Finances should never block your growth.</p></div>
 </div>
 </section>
 
@@ -1000,9 +1006,12 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
 <!-- CTA -->
 <section class="cta-section" id="contact">
-<h2>Ready to Transform Your Career?</h2>
-<p>Join 15,000+ learners who chose to uplift their future. Your next chapter starts with one call.</p>
-<a href="tel:+919380058580" class="btn-p">Call Us — 9380 058 580</a>
+<h2>Your Career Breakthrough Is One Step Away</h2>
+<p>Join 15,000+ professionals who transformed their careers with AI-powered learning. Free counselling. No obligations.</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a href="#" onclick="openLeadPopup();return false;" class="btn-p" style="font-size:16px;padding:16px 36px">Get Free Career Guidance</a>
+<a href="tel:+919380058580" class="btn-o" style="font-size:16px;padding:16px 36px;background:transparent;color:var(--w);border-color:rgba(255,255,255,0.3)">Call Us — 9380 058 580</a>
+</div>
 </section>
 
 <!-- FOOTER -->
@@ -1011,7 +1020,7 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 <div class="footer-grid">
 <div class="footer-brand">
 <div class="logo-t" style="color:var(--w)">Uplift<span>Edu</span></div>
-<p>India's premier career-focused learning platform. We offer 35+ industry-relevant courses with certified credentials, expert mentorship, and guaranteed placement assistance. Empowering learners since 2024.</p>
+<p>India's AI-first career learning platform. 35+ industry-ready programs with global certifications, expert mentorship, and 93% placement success. Empowering career transformations since 2024.</p>
 <div class="footer-contact">
 <a href="tel:+919380058580">📞 +91 93800 58580</a>
 <a href="mailto:info@upliftedu.in">✉️ info@upliftedu.in</a>
@@ -1689,8 +1698,11 @@ el.nextElementSibling.classList.toggle('open');
 }
 
 // MOBILE MENU
-function toggleMenu(){document.getElementById('mobMenu').classList.toggle('open')}
-function closeMenu(){document.getElementById('mobMenu').classList.remove('open')}
+let scrollPos=0;
+function lockScroll(){scrollPos=window.scrollY;document.body.classList.add('no-scroll');document.body.style.top=-scrollPos+'px';}
+function unlockScroll(){document.body.classList.remove('no-scroll');document.body.style.top='';window.scrollTo(0,scrollPos);}
+function toggleMenu(){const m=document.getElementById('mobMenu');m.classList.toggle('open');if(m.classList.contains('open'))lockScroll();else unlockScroll();}
+function closeMenu(){document.getElementById('mobMenu').classList.remove('open');unlockScroll();}
 
 // HEADER SCROLL
 window.addEventListener('scroll',()=>{
@@ -1709,11 +1721,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 // ========== V4: LEAD GEN POPUP ==========
 function openLeadPopup(){
 document.getElementById('leadPopup').classList.add('open');
-document.body.style.overflow='hidden';
+lockScroll();
 }
 function closePopup(){
 document.getElementById('leadPopup').classList.remove('open');
-document.body.style.overflow='';
+unlockScroll();
 }
 async function submitLead(){
 const name=document.getElementById('leadName').value.trim();
@@ -1770,7 +1782,7 @@ setTimeout(()=>closePopup(),3000);
 window.addEventListener('load',()=>{
 if(!sessionStorage.getItem('uplift_lead_shown')&&!sessionStorage.getItem('uplift_lead_submitted')){
 setTimeout(()=>{
-document.getElementById('leadPopup').classList.add('open');
+openLeadPopup();
 sessionStorage.setItem('uplift_lead_shown','true');
 },3000);
 }
